@@ -1,14 +1,17 @@
 #include <stdio.h>
 #include <time.h>
+#include <stdlib.h>
 #include "menuPrincipal.h"
-//#define Topeplazas 22
-int Topeplazas=22;
+#define TOPE_PLAZAS 22
+
 int plazas[22], estado[22];
 
 
-void actualizar_plazas( int estado[], int Topeplazas)
-{int i;
-    for (i=0;i<Topeplazas;i++) {
+void actualizar_plazas( int estado[], int topeplazas)
+{
+
+	int i;
+    for (i=0;i<TOPE_PLAZAS;i++) {
 		
 
 		estado[i]=0; //se leerea desde un archivo si esta libre o no
@@ -19,10 +22,10 @@ printf("\n Estado de plazas actualizado");
 
 //MENU PRINCIPAL. LLAMA A USUARIO Y ADMINISTRADOR__________________________________________________________________________________________
 
-void menuInicial(void)
+void menuInicial()
 {
 
-	//actualizar_plazas(estado[], Topeplazas);
+	//actualizar_plazas(estado[], TOPE_PLAZAS);
 
 	int opc;
 
@@ -42,7 +45,7 @@ void menuInicial(void)
 
 					break;
 
-				case 2: printf("\n Entrado como usuario/a");
+				case 2: printf("\n Entrado como administrador/a");
 				//	menuAdministrador();
 
 				break;
@@ -72,6 +75,8 @@ void menuUsuario(void)
 		scanf("%d", &cliente);
 
 		int identU=0;
+		int total =0;
+		UsuarioTrabaj usuarios[TOPE_PLAZAS];
 
 		switch(cliente) {
 
@@ -95,10 +100,23 @@ void menuUsuario(void)
 
 			case 2: printf("\n Quieres aparcar.");
 
+				if(total < TOPE_PLAZAS){
+
+			//	identificarse(&usuarios[total], total);
+			//	identU =	identificarse(&usuarios[total], total);
+					total++;
+
 				identU = identificarse(); break;
 				//Debería haber otro metodo llamado aparcar que hiciera la gestion de si el espacio que ha intentado ocupar esta libre o no
 
-				aparcar(identU);
+					aparcar(identU);
+
+				} else
+				{
+					printf("No hay mas plazas disponibles\n");
+				}
+
+				
 
 			case 3: printf("\n Has decidido sacar tu coche del parking.");
 					//Se podria poner que identificarse devolviera 1 si cliente y 2 si trabajador y sino 0 y asi podriamos separar el sacar coche
@@ -121,7 +139,9 @@ int identificarse(void)
 	{
 		int ident;
 
-		char nombreUsuario[100]; //malloc --- freee
+		//char *nombreUsuario[100]; //malloc --- freee
+
+		int *matricula;
 
 		do{
 
@@ -138,6 +158,20 @@ int identificarse(void)
 									case 1: printf("\n Eres un/a trabajador/a");
 
 									printf("\n ¡Bienvenido/a al parking!");
+
+
+
+										printf("Nombre del trabajador\n");
+										char * nombreUsuario = (char *)malloc (TOPE_PLAZAS*sizeof(char));
+										scanf("%s", &nombreUsuario); 
+										free(nombreUsuario);
+
+
+										printf("Matricula del coche\n");
+										matricula = malloc (TOPE_PLAZAS*sizeof(int));
+										scanf("%s", &matricula); 
+										free(matricula);
+
 
 										break;
 									//Deberiamos poner un menu para que pueda meter sus datos no?? mallocde char array con nombusuario
@@ -171,6 +205,7 @@ int identificarse(void)
 			}	while(ident!=3);
 
 	return ident;
+		//	return 0;
 
 	}
 
@@ -219,7 +254,28 @@ void sacarCoche(int opcion)//yo le pasaria un parametro que identificara si es c
 
 							case 1: printf("\n Informe.");
 //Aqui deberiamos imprimirle el ticket de tiempo introducido, coste total...etc
-							break;
+									char const* const fileFac = "factura.txt";
+
+									FILE* file = fopen(fileFac, "r");
+										//if(file==NUll){
+										//	printf("El fichero no existe!\n");
+										//}
+							    		//else
+							   		 char line[256];
+
+									    while (fgets(line, sizeof(line), file)) {
+
+									        printf("%s", line);
+									    }
+
+
+									    fclose(file);
+							    
+							    //escribir en fichero??
+							    //int fprintf(......)
+
+
+									break;
 
 							case 2: printf("\n Has decidido volver atras.");
 							menuUsuario(); break;
@@ -256,7 +312,7 @@ void menuAdministrador(void)
 		printf("\n\n Introduzca la contraseña: ");
 		scanf("%c", &contra);
 
-
+	//	comprobarContrasena(contra);
 //Verificar si la contraseña introducida es correcta o no
 //leerContraseña(), guardar en un char contraseña[] y que cada celda sea una letra y comparar
 			
@@ -280,7 +336,10 @@ void menuAdministrador(void)
 
 											break;
 
-								case 3: printf("\n Has elegido cambiar de contrasena");cambiarContrasena(); break;
+								case 3: printf("\n Has elegido cambiar de contrasena");cambiarContrasena();
+
+
+								break;
 
 
 								case 4: printf("\n Has salido al menu inicial.");
@@ -298,11 +357,21 @@ void menuAdministrador(void)
 void cambiarContrasena(void){ //ADMINISTRADOR
 
 
-	//GORKA
+										int cont;
+										printf("Ecribe la nueva contraseña:\n");
 
+										scanf("%d", &cont);
 
+										FILE* f;
+
+                                        f = fopen("contraseña.txt", "r+");
+										
+										fprintf(f, "%i", cont);
+
+										fclose(f);
 
 }
+
 void comprobarContrasena(void){ //ADMINISTRADOR. llega por parametro la contraseña
 //Leer contraseña
 	FILE* f;
