@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include "menuPrincipal.h"
 #define TOPE_PLAZAS 22
-
-int plazas[22], estado[22];
+//ane
+int plazas[TOPE_PLAZAS], estado[TOPE_PLAZAS];
 
 
 void actualizar_plazas( int estado[], int topeplazas)
@@ -205,8 +205,7 @@ int identificarse(void)
 			}	while(ident!=3);
 
 	return ident;
-		//	return 0;
-
+		
 	}
 
 
@@ -296,7 +295,6 @@ void sacarCoche(int opcion)//yo le pasaria un parametro que identificara si es c
 
 
 //___ADMINISTRADOR_________________________________________________________________________________________________________________
-
 
 void menuAdministrador(void)
 {

@@ -3,11 +3,11 @@
 
 typedef struct {
 	int matricula;
-	char nombre; 
-} UsuarioTrabaj;
+	char nombre[25]; 
+} Trabajador;
 
 
-void actualizar_plazas( int estado[], int topeplazas);
+void actualizar_plazas( int estado[], int tope_plazas);
 
 
 void menuInicial(void);
