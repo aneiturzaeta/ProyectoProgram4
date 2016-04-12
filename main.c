@@ -4,7 +4,6 @@
 //MAIN PRINCIPAL.
 int main (void){
 
-
 	menuInicial();
 
 	return 0;

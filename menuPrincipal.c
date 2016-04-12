@@ -205,8 +205,7 @@ int identificarse(void)
 			}	while(ident!=3);
 
 	return ident;
-		//	return 0;
-
+		
 	}
 
 
@@ -296,7 +295,6 @@ void sacarCoche(int opcion)//yo le pasaria un parametro que identificara si es c
 
 
 //___ADMINISTRADOR_________________________________________________________________________________________________________________
-
 
 void menuAdministrador(void)
 {

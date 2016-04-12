@@ -1,13 +1,13 @@
 #ifndef _MENUPRINCIPAL_H_
 #define _MENUPRINCIPAL_H_
-//hola
+
 typedef struct {
 	int matricula;
-	char nombre; 
-} Usuario;
+	char nombre[25]; 
+} Trabajador;
 
 
-void actualizar_plazas( int estado[], int topeplazas);
+void actualizar_plazas( int estado[], int tope_plazas);
 
 
 void menuInicial(void);
