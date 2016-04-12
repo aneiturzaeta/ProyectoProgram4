@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include "menuPrincipal.h"
 #define TOPE_PLAZAS 22
-
-int plazas[22], estado[22];
+//ane
+int plazas[TOPE_PLAZAS], estado[TOPE_PLAZAS];
 
 
 void actualizar_plazas( int estado[], int topeplazas)

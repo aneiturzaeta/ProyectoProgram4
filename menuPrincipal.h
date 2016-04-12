@@ -1,10 +1,10 @@
 #ifndef _MENUPRINCIPAL_H_
 #define _MENUPRINCIPAL_H_
-
+//hola
 typedef struct {
 	int matricula;
 	char nombre; 
-} UsuarioTrabaj;
+} Usuario;
 
 
 void actualizar_plazas( int estado[], int topeplazas);

@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include "menuPrincipal.h"
 
-//MAIN PRINCIPAL
+//MAIN PRINCIPAL.
 int main (void){
+
 
 	menuInicial();
 
