@@ -5,12 +5,12 @@
 struct trabajador{
 	char dni [9];
 	char matricula[7];
-	char plaza[2]; 
+	int plaza[2]; 
 }; struct trabajador *trabajador;
 
 struct usuCliente{
 	char matricula[7];
-	char plaza[2]; 
+	int plaza[2]; 
 }; struct usuCliente *usuCliente;
 
 
@@ -25,7 +25,7 @@ int identificarse(void);
 void aparcar(int indentU);
 
 
-void sacarCoche(int opcion);
+void sacarCoche();
 
 
 #endif

@@ -6,7 +6,7 @@
 void cambiarContrasena(void);
 
 
-void comprobarContrasena(void);
+int comprobarContrasena(void);
 
 
 void menuAdministrador(void);

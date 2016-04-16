@@ -41,18 +41,21 @@ void menuInicial()
 
 				switch(opc) {
 
-				case 1: printf("\n Entrado como usuario/a");
+				case 1: //printf("\n Entrado como usuario/a");
 				
 					menuUsuario();
 
 					break;
 
-				case 2: printf("\n Entrado como administrador/a");
-				//	menuAdministrador();
+				case 2: //printf("\n Entrado como administrador/a");
+				
+					menuAdministrador();
 
 				break;
 
-				case 3: printf("\n Ha seleccionado salir. Hasta otra!"); break; //return 0??? tiene que salir
+				case 3: printf("\n Ha seleccionado salir. Hasta otra!");  
+
+				exit(0);
 
 				default: printf("\n La opcion seleccionada no es correcta");break;
 			}

@@ -25,10 +25,11 @@ void menuUsuario(void)
 		int identU=0;
 		int total =0;
 		
-
 		switch(cliente) {
 
-			case 1: printf("\n Quieres ver el estado del parking. \n\n");
+			case 1: ;
+			//; jarri behar da, bestela errorea ematen du.
+			//printf("\n Quieres ver el estado del parking. \n\n");
 
 				char const* const fileName = "dibujo.txt";
 
@@ -46,12 +47,13 @@ void menuUsuario(void)
 
 				break;
 
-			case 2: printf("\n Quieres aparcar.");
+			case 2: ;
+
+			//printf("\n Quieres aparcar.");
 
 				if(total < TOPE_PLAZAS){
 					total++;
 				identU = identificarse(); break;
-				//identificarse(usuCliente); break;
 				//Debería haber otro metodo llamado aparcar que hiciera la gestion de si el espacio que ha intentado ocupar esta libre o no
 
 					aparcar(identU);
@@ -63,10 +65,14 @@ void menuUsuario(void)
 
 				
 
-			case 3: printf("\n Has decidido sacar tu coche del parking.");
-					//Se podria poner que identificarse devolviera 1 si cliente y 2 si trabajador y sino 0 y asi podriamos separar el sacar coche
-					//identU = identificarse();
-					sacarCoche(identU);
+			case 3: ;
+
+			//printf("\n Has decidido sacar tu coche del parking.");
+				//if(total != 0){
+					sacarCoche();
+				//} else {
+				//	printf("No hay ningun coche estacionado en el parking\n");
+				//}
 				break;
 
 			case 4: printf("\nHas salido al menu inicial.");
@@ -100,50 +106,69 @@ int identificarse(void)
 
 								switch(ident) {
 
-									case 1: printf("\n Eres un/a trabajador/a");
+									case 1: ;
+									//printf("\n Eres un/a trabajador/a");
 
 									printf("\n ¡Bienvenido/a al parking!\n");
 
-												
-
+											
 										FILE * trab;
 										trab = fopen ("trabajador.txt", "a"); 
 
 										trabajador =(struct trabajador *) malloc (sizeof(struct trabajador));
 
+
 										printf( "Dni del trabajador\n");
+										
 										fprintf(trab, "Dni del trabajador\n");	
-										//fgets(str, MAX_LENGTH, stdin);							
-										scanf("%s", trabajador->dni);
+										
+										//No consigo guardar mediante fgets y sscanf, porque me dice que trabajdor -> es el puntero y no se que atributo es el que guarda el dni
+										//fgets(trabajador->dni, MAX_LENGTH, stin);							
+										scanf("%s",trabajador->dni);
 										fprintf(trab, "%s\n", trabajador->dni); 
 
 										printf("Matricula\n");
 										fprintf(trab, "Matricula\n" );
 										//fgets(str, MAX_LENGTH, stdin);								
-										sscanf("%s", trabajador->matricula);
+										scanf("%s", trabajador->matricula);
 										fprintf(trab, "%s\n", trabajador->matricula); 
 
-										printf("Plaza\n");
+										printf("Plaza\n");			
 										fprintf(trab, "Plaza\n");
 										//fgets(str, MAX_LENGTH, stdin);								
 										scanf("%s", trabajador->plaza);
-										fprintf(trab, "%s\n", trabajador->plaza); 
+										fprintf(trab, "%s\n", trabajador->plaza);
 
-
-										//if (1<(&plaza)<TOPE_PLAZAS){
-												menuInicial();
-										//}else{
-										//	printf("No hay plaza en el parking.\n");
+										fclose (trab); 
+										free(trabajador);
+										//int plazas ;
+										//scanf("%i",plazas);
+										
+																	
+										//Ez zait ateratzen :( saiatu naiz baina....							
+										//if ( plazas >1 && plazas < TOPE_PLAZAS){
+											//	fprintf(trab, "Plaza\n");
+												//fgets(str, MAX_LENGTH, stdin);
+											//	trabajador -> plaza = plazas;
+											//	fprintf(trab, "%s\n", trabajador->plaza);
+											//	fclose (trab); 
+												break;
+										//} else{
+											//printf(" %i\n no es una plaza libre, ¡ERROR!", plazas);
+												//fprintf(trab, "Plaza\n");
+												//fprintf(trab, 0, trabajador->matricula); 
+												menuUsuario();
+											//	break;
+										
 										//}
-										fclose (trab);
-										//free(matricula);
 
+										//La gestion de las plazas libres y ocupadas la haremos en C++
+									
+										break;
 									
 
-										break;
-									//Deberiamos poner un menu para que pueda meter sus datos no?? mallocde char array con nombusuario
-									case 2: printf("\n Eres un/a cliente del parking"); //nombre de usuario solo
-
+									case 2: ;
+									//printf("\n Eres un/a cliente del parking"); //nombre de usuario solo
 
 										
 										FILE * usuClien;
@@ -154,7 +179,7 @@ int identificarse(void)
 										printf("Matricula\n");
 										fprintf(usuClien, "Matricula\n" );
 										//fgets(str, MAX_LENGTH, stdin);								
-										sscanf("%s", usuCliente->matricula);
+										scanf("%s", usuCliente->matricula);
 										fprintf(usuClien, "%s\n", usuCliente->matricula); 
 
 										printf("Plaza\n");
@@ -165,13 +190,15 @@ int identificarse(void)
 
 
 										//if (1<(&plaza)<TOPE_PLAZAS){
-												menuInicial();
+												menuUsuario();
 										//}else{
 										//	printf("No hay plaza en el parking.\n");
 										//}
 
 
                                         fclose(usuClien);
+                                        free(usuCliente);
+
 
                                       	//FILE* f;
 
@@ -202,36 +229,39 @@ int identificarse(void)
 }
 
 
-/*void aparcar(int indentU)
+void sacarCoche()
 {
 
+	int opcion;
 
-	int plaza;
+		printf("\n\n Introduzca si eres trabajador/a o cliente del parking: ");
 
-		printf("\n\n Introducir plaza: ");
+		printf("\n\nIntroduzca la opcion que desee: \n    1. Trabajador/a  \n    2. Cliente \n    3. Atras \n ");
 
-		scanf("%d", &plaza);
+		printf("\n\n Seleccion: ");
 
+						scanf("%d", &opcion);
 
-}*/
-
-
-
-void sacarCoche(int opcion)//yo le pasaria un parametro que identificara si es cliente o trabajador, hacer return en identificarse
-{
-
-	switch(opcion) {
+		switch(opcion) {
 
 		//cliente
-		case 1:
+		case 1: ;
+		//printf("\n Esta saliendo un trabajador.");
+		printf("\n ¡¡Muchas gracias por su visita, y buen voyage!!");
+		menuInicial();
+			break;
 
-				printf("\n\n Esta saliendo un cliente.");
+		
+		//trabajador
+		case 2: ;
+		
+			//printf("\n\n Esta saliendo un cliente.");
 
 				int sacar;
 
 					do{
 
-						printf("\n\nIntroduzca la opcion que desee: \n  1. Imprimir factura  \n  2.Atras \n ");
+						printf("\n\nIntroduzca la opcion que desee: \n  1.Imprimir factura  \n  2.Atras \n ");
 
 						printf("\n\n Seleccion: ");
 
@@ -240,42 +270,37 @@ void sacarCoche(int opcion)//yo le pasaria un parametro que identificara si es c
 						switch(sacar) {
 
 							case 1: printf("\n Informe.");
-//Aqui deberiamos imprimirle el ticket de tiempo introducido, coste total...etc
+							//De alguna debemos identificar los datos del usuario y coger de la Base de Datos su informacion y meterlo en la factura (c++)
 									char const* const fileFac = "factura.txt";
 
 									FILE* file = fopen(fileFac, "r");
-										//if(file==NUll){
-										//	printf("El fichero no existe!\n");
-										//}
-							    		//else
+									
+									if(file== 0){
+										printf("El fichero no existe!\n");
+										break;
+									}
+							    	else{
 							   		 char line[256];
 
-									    while (fgets(line, sizeof(line), file)) {
+									  while (fgets(line, sizeof(line), file)) {
 
 									        printf("%s", line);
 									    }
 
-
 									    fclose(file);
-							    
-
-
+									  }
 									break;
 
 							case 2: printf("\n Has decidido volver atras.");
 							menuUsuario(); break;
 
-							default: printf("\n La opcion seleccionada no es correcta");
+							default: printf("\n La opcion seleccionada no es correcta"); break;
 						}
 
 					}while(sacar!=2);
 			break;
 
-		//trabajador
-		case 2:
-				printf("\n Esta saliendo un trabajador.");
-			break;
-		default: printf("\n La opcion seleccionada no es correcta");
+		default: printf("\n La opcion seleccionada no es correcta"); break;
 	}while(opcion!=2);
 }
 
