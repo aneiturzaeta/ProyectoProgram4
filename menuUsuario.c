@@ -4,6 +4,7 @@
 #include "menuUsuario.h"
 #include <time.h>
 #define TOPE_PLAZAS 22
+#define MAX_LENGTH 22
 
 
 
@@ -23,7 +24,7 @@ void menuUsuario(void)
 
 		int identU=0;
 		int total =0;
-		UsuarioTrabaj usuarios[TOPE_PLAZAS];
+		
 
 		switch(cliente) {
 
@@ -48,12 +49,9 @@ void menuUsuario(void)
 			case 2: printf("\n Quieres aparcar.");
 
 				if(total < TOPE_PLAZAS){
-
-			//	identificarse(&usuarios[total], total);
-			//	identU =	identificarse(&usuarios[total], total);
 					total++;
-
 				identU = identificarse(); break;
+				//identificarse(usuCliente); break;
 				//Debería haber otro metodo llamado aparcar que hiciera la gestion de si el espacio que ha intentado ocupar esta libre o no
 
 					aparcar(identU);
@@ -67,7 +65,7 @@ void menuUsuario(void)
 
 			case 3: printf("\n Has decidido sacar tu coche del parking.");
 					//Se podria poner que identificarse devolviera 1 si cliente y 2 si trabajador y sino 0 y asi podriamos separar el sacar coche
-					identU = identificarse();
+					//identU = identificarse();
 					sacarCoche(identU);
 				break;
 
@@ -83,12 +81,12 @@ void menuUsuario(void)
 }
 
 int identificarse(void)
+{
+	
+
 	{
 		int ident;
-
-		//char *nombreUsuario[100]; //malloc --- freee
-
-		int *matricula;
+		char str[MAX_LENGTH];
 
 		do{
 
@@ -104,30 +102,76 @@ int identificarse(void)
 
 									case 1: printf("\n Eres un/a trabajador/a");
 
-									printf("\n ¡Bienvenido/a al parking!");
+									printf("\n ¡Bienvenido/a al parking!\n");
+
+												
+
+										FILE * trab;
+										trab = fopen ("trabajador.txt", "a"); 
+
+										trabajador =(struct trabajador *) malloc (sizeof(struct trabajador));
+
+										printf( "Dni del trabajador\n");
+										fprintf(trab, "Dni del trabajador\n");	
+										//fgets(str, MAX_LENGTH, stdin);							
+										scanf("%s", trabajador->dni);
+										fprintf(trab, "%s\n", trabajador->dni); 
+
+										printf("Matricula\n");
+										fprintf(trab, "Matricula\n" );
+										//fgets(str, MAX_LENGTH, stdin);								
+										sscanf("%s", trabajador->matricula);
+										fprintf(trab, "%s\n", trabajador->matricula); 
+
+										printf("Plaza\n");
+										fprintf(trab, "Plaza\n");
+										//fgets(str, MAX_LENGTH, stdin);								
+										scanf("%s", trabajador->plaza);
+										fprintf(trab, "%s\n", trabajador->plaza); 
 
 
+										//if (1<(&plaza)<TOPE_PLAZAS){
+												menuInicial();
+										//}else{
+										//	printf("No hay plaza en el parking.\n");
+										//}
+										fclose (trab);
+										//free(matricula);
 
-										printf("Nombre del trabajador\n");
-										char * nombreUsuario = (char *)malloc (TOPE_PLAZAS*sizeof(char));
-										scanf("%s", &nombreUsuario); 
-										free(nombreUsuario);
-
-
-										printf("Matricula del coche\n");
-										matricula = malloc (TOPE_PLAZAS*sizeof(int));
-										scanf("%s", &matricula); 
-										free(matricula);
-
+									
 
 										break;
 									//Deberiamos poner un menu para que pueda meter sus datos no?? mallocde char array con nombusuario
 									case 2: printf("\n Eres un/a cliente del parking"); //nombre de usuario solo
 
 
-										printf("\n Introduzca el nombre de usuario    :");
+										
+										FILE * usuClien;
+										usuClien = fopen ("Cliente.txt", "a");
 
-                                        scanf("%s", &nombreUsuario);
+										usuCliente =(struct usuCliente *) malloc (sizeof(struct usuCliente)); 
+
+										printf("Matricula\n");
+										fprintf(usuClien, "Matricula\n" );
+										//fgets(str, MAX_LENGTH, stdin);								
+										sscanf("%s", usuCliente->matricula);
+										fprintf(usuClien, "%s\n", usuCliente->matricula); 
+
+										printf("Plaza\n");
+										fprintf(usuClien, "Plaza\n");
+										//fgets(str, MAX_LENGTH, stdin);								
+										scanf("%s", usuCliente->plaza);
+										fprintf(usuClien, "%s\n", usuCliente->plaza);
+
+
+										//if (1<(&plaza)<TOPE_PLAZAS){
+												menuInicial();
+										//}else{
+										//	printf("No hay plaza en el parking.\n");
+										//}
+
+
+                                        fclose(usuClien);
 
                                       	//FILE* f;
 
@@ -155,16 +199,12 @@ int identificarse(void)
 		//	return 0;
 
 	}
+}
 
 
-void aparcar(int indentU)
+/*void aparcar(int indentU)
 {
 
-	char matricula[30];
-
-		printf("\n\n Introducir matricula: ");
-
-		scanf("%s", &matricula);
 
 	int plaza;
 
@@ -173,7 +213,7 @@ void aparcar(int indentU)
 		scanf("%d", &plaza);
 
 
-}
+}*/
 
 
 
@@ -218,8 +258,6 @@ void sacarCoche(int opcion)//yo le pasaria un parametro que identificara si es c
 
 									    fclose(file);
 							    
-							    //escribir en fichero??
-							    //int fprintf(......)
 
 
 									break;
@@ -240,3 +278,4 @@ void sacarCoche(int opcion)//yo le pasaria un parametro que identificara si es c
 		default: printf("\n La opcion seleccionada no es correcta");
 	}while(opcion!=2);
 }
+

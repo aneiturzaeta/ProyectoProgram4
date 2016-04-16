@@ -2,10 +2,17 @@
 #define _MENUUSUARIO_H_
 
 
-typedef struct {
-	int matricula;
-	char nombre; 
-} UsuarioTrabaj;
+struct trabajador{
+	char dni [9];
+	char matricula[7];
+	char plaza[2]; 
+}; struct trabajador *trabajador;
+
+struct usuCliente{
+	char matricula[7];
+	char plaza[2]; 
+}; struct usuCliente *usuCliente;
+
 
 
 
