@@ -82,32 +82,9 @@ void sacarCoche()
 		switch(opcion) {
 
 	
-		case 1: sacarTrabajador();	printf("\n¡Muchas gracias por su visita, y buen viaje!");
-			menuInicial(); 	break;
+		case 1: sacarTrabajador(); menuInicial(); break;
 
-		case 2: sacarCliente();
-				int opc;
-					do{
-
-						printf("\n\nIntroduzca la opcion que desee: \n  1.Imprimir factura  \n  2.Atras \n ");
-
-						printf("\n\n Seleccion: ");
-
-						scanf("%d", &opc);
-
-						switch(opc) {
-
-							case 1: verFactura(); break;
-							//De alguna debemos identificar los datos del usuario y coger de la Base de Datos su informacion y meterlo en la factura (c++)
-											
-							case 2: printf("\n Has decidido volver atras.");
-							menuUsuario(); break;
-
-							default: printf("\n La opcion seleccionada no es correcta"); break;
-						}
-
-					}while(opc!=2);
-			break;
+		case 2: sacarCliente(); menuInicial(); break;
 
 		case 3: menuInicial(); break;
 
@@ -159,7 +136,7 @@ void entrarCliente(){
 			if ((plazaP1>0) && (plazaP1<TOPE_PLAZAS+1)){
 
 				fprintf(usuClien, "Plaza: ");
-				fprintf(usuClien, "%d\n", plazaP1);
+				fprintf(usuClien, "%d\n", &plazaP1);
 				fprintf(usuClien, "______________\n");	
 				usuCliente->plaza = plazaP1;
 
@@ -213,7 +190,7 @@ void entrarTrabajador(){
 			if ((plazaP>0) && (plazaP<TOPE_PLAZAS+1)){
 
 				fprintf(trab, "Plaza: ");
-				fprintf(trab, "%d\n", plazaP);
+				fprintf(trab, "%d\n", &plazaP);
 				fprintf(trab, "___________________\n");
 				trabajador->plaza = plazaP;
 
@@ -230,7 +207,7 @@ void entrarTrabajador(){
 
 		} while (control !=0);
 
-		fclose (tra); 
+		fclose (trab); 
 		free(trabajador);
 		
 		//La gestion de las plazas libres y ocupadas la haremos en C++
@@ -264,16 +241,28 @@ void verFactura(){
 
 void sacarTrabajador(){
 
+	char*dni;
 
-
+	printf("\nDni: ");	
+	scanf("%s",&dni);
+	
+	//saca el coche y esa plaza queda libre (C++)
+	
+	printf("\nCoche sacado");
+	printf("\nGracias por la estancia!");
 
 }
 
 
 void sacarCliente(){
 
+	char*matric;
 
-
-
+	printf("\nMatricula: ");	
+	scanf("%s",&matric);
+	printf("\n");	
+	verFactura(); //dependiendo de la matricula del coche
+	
+	printf("Gracias por tu estancia");
 
 }
