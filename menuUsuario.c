@@ -2,13 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "menuUsuario.h"
+#include "menuPrincipal.h"
 #include <time.h>
 #define TOPE_PLAZAS 22
-#define MAX_LENGTH 22
-
-
-
-//___USUARIO_____________________________________________________________________________________________________________________
+#define MAX_LENGTH 30
 
 
 void menuUsuario(void)
@@ -16,67 +13,23 @@ void menuUsuario(void)
 	int cliente;
 
 	do {
-		printf("\n\n____________MENU USUARIO____________\nIntroduzca la opcion que desee: \n    1. Ver estado del parking  \n    2. Aparcar  \n    3. Sacar coche \n    4.Atras \n ");
+		printf("\n\n____________MENU USUARIO____________\nIntroduzca la opcion que desee: \n    1. Ver estado del parking  \n    2. Aparcar  \n    3. Sacar coche \n    4. Atras \n ");
 
 		printf("\n\n Seleccion: ");
 
 		scanf("%d", &cliente);
 
 		int identU=0;
-		int total =0;
-		
+				
 		switch(cliente) {
 
-			case 1: ;
-			//; jarri behar da, bestela errorea ematen du.
-			//printf("\n Quieres ver el estado del parking. \n\n");
+			case 1: abrirDibujo(); 	break;
 
-				char const* const fileName = "dibujo.txt";
+			case 2: identificarse(); break;
 
-						FILE* file = fopen(fileName, "r");
-					    
-					    char line[256];
+			case 3: sacarCoche(); break;
 
-					    while (fgets(line, sizeof(line), file)) {
-
-					        printf("%s", line);
-					    }
-
-
-					    fclose(file);
-
-				break;
-
-			case 2: ;
-
-			//printf("\n Quieres aparcar.");
-
-				if(total < TOPE_PLAZAS){
-					total++;
-				identU = identificarse(); break;
-				//Debería haber otro metodo llamado aparcar que hiciera la gestion de si el espacio que ha intentado ocupar esta libre o no
-
-					aparcar(identU);
-
-				} else
-				{
-					printf("No hay mas plazas disponibles\n");
-				}
-
-				
-
-			case 3: ;
-
-			//printf("\n Has decidido sacar tu coche del parking.");
-				//if(total != 0){
-					sacarCoche();
-				//} else {
-				//	printf("No hay ningun coche estacionado en el parking\n");
-				//}
-				break;
-
-			case 4: printf("\nHas salido al menu inicial.");
-				menuInicial(); break;
+			case 4: menuInicial(); break;
 
 			default: printf("\n La opcion seleccionada no es correcta");break;
 		}
@@ -86,18 +39,13 @@ void menuUsuario(void)
 
 }
 
-int identificarse(void)
+void identificarse(void)
 {
 	
-
 	{
 		int ident;
-		char str[MAX_LENGTH];
-
+		
 		do{
-
-					printf("\n\n Introduzca si eres trabajador/a o cliente del parking: ");
-
 					printf("\n\nIntroduzca la opcion que desee: \n    1. Trabajador/a  \n    2. Cliente \n    3. Atras \n ");
 
 					printf("\n\n Seleccion: ");
@@ -106,124 +54,16 @@ int identificarse(void)
 
 								switch(ident) {
 
-									case 1: ;
-									//printf("\n Eres un/a trabajador/a");
-
-									printf("\n ¡Bienvenido/a al parking!\n");
-
-											
-										FILE * trab;
-										trab = fopen ("trabajador.txt", "a"); 
-
-										trabajador =(struct trabajador *) malloc (sizeof(struct trabajador));
-
-
-										printf( "Dni del trabajador\n");
-										
-										fprintf(trab, "Dni del trabajador\n");	
-										
-										//No consigo guardar mediante fgets y sscanf, porque me dice que trabajdor -> es el puntero y no se que atributo es el que guarda el dni
-										//fgets(trabajador->dni, MAX_LENGTH, stin);							
-										scanf("%s",trabajador->dni);
-										fprintf(trab, "%s\n", trabajador->dni); 
-
-										printf("Matricula\n");
-										fprintf(trab, "Matricula\n" );
-										//fgets(str, MAX_LENGTH, stdin);								
-										scanf("%s", trabajador->matricula);
-										fprintf(trab, "%s\n", trabajador->matricula); 
-
-										printf("Plaza\n");			
-										fprintf(trab, "Plaza\n");
-										//fgets(str, MAX_LENGTH, stdin);								
-										scanf("%s", trabajador->plaza);
-										fprintf(trab, "%s\n", trabajador->plaza);
-
-										fclose (trab); 
-										free(trabajador);
-										//int plazas ;
-										//scanf("%i",plazas);
-										
-																	
-										//Ez zait ateratzen :( saiatu naiz baina....							
-										//if ( plazas >1 && plazas < TOPE_PLAZAS){
-											//	fprintf(trab, "Plaza\n");
-												//fgets(str, MAX_LENGTH, stdin);
-											//	trabajador -> plaza = plazas;
-											//	fprintf(trab, "%s\n", trabajador->plaza);
-											//	fclose (trab); 
-												break;
-										//} else{
-											//printf(" %i\n no es una plaza libre, ¡ERROR!", plazas);
-												//fprintf(trab, "Plaza\n");
-												//fprintf(trab, 0, trabajador->matricula); 
-												menuUsuario();
-											//	break;
-										
-										//}
-
-										//La gestion de las plazas libres y ocupadas la haremos en C++
+									case 1: entrarTrabajador();	menuInicial(); break;
 									
-										break;
-									
+									case 2: entrarCliente(); menuInicial(); break;
 
-									case 2: ;
-									//printf("\n Eres un/a cliente del parking"); //nombre de usuario solo
-
-										
-										FILE * usuClien;
-										usuClien = fopen ("Cliente.txt", "a");
-
-										usuCliente =(struct usuCliente *) malloc (sizeof(struct usuCliente)); 
-
-										printf("Matricula\n");
-										fprintf(usuClien, "Matricula\n" );
-										//fgets(str, MAX_LENGTH, stdin);								
-										scanf("%s", usuCliente->matricula);
-										fprintf(usuClien, "%s\n", usuCliente->matricula); 
-
-										printf("Plaza\n");
-										fprintf(usuClien, "Plaza\n");
-										//fgets(str, MAX_LENGTH, stdin);								
-										scanf("%s", usuCliente->plaza);
-										fprintf(usuClien, "%s\n", usuCliente->plaza);
-
-
-										//if (1<(&plaza)<TOPE_PLAZAS){
-												menuUsuario();
-										//}else{
-										//	printf("No hay plaza en el parking.\n");
-										//}
-
-
-                                        fclose(usuClien);
-                                        free(usuCliente);
-
-
-                                      	//FILE* f;
-
-                                       // f = fopen("sesion.txt", "w");
-
-                                       	//fprintf(f, "hola");
-										
-										//fclose(f);
-
-										break;
-
-									case 3: printf("\n Has vuelto atras. Sesion borrada");
-									menuInicial(); break;
-
-									//borrar sesion
-
-									//File.Create(path).Close();
+									case 3: menuInicial(); break;
 
 									default: printf("\n La opcion seleccionada no es correcta");break;
 								}
 
 			}	while(ident!=3);
-
-	return ident;
-		//	return 0;
 
 	}
 }
@@ -234,73 +74,206 @@ void sacarCoche()
 
 	int opcion;
 
-		printf("\n\n Introduzca si eres trabajador/a o cliente del parking: ");
-
 		printf("\n\nIntroduzca la opcion que desee: \n    1. Trabajador/a  \n    2. Cliente \n    3. Atras \n ");
-
 		printf("\n\n Seleccion: ");
 
-						scanf("%d", &opcion);
+			scanf("%d", &opcion);
 
 		switch(opcion) {
 
-		//cliente
-		case 1: ;
-		//printf("\n Esta saliendo un trabajador.");
-		printf("\n ¡¡Muchas gracias por su visita, y buen voyage!!");
-		menuInicial();
-			break;
+	
+		case 1: sacarTrabajador();	printf("\n¡Muchas gracias por su visita, y buen viaje!");
+			menuInicial(); 	break;
 
-		
-		//trabajador
-		case 2: ;
-		
-			//printf("\n\n Esta saliendo un cliente.");
-
-				int sacar;
-
+		case 2: sacarCliente();
+				int opc;
 					do{
 
 						printf("\n\nIntroduzca la opcion que desee: \n  1.Imprimir factura  \n  2.Atras \n ");
 
 						printf("\n\n Seleccion: ");
 
-						scanf("%d", &sacar);
+						scanf("%d", &opc);
 
-						switch(sacar) {
+						switch(opc) {
 
-							case 1: printf("\n Informe.");
+							case 1: verFactura(); break;
 							//De alguna debemos identificar los datos del usuario y coger de la Base de Datos su informacion y meterlo en la factura (c++)
-									char const* const fileFac = "factura.txt";
-
-									FILE* file = fopen(fileFac, "r");
-									
-									if(file== 0){
-										printf("El fichero no existe!\n");
-										break;
-									}
-							    	else{
-							   		 char line[256];
-
-									  while (fgets(line, sizeof(line), file)) {
-
-									        printf("%s", line);
-									    }
-
-									    fclose(file);
-									  }
-									break;
-
+											
 							case 2: printf("\n Has decidido volver atras.");
 							menuUsuario(); break;
 
 							default: printf("\n La opcion seleccionada no es correcta"); break;
 						}
 
-					}while(sacar!=2);
+					}while(opc!=2);
 			break;
 
+		case 3: menuInicial(); break;
+
 		default: printf("\n La opcion seleccionada no es correcta"); break;
-	}while(opcion!=2);
+	} while(opcion!=3);
 }
 
+void abrirDibujo(){
+
+
+	char const* const fileName = "dibujo.txt";
+
+						FILE* file = fopen(fileName, "r");
+					    
+					    char line[256];
+
+					    while (fgets(line, sizeof(line), file)) {
+
+					        printf("%s", line);
+					    }
+
+					    fclose(file);
+}
+
+
+void entrarCliente(){
+
+		FILE * usuClien;
+		usuClien = fopen ("Cliente.txt", "a");
+
+		usuCliente =(struct usuCliente *) malloc (sizeof(struct usuCliente)); 
+
+		printf("NUEVO CLIENTE");
+		
+		printf("\nMatricula: ");
+		fprintf(usuClien, "Matricula: ");	
+		scanf("%s",usuCliente->matricula);
+ 		fprintf(usuClien, "%s\n", usuCliente->matricula); 
+
+		int control1 = 0;
+
+		do {
+
+		int plazaP1=-1;
+
+		printf("Plaza: ");			
+		scanf("%d",&plazaP1);
+
+			if ((plazaP1>0) && (plazaP1<TOPE_PLAZAS+1)){
+
+				fprintf(usuClien, "Plaza: ");
+				fprintf(usuClien, "%d\n", plazaP1);
+				fprintf(usuClien, "______________\n");	
+				usuCliente->plaza = plazaP1;
+
+				printf("\nCliente registrado. Matricula: %s Plaza: %d", usuCliente->matricula, usuCliente->plaza);
+
+				control1 = 0;
+
+			}
+
+			else {
+
+				printf("Plaza no disponible\n"); control1 = 1;
+			}
+
+		} while (control1 !=0);
+
+		fclose (usuClien); 
+		free(usuCliente);
+
+}
+
+
+void entrarTrabajador(){
+
+		FILE * trab;
+		trab = fopen ("trabajador.txt", "a"); 
+
+		trabajador =(struct trabajador *) malloc (sizeof(struct trabajador));
+
+		printf("NUEVO TRABAJADOR/A:");
+				
+		printf("\nDni del trabajador: ");
+		fprintf(trab, "Dni del trabajador: ");	
+		scanf("%s",trabajador->dni);
+ 		fprintf(trab, "%s\n", trabajador->dni); 
+
+		printf("Matricula: ");
+		fprintf(trab, "Matricula: ");	
+		scanf("%s",trabajador->matricula);
+ 		fprintf(trab, "%s\n", trabajador->matricula); 
+
+		int control = 0;
+
+		do {
+
+		int plazaP=-1;
+
+		printf("Plaza: ");			
+		scanf("%d",&plazaP);
+
+			if ((plazaP>0) && (plazaP<TOPE_PLAZAS+1)){
+
+				fprintf(trab, "Plaza: ");
+				fprintf(trab, "%d\n", plazaP);
+				fprintf(trab, "___________________\n");
+				trabajador->plaza = plazaP;
+
+				printf("\nTrabajador registrado. DNI: %s Matricula: %s Plaza: %d", trabajador->dni, trabajador->matricula, trabajador->plaza);
+
+				control = 0;
+
+			}
+
+			else {
+
+				printf("Plaza no disponible\n"); control = 1;
+			}
+
+		} while (control !=0);
+
+		fclose (tra); 
+		free(trabajador);
+		
+		//La gestion de las plazas libres y ocupadas la haremos en C++
+			
+}
+
+void verFactura(){
+
+
+		char const* const fileFac = "factura.txt";
+
+		FILE* file = fopen(fileFac, "r");
+		
+		if(file== 0){
+			printf("El fichero no existe!\n");
+		}
+
+    	else{
+   		 char line[256];
+
+		  while (fgets(line, sizeof(line), file)) {
+
+		        printf("%s", line);
+		    }
+
+		    fclose(file);
+		  }
+
+
+}
+
+void sacarTrabajador(){
+
+
+
+
+}
+
+
+void sacarCliente(){
+
+
+
+
+
+}

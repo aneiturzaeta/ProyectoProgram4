@@ -1,12 +1,11 @@
 #include <stdio.h>
-#include <time.h>
 #include <stdlib.h>
 #include "menuPrincipal.h"
 #include "menuUsuario.h"
 #include "menuAdmin.h"
 #define TOPE_PLAZAS 22
 
-int plazas[22], estado[22];
+int plazas[TOPE_PLAZAS], estado[TOPE_PLAZAS]; //ESTADO: 0 (LIBRE), 1 (OCUPADO)
 
 
 void actualizar_plazas( int estado[], int topeplazas)
@@ -16,7 +15,7 @@ void actualizar_plazas( int estado[], int topeplazas)
     for (i=0;i<TOPE_PLAZAS;i++) {
 		
 
-		estado[i]=0; //se leerea desde un archivo si esta libre o no
+		estado[i]=0; //se leerea desde un archivo si esta libre o no. Ahora, todas están libres. Todas a 0;
 	}
 
 printf("\n Estado de plazas actualizado");
@@ -24,7 +23,7 @@ printf("\n Estado de plazas actualizado");
 
 //MENU PRINCIPAL. LLAMA A USUARIO Y ADMINISTRADOR__________________________________________________________________________________________
 
-void menuInicial()
+int menuInicial()
 {
 
 	//actualizar_plazas(estado[], TOPE_PLAZAS);
@@ -41,26 +40,18 @@ void menuInicial()
 
 				switch(opc) {
 
-				case 1: //printf("\n Entrado como usuario/a");
-				
-					menuUsuario();
+				case 1:	menuUsuario(); 	break;
 
-					break;
+				case 2: menuAdministrador(); break;
 
-				case 2: //printf("\n Entrado como administrador/a");
-				
-					menuAdministrador();
+				case 3: printf("\n Ha seleccionado salir. Hasta otra!"); return 0; 	break;
 
-				break;
-
-				case 3: printf("\n Ha seleccionado salir. Hasta otra!");  
-
-				exit(0);
-
-				default: printf("\n La opcion seleccionada no es correcta");break;
+				default: printf("\n La opcion seleccionada no es correcta"); break;
 			}
 
 	}	while(opc!=3);
+
+	return 0;
 }
 
 

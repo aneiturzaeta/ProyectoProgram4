@@ -3,14 +3,14 @@
 
 
 struct trabajador{
-	char dni [9];
-	char matricula[7];
-	int plaza[2]; 
+	char* dni;
+	char*matricula;
+	int plaza;
 }; struct trabajador *trabajador;
 
 struct usuCliente{
-	char matricula[7];
-	int plaza[2]; 
+	char* matricula;
+	int plaza;
 }; struct usuCliente *usuCliente;
 
 
@@ -19,13 +19,29 @@ struct usuCliente{
 void menuUsuario(void);
 
 
-int identificarse(void);
-
-
-void aparcar(int indentU);
+void identificarse(void);
 
 
 void sacarCoche();
+
+
+void abrirDibujo();
+
+
+void clear_if_needed(char *str);
+
+
+void entrarCliente();
+
+
+void entrarTrabajador();
+
+void verFactura();
+
+void sacarTrabajador();
+
+void sacarCliente();
+
 
 
 #endif

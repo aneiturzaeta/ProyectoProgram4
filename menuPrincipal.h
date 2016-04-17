@@ -6,7 +6,7 @@
 void actualizar_plazas( int estado[], int topeplazas);
 
 
-void menuInicial(void);
+int menuInicial(void);
 
 
 #endif

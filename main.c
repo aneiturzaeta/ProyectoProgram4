@@ -4,7 +4,8 @@
 //MAIN PRINCIPAL.
 int main (void){
 
-	menuInicial();
+	int salir;
+	salir = menuInicial();
 
-	return 0;
+	return salir;
 }
