@@ -6,11 +6,8 @@
 void cambiarContrasena(void);
 
 
-int comprobarContrasena(void);
-
-
 void menuAdministrador(void);
 
-
+void verTrabajadores(void);
 
 #endif
