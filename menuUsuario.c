@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include "menuUsuario.h"
@@ -142,19 +141,21 @@ void entrarCliente(){
 
 				printf("\nCliente registrado. Matricula: %s Plaza: %d", usuCliente->matricula, usuCliente->plaza);
 
-				control1 = 0;
+				control1 = 1;
+				return;
 
 			}
 
 			else {
 
-				printf("Plaza no disponible\n"); control1 = 1;
+				printf("Plaza no disponible\n"); control1 = 0;
 			}
 
 		} while (control1 !=0);
 
 		fclose (usuClien); 
 		free(usuCliente);
+		return;
 
 }
 
@@ -179,10 +180,10 @@ void entrarTrabajador(){
  		fprintf(trab, "%s\n", trabajador->matricula); 
 
 		int control = 0;
-
 		do {
 
 		int plazaP=-1;
+		
 
 		printf("Plaza: ");			
 		scanf("%d",&plazaP);
@@ -196,19 +197,21 @@ void entrarTrabajador(){
 
 				printf("\nTrabajador registrado. DNI: %s Matricula: %s Plaza: %d", trabajador->dni, trabajador->matricula, trabajador->plaza);
 
-				control = 0;
+				control = 1;
+				return;
 
 			}
 
 			else {
 
-				printf("Plaza no disponible\n"); control = 1;
+				printf("Plaza no disponible\n"); control = 0;
 			}
 
 		} while (control !=0);
 
 		fclose (trab); 
 		free(trabajador);
+		
 		
 		//La gestion de las plazas libres y ocupadas la haremos en C++
 			
