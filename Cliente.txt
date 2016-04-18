@@ -1,22 +1,6 @@
-Matricula
-7777GTY
-Plaza
-1
-Matricula
-Ð;>
-Plaza
-s
-Matricula
-23e
-Plaza
-23
-Matricula
-34
-Plaza
-11
-Matricula: 234rfg
-Plaza: 2686596
+Matricula: 989
+Plaza: 9
 ______________
-Matricula: 123edg
-Plaza: 2686596
+Matricula: 78787DFR
+Plaza: 11
 ______________
