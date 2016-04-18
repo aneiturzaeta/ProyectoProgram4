@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "menuUsuario.h"
@@ -135,27 +136,26 @@ void entrarCliente(){
 			if ((plazaP1>0) && (plazaP1<TOPE_PLAZAS+1)){
 
 				fprintf(usuClien, "Plaza: ");
-				fprintf(usuClien, "%d\n", &plazaP1);
+				fprintf(usuClien, "%d\n", plazaP1);
 				fprintf(usuClien, "______________\n");	
 				usuCliente->plaza = plazaP1;
 
 				printf("\nCliente registrado. Matricula: %s Plaza: %d", usuCliente->matricula, usuCliente->plaza);
 
-				control1 = 1;
+				control1 = 0;
 				return;
 
 			}
 
 			else {
 
-				printf("Plaza no disponible\n"); control1 = 0;
+				printf("Plaza no disponible\n"); control1 = 1;
 			}
 
 		} while (control1 !=0);
 
 		fclose (usuClien); 
 		free(usuCliente);
-		return;
 
 }
 
@@ -180,10 +180,10 @@ void entrarTrabajador(){
  		fprintf(trab, "%s\n", trabajador->matricula); 
 
 		int control = 0;
+
 		do {
 
 		int plazaP=-1;
-		
 
 		printf("Plaza: ");			
 		scanf("%d",&plazaP);
@@ -191,20 +191,20 @@ void entrarTrabajador(){
 			if ((plazaP>0) && (plazaP<TOPE_PLAZAS+1)){
 
 				fprintf(trab, "Plaza: ");
-				fprintf(trab, "%d\n", &plazaP);
+				fprintf(trab, "%d\n", plazaP);
 				fprintf(trab, "___________________\n");
 				trabajador->plaza = plazaP;
 
 				printf("\nTrabajador registrado. DNI: %s Matricula: %s Plaza: %d", trabajador->dni, trabajador->matricula, trabajador->plaza);
 
-				control = 1;
+				control = 0;
 				return;
 
 			}
 
 			else {
 
-				printf("Plaza no disponible\n"); control = 0;
+				printf("Plaza no disponible\n"); control = 1;
 			}
 
 		} while (control !=0);
@@ -212,8 +212,6 @@ void entrarTrabajador(){
 		fclose (trab); 
 		free(trabajador);
 		
-		
-		//La gestion de las plazas libres y ocupadas la haremos en C++
 			
 }
 
