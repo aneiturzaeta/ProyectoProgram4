@@ -44,7 +44,10 @@ int menuInicial()
 
 				case 2: menuAdministrador(); break;
 
-				case 3: printf("\n Ha seleccionado salir. Hasta otra!"); return 0; 	break;
+				case 3: printf("\n Ha seleccionado salir. Hasta otra!"); 	
+
+				exit(0);
+				break;
 
 				default: printf("\n La opcion seleccionada no es correcta"); break;
 			}
