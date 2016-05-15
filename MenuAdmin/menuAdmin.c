@@ -18,7 +18,7 @@ void menuAdministrador(void)
 		
  		FILE* f;
        
-		f = fopen("contrasena.txt", "r");
+		f = fopen("Ficheros\\contrasena.txt", "r");
        
 	
 		int correcto;
@@ -71,7 +71,7 @@ void cambiarContrasena(void){ //ADMINISTRADOR
 
 				FILE* f;
 
-                f = fopen("contrasena.txt", "w");
+                f = fopen("Ficheros\\contrasena.txt", "w");
 				
 				fprintf(f, "%d", cont);
 
@@ -84,7 +84,7 @@ void cambiarContrasena(void){ //ADMINISTRADOR
 void verTrabajadores(){
 
 
-	char const* const fileName = "trabajador.txt";
+	char const* const fileName = "Ficheros\\trabajador.txt";
 
 	FILE* file = fopen(fileName, "r");
 

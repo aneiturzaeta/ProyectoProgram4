@@ -6,6 +6,7 @@
 #include <time.h>
 #define TOPE_PLAZAS 22
 #define MAX_LENGTH 30
+#define PRECIO_HORA 2
 
 
 void menuUsuario(void)
@@ -13,7 +14,7 @@ void menuUsuario(void)
 	int cliente;
 
 	do {
-		printf("\n\n____________MENU USUARIO____________\nIntroduzca la opcion que desee: \n    1. Ver estado del parking  \n    2. Aparcar  \n    3. Sacar coche \n    4. Atras \n ");
+		printf("\n\n____________MENU USUARIO____________\nIntroduzca la opcion que desee: \n    1. Ver estructura del parking  \n    2. Aparcar  \n    3. Sacar coche \n    4. Atras \n ");
 
 		printf("\n\n Seleccion: ");
 
@@ -95,7 +96,7 @@ void sacarCoche()
 void abrirDibujo(){
 
 
-	char const* const fileName = "dibujo.txt";
+	char const* const fileName = "Ficheros\\Dibujo.txt";
 
 						FILE* file = fopen(fileName, "r");
 					    
@@ -113,7 +114,7 @@ void abrirDibujo(){
 void entrarCliente(){
 
 		FILE * usuClien;
-		usuClien = fopen ("Cliente.txt", "a");
+		usuClien = fopen ("Ficheros\\Cliente.txt", "a");
 
 		usuCliente =(struct usuCliente *) malloc (sizeof(struct usuCliente)); 
 
@@ -121,7 +122,7 @@ void entrarCliente(){
 		
 		printf("\nMatricula: ");
 		fprintf(usuClien, "Matricula: ");	
-		scanf("%s",usuCliente->matricula);
+		scanf("%s",usuCliente->matricula); 
  		fprintf(usuClien, "%s\n", usuCliente->matricula); 
 
 		int control1 = 0;
@@ -149,7 +150,7 @@ void entrarCliente(){
 
 			else {
 
-				printf("Plaza no disponible\n"); control1 = 1;
+				printf("Plaza no disponible\n"); control1 = 0;
 			}
 
 		} while (control1 !=0);
@@ -163,7 +164,7 @@ void entrarCliente(){
 void entrarTrabajador(){
 
 		FILE * trab;
-		trab = fopen ("trabajador.txt", "a"); 
+		trab = fopen ("Ficheros\\trabajador.txt", "a"); 
 
 		trabajador =(struct trabajador *) malloc (sizeof(struct trabajador));
 
@@ -171,12 +172,12 @@ void entrarTrabajador(){
 				
 		printf("\nDni del trabajador: ");
 		fprintf(trab, "Dni del trabajador: ");	
-		scanf("%s",trabajador->dni);
+		scanf("%s",trabajador->dni); 
  		fprintf(trab, "%s\n", trabajador->dni); 
 
 		printf("Matricula: ");
-		fprintf(trab, "Matricula: ");	
-		scanf("%s",trabajador->matricula);
+		fprintf(trab, "Matricula: ");
+		scanf("%s",trabajador->matricula); 	
  		fprintf(trab, "%s\n", trabajador->matricula); 
 
 		int control = 0;
@@ -204,7 +205,7 @@ void entrarTrabajador(){
 
 			else {
 
-				printf("Plaza no disponible\n"); control = 1;
+				printf("Plaza no disponible\n"); control = 0;
 			}
 
 		} while (control !=0);
@@ -218,7 +219,7 @@ void entrarTrabajador(){
 void verFactura(){
 
 
-		char const* const fileFac = "factura.txt";
+		char const* const fileFac = "Ficheros\\factura.txt";
 
 		FILE* file = fopen(fileFac, "r");
 		
@@ -242,10 +243,10 @@ void verFactura(){
 
 void sacarTrabajador(){
 
-	char*dni;
+	char dni[12];
 
 	printf("\nDni: ");	
-	scanf("%s",&dni);
+	scanf("%s",dni);//LEER DNI xxxxxxxxxxxxxxxxxxxxxXXXXXXXXXXXXXXXXXXXXXXXXXXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxX
 	
 	//saca el coche y esa plaza queda libre (C++)
 	
@@ -257,12 +258,21 @@ void sacarTrabajador(){
 
 void sacarCliente(){
 
-	char*matric;
+	int tiempo;
+
+	char matricula[12];
 
 	printf("\nMatricula: ");	
-	scanf("%s",&matric);
-	printf("\n");	
-	verFactura(); //dependiendo de la matricula del coche
+	scanf("%s",matricula); //LEER MATRICULA xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxX
+	printf("\nCuántas horas has estado (números enteros): ");	
+	scanf("%d", &tiempo);
+
+	int importe;
+	importe = tiempo*PRECIO_HORA;
+
+	verFactura(); //le pasamos matricula, importe
+	//BASEDEDATOS: guardamos importe;
+	//BASEDEDATOS: borramos fila de cliente --DELETE WHERE (MATRICULA)
 	
 	printf("Gracias por tu estancia");
 
