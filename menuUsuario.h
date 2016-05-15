@@ -1,6 +1,9 @@
 #ifndef _MENUUSUARIO_H_
 #define _MENUUSUARIO_H_
 
+#ifdef __cplusplus
+extern "C"{
+#endif
 
 struct trabajador{
 	char* dni;
@@ -12,8 +15,6 @@ struct usuCliente{
 	char* matricula;
 	int plaza;
 }; struct usuCliente *usuCliente;
-
-
 
 
 void menuUsuario(void);
@@ -42,6 +43,9 @@ void sacarTrabajador();
 
 void sacarCliente();
 
+#ifdef __cplusplus
+}
 
+#endif
 
 #endif
