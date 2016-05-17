@@ -13,6 +13,7 @@ public:
 
 
 	//Imprime el historial de los estacionamientos de los trabajadores
+	/*
 	int showTrabajadores(){
 
 		sqlite3_stmt *stmt;
@@ -75,7 +76,7 @@ public:
 	
 		return SQLITE_OK;
 	}
-
+*/
 
 	//Imprime el listado de los trabajadores que están dados de alta en el parking. Puede verlo el/la administrador/ra
 	int showTrabajadoresRegistrados(){
@@ -193,6 +194,7 @@ public:
 
 	//Metodo que comprueba si el dni metido es correcto o no, y en caso de que exista, guarda el trabajador haciendo desde aqui la llamada al metodo guardar.
 	int comprobarDNI(std::string DNIp){
+
 		sqlite3_stmt *stmt;
 
 		char sql[]= "select DNI from REGISTRO_TRABAJADOR";
