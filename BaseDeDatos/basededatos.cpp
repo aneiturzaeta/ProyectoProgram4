@@ -12,72 +12,7 @@ private:
 public:
 
 
-	//Imprime el historial de los estacionamientos de los trabajadores
-	/*
-	int showTrabajadores(){
-
-		sqlite3_stmt *stmt;
-
-		char sql[]= "select * from TRABAJADOR";
-
-		int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
-		if (result != SQLITE_OK) {
-			std::cout << "Error preparing statement (SELECT)" << std::endl;      
-     		std::cout << sqlite3_errmsg(db) << std::endl;
-			//printf("Error preparing statement (SELECT)\n");
-			//printf("%s\n", sqlite3_errmsg(db));
-			return result;
-		}
-
-		std::cout << "SQL query prepared (SELECT)" << std::endl;
-		//printf("SQL query prepared (SELECT)\n");
-
-		//std::string DNI;
-		char DNI[9];
-		//std::string matriculat;
-		char matriculat[7];
-		int plazat;
-
-		std::cout << std::endl;
-		//printf("\n");
-    	std::cout << std::endl;
-    	std::cout << "Mostrando el historial de estacionamientos de los trabajadores" << std::endl;
-
-		do {
-			result = sqlite3_step(stmt) ;
-			if (result == SQLITE_ROW) {
-				
-				strcpy(DNI, (char *) sqlite3_column_text(stmt, 0));
-				//Pasamos dni a string
-				//std::string str(DNI); 
-				strcpy(matriculat, (char *) sqlite3_column_text(stmt, 1));
-				//Pasamos matriculat a string
-				//std::string str(matriculat); 
-				plazat = sqlite3_column_int(stmt, 2);
-
-				std::cout << "DNI: " << DNI << " Matricula: " << matriculat << " Plaza: " << plazat << std::endl;
-			}
-		} while (result == SQLITE_ROW);
-
-
-		std::cout << std::endl;
-   		std::cout << std::endl;
-		//printf("\n");
-		//printf("\n");
-
-		result = sqlite3_finalize(stmt);
-		if (result != SQLITE_OK) {
-			std::cout << "Error finalizing statement (SELECT)" << std::endl;
-      		std::cout << sqlite3_errmsg(db) << std::endl;
-			return result;
-		}
-
-		std::cout << "Prepared statement finalized (SELECT)" << std::endl;
 	
-		return SQLITE_OK;
-	}
-*/
-
 	//Imprime el listado de los trabajadores que están dados de alta en el parking. Puede verlo el/la administrador/ra
 	int showTrabajadoresRegistrados(){
 
@@ -197,38 +132,51 @@ public:
 
 		sqlite3_stmt *stmt;
 
-		char sql[]= "select DNI from REGISTRO_TRABAJADOR";
+		char sql[]= "select DNI from REGISTRO_TRABAJADOR WHERE DNI = ?";
 
 		int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
 		if (result != SQLITE_OK) {
 			std::cout << "Error preparing statement (SELECT)" << std::endl;      
      		std::cout << sqlite3_errmsg(db) << std::endl;
 			return result;
-		}
+		} 
 
-			char DNIb[9];
+		result = sqlite3_bind_text(stmt, 1, DNIp.c_str(), DNIp.length(), SQLITE_STATIC);
+		    if (result != SQLITE_OK) {
+		      std::cout << "Error binding parameters" << std::endl;
+		      std::cout <<  sqlite3_errmsg(db) << std::endl;
+		      return result;
+		   } 
 
-		do {
-			result = sqlite3_step(stmt) ;
-			if (result == SQLITE_ROW) {
-
-				strcpy(DNIb, (char *) sqlite3_column_text(stmt, 1));
-				std::string str(DNIb);
-
-				if(DNIb==DNIp){
-					return 1;
-				} else 
-					std::cout << "No existe ningun trabajador en la BD con ese DNI." << std::endl;
-					return 0;
-//Ez dakit nola in hau oso ongi, hemendik gordetzeu, baino gero ze menu inizialea edo bidali?
-			}
-		} while (result == SQLITE_ROW);
+		result = sqlite3_step(stmt);
+		    if (result != SQLITE_DONE) {
+		      std::cout << "Error inserting new data into country table" << std::endl;
+		      return result;
+		    }
 
 		result = sqlite3_finalize(stmt);
 		if (result != SQLITE_OK) {
 			std::cout << "Error finalizing statement (SELECT)" << std::endl;
       		std::cout << sqlite3_errmsg(db) << std::endl;
 			return result;
+		}
+
+		if ((sql != NULL) && (sql[0] == '\0')) {
+  			 std::cout << "Entra, okay." << std::endl;
+
+		} else {
+			 std::cout << "Error. Wrong." << std::endl;
+			 int q=2;
+			 do{
+
+			char * dniB;
+			 	std::cout << "Inserte nuevo DNI." << std::endl;
+			 	std::cin.getline(dniB,sizeof(dniB));
+			 	std:: string str (dniB);
+			 	comprobarDNI(dniB);
+			 	q--;
+
+			 } while ((sql == NULL) && (q!=0)) ;
 		}
 	
 		return SQLITE_OK;
@@ -509,12 +457,13 @@ public:
 };
 
 //Estas son las llamadas a los metodos que hemos hecho antes, algunas faltan por implementar
-/*
+
 
 int main() {
 
 	DBConnector dbConnector("Parking.sqlite");
 
+	/*
 	//OPERACIONES CON TRABAJADORES
 	//Falta terminar
 		result= dbConnector.insertTrabajador();	
@@ -530,25 +479,29 @@ int main() {
 			//printf("Error añadiendo un trabajador!\n");
 			return result;
 		}
+	*/
 	//Falta terminar
-		result= dbConnector.comprobarDNI();	
+		int result= dbConnector.comprobarDNI("111");	
 		if(result!=SQLITE_OK){
 			std::cout << "Error inserting" << std::endl;
 			//printf("Error añadiendo un trabajador!\n");
 			return result;
 		}
-
+		/*
 		result = dbConnector.showTrabajadores();
 		if (result != SQLITE_OK) {
 			std::cout << "Error mostrando los aparcamientos de los trabajadores" << std::endl;
 			//printf("Error al leer todos los trabajadores\n");
 			return result;
 		}
+		
 		result = dbConnector.showTrabajadoresRegistrados();
 		if (result != SQLITE_OK) {
 			std::cout << "Error mostrando todos los trabajadores" << std::endl;
 			return result;
 		}
+
+		
 
 	//OPERACIONES CON CLIENTES
 	//Falta terminar
@@ -590,7 +543,8 @@ int main() {
 			//printf("Error al leer todos los trabajadores\n");
 			return result;
 		}
+		*/
 
 		return 0;
 }
-*/
+
