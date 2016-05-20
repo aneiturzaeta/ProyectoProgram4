@@ -1,8 +1,9 @@
 #include "Persona.h"
 #include <string.h>
 
+#include <stdio.h>
+#include <string.h>
 #include <iostream>
-#include <string>
 using namespace std;
 
 Persona::Persona(const string matriculap, int plaza)

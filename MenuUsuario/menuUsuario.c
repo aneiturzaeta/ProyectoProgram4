@@ -6,7 +6,7 @@
 #include <time.h>
 #define TOPE_PLAZAS 22
 #define MAX_LENGTH 30
-#define PRECIO_HORA 2
+
 
 
 void menuUsuario(void)
@@ -114,14 +114,13 @@ void abrirDibujo(){
 void entrarCliente(){
 
 		FILE * usuClien;
-		usuClien = fopen ("Ficheros\\Cliente.txt", "a");
+		usuClien = fopen ("Ficheros\\Cliente.txt", "w");
 
 		usuCliente =(struct usuCliente *) malloc (sizeof(struct usuCliente)); 
 
 		printf("NUEVO CLIENTE");
 		
 		printf("\nMatricula: ");
-		fprintf(usuClien, "Matricula: ");	
 		scanf("%s",usuCliente->matricula); 
  		fprintf(usuClien, "%s\n", usuCliente->matricula); 
 
@@ -136,12 +135,11 @@ void entrarCliente(){
 
 			if ((plazaP1>0) && (plazaP1<TOPE_PLAZAS+1)){
 
-				fprintf(usuClien, "Plaza: ");
 				fprintf(usuClien, "%d\n", plazaP1);
-				fprintf(usuClien, "______________\n");	
 				usuCliente->plaza = plazaP1;
 
 				printf("\nCliente registrado. Matricula: %s Plaza: %d", usuCliente->matricula, usuCliente->plaza);
+				printf("\nPara guardar en BD, accede a la opcion de C++. 5- Insertar usuario");
 
 				control1 = 0;
 				return;
@@ -164,19 +162,17 @@ void entrarCliente(){
 void entrarTrabajador(){
 
 		FILE * trab;
-		trab = fopen ("Ficheros\\trabajador.txt", "a"); 
+		trab = fopen ("Ficheros\\trabajador.txt", "w"); 
 
 		trabajador =(struct trabajador *) malloc (sizeof(struct trabajador));
 
 		printf("NUEVO TRABAJADOR/A:");
 				
 		printf("\nDni del trabajador: ");
-		fprintf(trab, "Dni del trabajador: ");	
 		scanf("%s",trabajador->dni); 
  		fprintf(trab, "%s\n", trabajador->dni); 
 
 		printf("Matricula: ");
-		fprintf(trab, "Matricula: ");
 		scanf("%s",trabajador->matricula); 	
  		fprintf(trab, "%s\n", trabajador->matricula); 
 
@@ -191,13 +187,12 @@ void entrarTrabajador(){
 
 			if ((plazaP>0) && (plazaP<TOPE_PLAZAS+1)){
 
-				fprintf(trab, "Plaza: ");
 				fprintf(trab, "%d\n", plazaP);
-				fprintf(trab, "___________________\n");
 				trabajador->plaza = plazaP;
 
 				printf("\nTrabajador registrado. DNI: %s Matricula: %s Plaza: %d", trabajador->dni, trabajador->matricula, trabajador->plaza);
 
+				printf("\nPara guardar en BD, accede a la opcion de C++. 3- Insertar trabajador");
 				control = 0;
 				return;
 
@@ -219,25 +214,7 @@ void entrarTrabajador(){
 void verFactura(){
 
 
-		char const* const fileFac = "Ficheros\\factura.txt";
-
-		FILE* file = fopen(fileFac, "r");
-		
-		if(file== 0){
-			printf("El fichero no existe!\n");
-		}
-
-    	else{
-   		 char line[256];
-
-		  while (fgets(line, sizeof(line), file)) {
-
-		        printf("%s", line);
-		    }
-
-		    fclose(file);
-		  }
-
+		prinf("Para ver factura, accede a la opcion")
 
 }
 

@@ -1,18 +1,22 @@
-#ifndef ALUMNO_H_
-#define ALUMNO_H_
+#ifndef TRABAJADOR_H_
+#define TRABAJADOR_H_
 
 #include "Persona.h"
+#include <stdio.h>
+#include <string.h>
+#include <iostream>
+using namespace std;
 
 class trabajador: public Persona
 {
-	string dni;
+	int dni;
 
 public:
-	Alumno(const string matricula, int plaza, string dni);
+	trabajador(const int matricula, int plaza, int dni);
 	
-	virtual ~Alumno();
+	virtual ~trabajador();
 
-	string getDni(string dni);
+	int getDni(int dni);
 
 };
 

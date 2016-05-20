@@ -35,7 +35,7 @@ void menuAdministrador(void)
 
 						do{
 
-								printf("\n\nIntroduzca la opcion que desee: \n 1. Poner a 0 el recuento y calcular ingresos \n 2. Ver el listado de los trabajadores que han aparcado \n 3. Cambiar contrasena  \n 4. Salir al menu inicial  \n  ");
+								printf("\n\nIntroduzca la opcion que desee: \n 1. Poner a 0 el recuento y calcular ingresos \n 2. Ver el listado de coches que están actualmente dentro \n 3. Cambiar contrasena  \n 4. Salir al menu inicial  \n  ");
 
 								printf("\n\n Seleccion: ");
 
@@ -43,9 +43,9 @@ void menuAdministrador(void)
 
 								switch(admin) {
 
-											case 1: printf("\n Se hace el recuento de los ingresos del día."); break;  //en c++
+											case 1: printf("\n Se hace en C++. Opcion: 2- Ver ingresos totales y poner contador a 0"); break;
 
-											case 2: verTrabajadores(); break;
+											case 2: printf("\n Se hace en C++. Opcion: 1- Ver coches aparcados actualemte"); break;
 
 											case 3: cambiarContrasena(); break;
 
@@ -81,7 +81,7 @@ void cambiarContrasena(void){ //ADMINISTRADOR
 }
 
 
-void verTrabajadores(){
+/*void verTrabajadores(){
 
 
 	char const* const fileName = "Ficheros\\trabajador.txt";
@@ -95,7 +95,7 @@ void verTrabajadores(){
 			printf("\n %s", line);
 		 }
 
-			 fclose(file);
+			 fclose(file);*/
 
 
 }

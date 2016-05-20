@@ -1,18 +1,21 @@
 #ifndef _PERSONA_H
 #define _PERSONA_H
 
-#include <string>
+#include <stdio.h>
+#include <string.h>
 #include <iostream>
+using namespace std;
+
 
 
 class Persona
 {
-	string matricula;
+	int matricula;
 	int plaza;
 
 public:
 
-	Persona(const string matricula, int plaza);
+	Persona(const int matricula, int plaza);
 	
 	virtual ~Persona();
 

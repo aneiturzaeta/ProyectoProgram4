@@ -1,18 +1,20 @@
-#ifndef ALUMNO_H_
-#define ALUMNO_H_
+#ifndef CLIENTE_H_
+#define CLIENTE_H_
 
 #include "Persona.h"
+#include <stdio.h>
+#include <string.h>
+#include <iostream>
+using namespace std;
 
 class cliente: public Persona
 {
-	int tiempo;
-
-public:
-	Alumno(const string matricula, int plaza, int tiempo);
 	
-	virtual ~Alumno();
-
-	int getTiempo(int tiempo);
+public:
+	cliente(const int matricula, int plaza);
+	
+	virtual ~cliente();
+	
 };
 
 #endif
