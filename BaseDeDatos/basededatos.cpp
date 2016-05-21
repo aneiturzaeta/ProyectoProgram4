@@ -25,19 +25,19 @@ public:
 
 		int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
 		if (result != SQLITE_OK) {
-			std::cout << "Error preparing statement (SELECT)" << std::endl;      
-     		std::cout << sqlite3_errmsg(db) << std::endl;
+			cout << "Error preparing statement (SELECT)" << endl;      
+     		cout << sqlite3_errmsg(db) << endl;
 			return result;
 		}
 
-		std::cout << "SQL query prepared (SELECT)" << std::endl;
+		cout << "SQL query prepared (SELECT)" << endl;
 
 		int dni;
 		char NOMBRE[50];
 
-		std::cout << std::endl;
-    	std::cout << std::endl;
-    	std::cout << "Mostrando trabajadores dados de alta en el parking" << std::endl;
+		cout << endl;
+    	cout << endl;
+    	cout << "Mostrando trabajadores dados de alta en el parking" << endl;
 
 		do {
 			result = sqlite3_step(stmt) ;
@@ -49,23 +49,23 @@ public:
 				dni= sqlite3_column_int(stmt, 1);
 				//std::string str(DNI);
 
-				std::cout << "Nombre: " << NOMBRE << std::endl;
-				std::cout << "DNI: " << dni << std::endl;
+				cout << "Nombre: " << NOMBRE << endl;
+				cout << "DNI: " << dni << endl;
 			}
 		} while (result == SQLITE_ROW);
 
 
-		std::cout << std::endl;
-   		std::cout << std::endl;
+		cout << endl;
+   		cout << endl;
 
 		result = sqlite3_finalize(stmt);
 		if (result != SQLITE_OK) {
-			std::cout << "Error finalizing statement (SELECT)" << std::endl;
-      		std::cout << sqlite3_errmsg(db) << std::endl;
+			cout << "Error finalizing statement (SELECT)" << endl;
+      		cout << sqlite3_errmsg(db) << endl;
 			return result;
 		}
 
-		std::cout << "Prepared statement finalized (SELECT)" << std::endl;
+		cout << "Prepared statement finalized (SELECT)" << endl;
 	
 		return SQLITE_OK;
 		}
@@ -73,7 +73,7 @@ public:
 	
 	int BDshowPersonas(){
 
-			//std::vector<persona> personas;
+			//vector<persona> personas;
 
 			
 			//leer clientes SELECT
@@ -122,20 +122,20 @@ public:
 
 		int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
 		if (result != SQLITE_OK) {
-			std::cout << "Error preparing statement (SELECT)" << std::endl;      
-     		std::cout << sqlite3_errmsg(db) << std::endl;
+			cout << "Error preparing statement (SELECT)" << endl;      
+     		cout << sqlite3_errmsg(db) << endl;
 			return result;
 		}
 
-		std::cout << "SQL query prepared (SELECT)" << std::endl;
+		cout << "SQL query prepared (SELECT)" << endl;
 
 		int dinero;
 		int totalIngresos=0; //Atributo que permite calcular e imprimir el total
 
 
-		std::cout << std::endl;
-    	std::cout << std::endl;
-    	std::cout << "Mostrando los ingresos" << std::endl;
+		cout << endl;
+    	cout << endl;
+    	cout << "Mostrando los ingresos" << endl;
 
 		do {
 			result = sqlite3_step(stmt) ;
@@ -147,28 +147,28 @@ public:
 				totalIngresos= totalIngresos + dinero;
 
 				//Vamos imprimiendo los ingresos que ha habido
-				std::cout << "Ingresos: " << dinero << std::endl;
+				cout << "Ingresos: " << dinero << endl;
 			}
 		} while (result == SQLITE_ROW);
 
 		
 		//Imprimimos por pantalla el total de los ingresos
-		std::cout << std::endl;
-		std::cout << "------------------------------------- ";
-		std::cout << "Total ingresos: " << totalIngresos << std::endl;
+		cout << endl;
+		cout << "------------------------------------- ";
+		cout << "Total ingresos: " << totalIngresos << endl;
 
-		std::cout << std::endl;
-   		std::cout << std::endl;
+		cout << endl;
+   		cout << endl;
 	
 
 		result = sqlite3_finalize(stmt);
 		if (result != SQLITE_OK) {
-			std::cout << "Error finalizing statement (SELECT)" << std::endl;
-      		std::cout << sqlite3_errmsg(db) << std::endl;
+			cout << "Error finalizing statement (SELECT)" << endl;
+      		cout << sqlite3_errmsg(db) << endl;
 			return result;
 		}
 
-		std::cout << "Prepared statement finalized (SELECT)" << std::endl;
+		cout << "Prepared statement finalized (SELECT)" << endl;
 		
 		return SQLITE_OK;
 	}
@@ -182,43 +182,43 @@ public:
 
 		int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
 		if (result != SQLITE_OK) {
-			std::cout << "Error preparing statement (SELECT)" << std::endl;      
-     		std::cout << sqlite3_errmsg(db) << std::endl;
+			cout << "Error preparing statement (SELECT)" << endl;      
+     		cout << sqlite3_errmsg(db) << endl;
 			return result;
 		} 
 
 		result = sqlite3_column_int(stmt, 1);
 		    if (result != SQLITE_OK) {
-		      std::cout << "Error binding parameters" << std::endl;
-		      std::cout <<  sqlite3_errmsg(db) << std::endl;
+		      cout << "Error binding parameters" << endl;
+		      cout <<  sqlite3_errmsg(db) << endl;
 		      return result;
 		   } 
 
 		result = sqlite3_step(stmt);
 		    if (result != SQLITE_DONE) {
-		      std::cout << "Error inserting new data into country table" << std::endl;
+		      cout << "Error selecting" << endl;
 		      return result;
 		    }
 
 		result = sqlite3_finalize(stmt);
 		if (result != SQLITE_OK) {
-			std::cout << "Error finalizing statement (SELECT)" << std::endl;
-      		std::cout << sqlite3_errmsg(db) << std::endl;
+			cout << "Error finalizing statement (SELECT)" << endl;
+      		cout << sqlite3_errmsg(db) << endl;
 			return result;
 		}
 
 		if ((sql != NULL) && (sql[0] == '\0')) {
-  			 std::cout << "Entra, okay." << std::endl;
+  			cout << "Entra, okay." << endl;
 
 		} else {
-			 std::cout << "Error. Wrong." << std::endl;
+			 cout << "Error. Wrong." << endl;
 			 int q=2;
 			
 			do{
 
 			int dniB;
-			 	std::cout << "Inserte nuevo DNI." << std::endl;
-			 	dniB = 11;
+			 	cout << "Inserte nuevo DNI." << endl;
+			 	cin >>dniB;
 			 	BDcomprobarDNI(dniB);
 			 	q--;
 
@@ -229,7 +229,7 @@ public:
 	}
 
 
-	//Terminar y corregir esto
+//Terminar y corregir esto
 	//Comprobamos si la plaza que el usuario ha seleccionado esta libre o ocupada
 	int BDmirarEstadoPlaza(int plazat){
 
@@ -240,11 +240,12 @@ public:
 
 		int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
 		if (result != SQLITE_OK) {
-			std::cout << "Error preparing statement (SELECT)" << std::endl;      
-     		std::cout << sqlite3_errmsg(db) << std::endl;
+			cout << "Error preparing statement (SELECT)" << endl;      
+     		cout << sqlite3_errmsg(db) << endl;
 			return result;
 		}
 
+//Mirar
 		do {
 			result = sqlite3_step(stmt) ;
 			if (result == SQLITE_ROW) {
@@ -255,16 +256,17 @@ public:
 				if(estado= 1){
 					return 1;
 				} else return 0;
-//Como hago la llamada para que elija otra plaza??
-				std::cout << "Esta plaza no esta disponible. Eliga otra por favor." << std::endl;
+
+				cout << "Esta plaza no esta disponible. Eliga otra por favor." << endl;
+				cin >>plaza;
 
 			}
 		} while (result == SQLITE_ROW);
 
 		result = sqlite3_finalize(stmt);
 		if (result != SQLITE_OK) {
-			std::cout << "Error finalizing statement (SELECT)" << std::endl;
-      		std::cout << sqlite3_errmsg(db) << std::endl;
+			cout << "Error finalizing statement (SELECT)" << endl;
+      		cout << sqlite3_errmsg(db) << endl;
 			return result;
 		}
 	
@@ -278,22 +280,23 @@ public:
 		sqlite3_stmt *stmt;
 
 		char sql[] = "insert into TRABAJADOR (DNI, MATRICULAT, PLAZAT) values (?, ?, ?)";
+
 		int result = sqlite3_prepare_v2(db, sql, strlen(sql) + 1, &stmt, NULL) ;
 		if (result != SQLITE_OK) {
-			std::cout << "Error preparing statement (INSERT)" << std::endl;
-      		std::cout <<  sqlite3_errmsg(db) << std::endl;
+			cout << "Error preparing statement (INSERT)" << endl;
+      		cout <<  sqlite3_errmsg(db) << endl;
 			return result;
 		}
 
-		std::cout << "SQL query prepared (INSERT)" << std::endl;
+		cout << "SQL query prepared (INSERT)" << endl;
 		
 
 //Algo asi??
 		if(BDcomprobarDNI(DNI)==1){
 			result = sqlite3_bind_int(stmt, 1, DNI);
 			if (result != SQLITE_OK) {
-				 std::cout << "Error binding parameters" << std::endl;
-	     		 std::cout <<  sqlite3_errmsg(db) << std::endl;
+				 cout << "Error binding parameters" << endl;
+	     		 cout <<  sqlite3_errmsg(db) << endl;
 				return result;
 			}
 //Hacer la llamada
@@ -301,8 +304,8 @@ public:
 
 		result = sqlite3_bind_int(stmt, 2, MATRICULAT);
 		if (result != SQLITE_OK) {
-			std::cout << "Error binding parameters" << std::endl;
-      		std::cout <<  sqlite3_errmsg(db) << std::endl;
+			cout << "Error binding parameters" << endl;
+      		cout <<  sqlite3_errmsg(db) << endl;
 			return result;
 		}
 
@@ -310,8 +313,8 @@ public:
 		if(BDmirarEstadoPlaza(PLAZAT)==1){
 			result = sqlite3_bind_int(stmt, 3, PLAZAT);
 			if (result != SQLITE_OK) {
-				 std::cout << "Error binding parameters" << std::endl;
-	     		 std::cout <<  sqlite3_errmsg(db) << std::endl;
+				 cout << "Error binding parameters" << endl;
+	     		 cout <<  sqlite3_errmsg(db) << endl;
 
 				return result;
 			}
@@ -323,22 +326,21 @@ public:
 
 		result = sqlite3_step(stmt);
 		if (result != SQLITE_DONE) {
-			 std::cout << "Error inserting new data into trabajador table" << std::endl;
-			//printf("Error inserting new data into country table\n");
+			 cout << "Error inserting new data into trabajador table" << endl;
+			
 			return result;
 		}
 
 		result = sqlite3_finalize(stmt);
 		if (result != SQLITE_OK) {
-			std::cout << "Error finalizing statement (INSERT)" << std::endl;
-     		std::cout << sqlite3_errmsg(db) << std::endl;
-			//printf("Error finalizing statement (INSERT)\n");
-			//printf("%s\n", sqlite3_errmsg(db));
+			cout << "Error finalizing statement (INSERT)" << endl;
+     		cout << sqlite3_errmsg(db) << endl;
+			
 			return result;
 		}
 
-		std::cout << "Prepared statement finalized (INSERT)" << std::endl;
-		//printf("Prepared statement finalized (INSERT)\n");
+		cout << "Prepared statement finalized (INSERT)" << endl;
+		
 
 		return SQLITE_OK;
 	}
@@ -351,17 +353,17 @@ public:
 		char sql[] = "insert into USUARIO (MATRICULAU, PLAZAU) values (?, ?)";
 		int result = sqlite3_prepare_v2(db, sql, strlen(sql) + 1, &stmt, NULL) ;
 		if (result != SQLITE_OK) {
-			std::cout << "Error preparing statement (INSERT)" << std::endl;
-      		std::cout <<  sqlite3_errmsg(db) << std::endl;
+			cout << "Error preparing statement (INSERT)" << endl;
+      		cout <<  sqlite3_errmsg(db) << endl;
 			return result;
 		}
 
-		std::cout << "SQL query prepared (INSERT)" << std::endl;
+		cout << "SQL query prepared (INSERT)" << endl;
 
 		result = sqlite3_bind_int(stmt, 1, MATRICULAU);
 		if (result != SQLITE_OK) {
-			std::cout << "Error binding parameters" << std::endl;
-      		std::cout <<  sqlite3_errmsg(db) << std::endl;
+			cout << "Error binding parameters" << endl;
+      		cout <<  sqlite3_errmsg(db) << endl;
 
 			return result;
 		}
@@ -369,8 +371,8 @@ public:
 		if(BDmirarEstadoPlaza(PLAZAU)==1){
 			result = sqlite3_bind_int(stmt, 2, PLAZAU);
 			if (result != SQLITE_OK) {
-				 std::cout << "Error binding parameters" << std::endl;
-	     		 std::cout <<  sqlite3_errmsg(db) << std::endl;
+				 cout << "Error binding parameters" << endl;
+	     		 cout <<  sqlite3_errmsg(db) << endl;
 
 				return result;
 			}
@@ -383,25 +385,26 @@ public:
 
 		result = sqlite3_step(stmt);
 		if (result != SQLITE_DONE) {
-			 std::cout << "Error inserting new data into trabajador table" << std::endl;
+			 cout << "Error inserting new data into trabajador table" << endl;
 			return result;
 		}
 
 		result = sqlite3_finalize(stmt);
 		if (result != SQLITE_OK) {
-			std::cout << "Error finalizing statement (INSERT)" << std::endl;
-     		std::cout << sqlite3_errmsg(db) << std::endl;
+			cout << "Error finalizing statement (INSERT)" << endl;
+     		cout << sqlite3_errmsg(db) << endl;
 
 			return result;
 		}
 
-		std::cout << "Prepared statement finalized (INSERT)" << std::endl;
+		cout << "Prepared statement finalized (INSERT)" << endl;
 
 		return SQLITE_OK;
 	}
 
 	//Cuando el usuario saque su coche, borramos su tupla, actualizamos la plaza a libre, y calculamos ingresos
 	int BDdeleteCliente(int matricula, int plaza) {
+
 		sqlite3_stmt *stmt;
 	
 		//Actualizamos el estado de la plaza. Ponemos 1, porque ahora estara libre
@@ -414,30 +417,30 @@ public:
 
 		int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
 		if (result != SQLITE_OK) {
-			std::cout << "Error preparing statement (DELETE)" << std::endl;
-      		std::cout << sqlite3_errmsg(db) << std::endl;
+			cout << "Error preparing statement (DELETE)" << endl;
+      		cout << sqlite3_errmsg(db) << endl;
 
 			return result;
 		}
 
-		std::cout << "SQL query prepared (DELETE)" << std::endl;
+		cout << "SQL query prepared (DELETE)" << endl;
 		
 		result = sqlite3_step(stmt);
 		if (result != SQLITE_DONE) {
-			std::cout << "Error deleting data (DELETE)" << std::endl;
-      		std::cout << sqlite3_errmsg(db) << std::endl;
+			cout << "Error deleting data (DELETE)" << endl;
+      		cout << sqlite3_errmsg(db) << endl;
 			
 			return result;
 		}
 
 		result = sqlite3_finalize(stmt);
 		if (result != SQLITE_OK) {
-			std::cout << "Error finalizing statement (DELETE)" << std::endl;
-      		std::cout << sqlite3_errmsg(db) << std::endl;
+			cout << "Error finalizing statement (DELETE)" << endl;
+      		cout << sqlite3_errmsg(db) << endl;
 			return result;
 		}
 
-		std::cout << "Prepared statement finalized (DELETE)" << std::endl;
+		cout << "Prepared statement finalized (DELETE)" << endl;
 	
 		return SQLITE_OK;
 	}
@@ -449,35 +452,38 @@ public:
 		//COMO SE HACE ESTO?????
 
 		sqlite3_stmt *stmt;
+		//Actualizamos el estado de la plaza. Ponemos 1, porque ahora estara libre
+
+		BDactualizarEstado(plaza, 0);
 
 		char sql[] = "delete from TRABAJADOR where MATRICULAT= ?";
 
 		int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
 		if (result != SQLITE_OK) {
-			std::cout << "Error preparing statement (DELETE)" << std::endl;
-      		std::cout << sqlite3_errmsg(db) << std::endl;
+			cout << "Error preparing statement (DELETE)" << endl;
+      		cout << sqlite3_errmsg(db) << endl;
 
 			return result;
 		}
 
-		std::cout << "SQL query prepared (DELETE)" << std::endl;
+		cout << "SQL query prepared (DELETE)" << endl;
 		
 		result = sqlite3_step(stmt);
 		if (result != SQLITE_DONE) {
-			std::cout << "Error deleting data (DELETE)" << std::endl;
-      		std::cout << sqlite3_errmsg(db) << std::endl;
+			cout << "Error deleting data (DELETE)" << endl;
+      		cout << sqlite3_errmsg(db) << endl;
 			
 			return result;
 		}
 
 		result = sqlite3_finalize(stmt);
 		if (result != SQLITE_OK) {
-			std::cout << "Error finalizing statement (DELETE)" << std::endl;
-      		std::cout << sqlite3_errmsg(db) << std::endl;
+			cout << "Error finalizing statement (DELETE)" << endl;
+      		cout << sqlite3_errmsg(db) << endl;
 			return result;
 		}
 
-		std::cout << "Prepared statement finalized (DELETE)" << std::endl;
+		cout << "Prepared statement finalized (DELETE)" << endl;
 	
 		return SQLITE_OK;
 
@@ -486,35 +492,51 @@ public:
 
 	int BDactualizarEstado (int numPlaza, int estadop){
 		sqlite3_stmt *stmt;
-		//COMO SE HACE ESTO???
-			char sql[] = "update PLAZA SET ESTADO= ?";
+//COMO SE HACE ESTO??? Asi??
+			char sql[] = "update PLAZA SET ESTADO=? WHERE NUMPLAZA= ?";
 
 			int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
 			if (result != SQLITE_OK) {
-				std::cout << "Error preparing statement (UPDATE)" << std::endl;
-	      		std::cout << sqlite3_errmsg(db) << std::endl;
+				cout << "Error preparing statement (UPDATE)" << endl;
+	      		cout << sqlite3_errmsg(db) << endl;
 
 				return result;
 			}
 
-			std::cout << "SQL query prepared (UPDATE)" << std::endl;
-			
+			cout << "SQL query prepared (UPDATE)" << endl;
+
+		result = sqlite3_bind_int(stmt, 1, estadop);
+		if (result != SQLITE_OK) {
+			cout << "Error binding parameters" << endl;
+      		cout <<  sqlite3_errmsg(db) << endl;
+
+			return result;
+		}
+
+		result = sqlite3_bind_int(stmt, 2, numPlaza);
+		if (result != SQLITE_OK) {
+			cout << "Error binding parameters" << endl;
+      		cout <<  sqlite3_errmsg(db) << endl;
+
+			return result;
+		}
+		
 			result = sqlite3_step(stmt);
 			if (result != SQLITE_DONE) {
-				std::cout << "Error deleting data (UPDATE)" << std::endl;
-	      		std::cout << sqlite3_errmsg(db) << std::endl;
+				cout << "Error deleting data (UPDATE)" << endl;
+	      		cout << sqlite3_errmsg(db) << endl;
 				
 				return result;
 			}
 
 			result = sqlite3_finalize(stmt);
 			if (result != SQLITE_OK) {
-				std::cout << "Error finalizing statement (UPDATE)" << std::endl;
-	      		std::cout << sqlite3_errmsg(db) << std::endl;
+				cout << "Error finalizing statement (UPDATE)" << endl;
+	      		cout << sqlite3_errmsg(db) << endl;
 				return result;
 			}
 
-			std::cout << "Prepared statement finalized (UPDATE)" << std::endl;
+			cout << "Prepared statement finalized (UPDATE)" << endl;
 		
 			return SQLITE_OK;
 	}
@@ -526,54 +548,54 @@ public:
 		char sql[] = "insert into INGRESO (DINERO) values (?)";
 		int result = sqlite3_prepare_v2(db, sql, strlen(sql) + 1, &stmt, NULL) ;
 		if (result != SQLITE_OK) {
-			std::cout << "Error preparing statement (INSERT)" << std::endl;
-      		std::cout <<  sqlite3_errmsg(db) << std::endl;
+			cout << "Error preparing statement (INSERT)" << endl;
+      		cout <<  sqlite3_errmsg(db) << endl;
 			return result;
 		}
 
-		std::cout << "SQL query prepared (INSERT)" << std::endl;
+		cout << "SQL query prepared (INSERT)" << endl;
 
 		result = sqlite3_bind_int(stmt, 1, ingreso);
 		if (result != SQLITE_OK) {
-			std::cout << "Error binding parameters" << std::endl;
-      		std::cout <<  sqlite3_errmsg(db) << std::endl;
+			cout << "Error binding parameters" << endl;
+      		cout <<  sqlite3_errmsg(db) << endl;
 
 			return result;
 		}
 		
 		result = sqlite3_step(stmt);
 		if (result != SQLITE_DONE) {
-			 std::cout << "Error inserting new data into trabajador table" << std::endl;
+			 cout << "Error inserting new data into trabajador table" << endl;
 			return result;
 		}
 
 		result = sqlite3_finalize(stmt);
 		if (result != SQLITE_OK) {
-			std::cout << "Error finalizing statement (INSERT)" << std::endl;
-     		std::cout << sqlite3_errmsg(db) << std::endl;
+			cout << "Error finalizing statement (INSERT)" << endl;
+     		cout << sqlite3_errmsg(db) << endl;
 
 			return result;
 		}
 
-		std::cout << "Prepared statement finalized (INSERT)" << std::endl;
+		cout << "Prepared statement finalized (INSERT)" << endl;
 
 		return SQLITE_OK;
 	}
 
 
-	DBConnector(std::string dbFile) {
+	DBConnector(string dbFile) {
 		//int result = sqlite3_open(dbFile.c_str(), &db);
 		int result = sqlite3_open("Parking.sqlite", &db);
 		if (result != SQLITE_OK) {
-			std::cout << "Error opening database" << std::endl;
+			cout << "Error opening database" << endl;
 		}
 	}
 
 	~DBConnector() {
 		int result = sqlite3_close(db);
 		if (result != SQLITE_OK) {
-			std::cout << "Error opening database" << std::endl;
-      		std::cout << sqlite3_errmsg(db) << std::endl;
+			cout << "Error opening database" << endl;
+      		cout << sqlite3_errmsg(db) << endl;
 		}	
 	}
 };
@@ -589,49 +611,53 @@ int main() {
 	
 	//OPERACIONES CON TRABAJADORES
 	//Falta terminar
-		result= dbConnector.BDinsertTrabajador(11, 222, 3);	
+	/*	result= dbConnector.BDinsertTrabajador(11, 222, 3);	
 		if(result!=SQLITE_OK){
-			std::cout << "Error inserting" << std::endl;
-			//printf("Error añadiendo un trabajador!\n");
+			cout << "Error inserting" << endl;
+
 			return result;
-		}
+		}*/
 	//Falta terminar
 		/*result= dbConnector.BDmirarEstadoPlaza();	
 		if(result!=SQLITE_OK){
-			std::cout << "Error inserting" << std::endl;
-			//printf("Error añadiendo un trabajador!\n");
+			cout << "Error inserting" << endl;
 			return result;
 		}*/
 	
 	//Falta terminar
 		/*int result= dbConnector.BDcomprobarDNI(111);	
 		if(result!=SQLITE_OK){
-			std::cout << "Error inserting" << std::endl;
-			//printf("Error añadiendo un trabajador!\n");
+			cout << "Error inserting" << endl;
+			
 			return result;
 		}*/
-		/*
-		result = dbConnector.BDshowTrabajadores();
-		if (result != SQLITE_OK) {
-			std::cout << "Error mostrando los aparcamientos de los trabajadores" << std::endl;
-			//printf("Error al leer todos los trabajadores\n");
-			return result;
-		}
+	
 		
 		result = dbConnector.BDshowTrabajadoresRegistrados();
 		if (result != SQLITE_OK) {
-			std::cout << "Error mostrando todos los trabajadores" << std::endl;
+			cout << "Error mostrando todos los trabajadores registrados en el parking" << endl;
+			return result;
+		}
+
+		result = dbConnector.BDshowPersonas();
+		if (result != SQLITE_OK) {
+			cout << "Error mostrando los usuarios del parking" << endl;
+			return result;
+		}
+
+		result = dbConnector.BDshowIngresos();
+		if (result != SQLITE_OK) {
+			cout << "Error mostrando los ingresos" << endl;
 			return result;
 		}
 
 		
 
-	//OPERACIONES CON CLIENTES
+	/*//OPERACIONES CON CLIENTES
 	//Falta terminar
 		result= dbConnector.BDinsertEntradaCliente(std::string MATRICULAU, int PLAZAU);	
 		if(result!=SQLITE_OK){
-			std::cout << "Error inserting" << std::endl;
-			//printf("Error añadiendo un cliente!\n");
+			cout << "Error inserting" << endl;
 			return result;
 		}
 	//Falta por implementar
@@ -641,8 +667,8 @@ int main() {
 	//Falta por terminar
 		int result= dbConnector.BDdeleteCliente ();
 		if(result!=SQLITE_OK){
-			std::cout << "Error borrando el cliente" << std::endl;
-			//printf("Error borrando un cliente!\n");
+			cout << "Error borrando el cliente" << endl;
+			
 			return result;
 		}
 	//Falta revisar
@@ -659,14 +685,9 @@ int main() {
 			std::cout << "Error calculando ingresos por el estacionamiento" << std::endl;
 			//printf("Error borrando un cliente!\n");
 			return result;
-		}
-		result = dbConnector.BDshowIngresos();
-		if (result != SQLITE_OK) {
-			std::cout << "Error mostrando los ingresos" << std::endl;
-			//printf("Error al leer todos los trabajadores\n");
-			return result;
-		}
-		*/
+		}*/
+		
+		
 
 		return 0;
 }

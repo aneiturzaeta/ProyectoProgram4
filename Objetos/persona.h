@@ -19,7 +19,7 @@ public:
 	
 	virtual ~Persona();
 
-	const string getMatricula();
+	const int getMatricula();
 	int getPlaza();
 };
 

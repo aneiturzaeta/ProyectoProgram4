@@ -98,4 +98,4 @@ void cambiarContrasena(void){ //ADMINISTRADOR
 			 fclose(file);*/
 
 
-}
+//}

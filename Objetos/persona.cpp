@@ -6,7 +6,7 @@
 #include <iostream>
 using namespace std;
 
-Persona::Persona(const string matriculap, int plaza)
+Persona::Persona(const int matriculap, int plaza)
 {
 	//cout << "Constructor Persona" << endl; 
 	std::matricula;
@@ -20,7 +20,7 @@ Persona::Persona(const string matriculap, int plaza)
 Persona::~Persona()
 {
 	cout << "Destructor Persona" << endl;
-	delete[] matricula;
+	delete [] matricula;
 }
 
 const c Persona::getMatricula()

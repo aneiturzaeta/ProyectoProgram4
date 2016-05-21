@@ -214,7 +214,7 @@ void entrarTrabajador(){
 void verFactura(){
 
 
-		prinf("Para ver factura, accede a la opcion")
+		printf("Para ver factura, accede a la opcion\n");
 
 }
 
@@ -238,6 +238,8 @@ void sacarCliente(){
 	int tiempo;
 
 	char matricula[12];
+
+	int PRECIO_HORA =2;
 
 	printf("\nMatricula: ");	
 	scanf("%s",matricula); //LEER MATRICULA xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxX
