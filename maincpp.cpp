@@ -1,10 +1,14 @@
 #include <iostream>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "BaseDeDatos/sqlite3.h"
 #include "Objetos/persona.h"
 #include "Objetos/cliente.h"
 #include "Objetos/trabajador.h"
+#include <fstream>
+
+
 using namespace std;
 
 #define TOPE_PLAZAS 22
@@ -31,7 +35,7 @@ void imprimirFactura(int importe);
 int main (void) {
 
 
-	std::cout << "--------------MENU EN C ++ -----------\n" << std::endl;
+	cout << "--------------MENU EN C ++ -----------\n" << endl;
 	
 
 	//DBConnector dbConnector("Parking.sqlite");
@@ -43,15 +47,16 @@ int main (void) {
 	
 	do {
 
-		std::cout << "OPCIONES: \n--ADMIN: \n  1- Ver coches aparcados actualemte \n  2- Ver ingresos totales y poner contador a 0" << std::endl;
-		std::cout << "\n--TRABAJADOR/A: \n  3- Insertar trabajador \n  4- Sacar trabajador" << std::endl;
-		std::cout << "\n--USUARIO/A: \n  5- Insertar usuario \n  6- Sacar usuario" << std::endl;
-		std::cout << "\n-- 7- SALIR" << std::endl;
+		cout << "OPCIONES: \n--ADMINISTRADOR/A: \n  1- Ver coches aparcados actualmente \n  2- Ver ingresos totales y poner contador a 0" << endl;
+		cout << "\n--TRABAJADOR/A: \n  3- Insertar trabajador \n  4- Sacar trabajador" << endl;
+		cout << "\n--USUARIO/A: \n  5- Insertar usuario \n  6- Sacar usuario" << endl;
+		cout << "\n-- 7- SALIR" << endl;
 
 
-		printf("\n\n Seleccion: ");
-		scanf("%d", &opc);
-
+		//printf("\n\n Seleccion: ");
+		//scanf("%d", &opc);
+		cout <<"Seleccion"<< endl;
+		cin >> opc;
 
 		int DniOk = 0;
 
@@ -72,7 +77,7 @@ int main (void) {
 
 								else {
 
-									std::cout << "\nEl DNI no es correcto" << std::endl;break;
+									cout << "\nEl DNI no es correcto" << endl;break;
 								}
 
 							break;
@@ -83,9 +88,9 @@ int main (void) {
 
 						case 6: sacarUsuario(); insertarIngreso(); break;
 
-						case 7: std::cout << "\nHa seleccionado salir. Hasta otra!" << std::endl; break;
+						case 7: cout << "\nHa seleccionado salir. Hasta otra!" << endl; break;
 
-						default: std::cout << "\nLa opcion seleccionada no es correcta" << std::endl;break;
+						default: cout << "\nLa opcion seleccionada no es correcta" << endl;break;
 			
 				}	
 
@@ -112,9 +117,12 @@ int main (void) {
 	int comprobarDNI(){
 
 
-			//leer dni del trabajador dni.txt
+			
+		ifstream fin ("Ficheros\\dni.txt");
+		int dni;
+		fin >> dni; //lee el fichero
 
-			//BDcomprobarDNI(DNIp) enviar un std::string
+//BDcomprobarDNI(DNIp) enviar un std::string
 	}
 
 
@@ -128,20 +136,24 @@ int main (void) {
 				if (trabUsu == 0){ //trabajador
 
 
-					//leer fichero plaza.txt
+					ifstream fin ("Ficheros\\plaza.txt");
+					int plaza;
+					fin  >>plaza;//lee el fichero
 
 
 				}
 
 				else if (trabUsu == 1){//usuario
 
-
-					//leer fichero plaza.txt
+					
+					ifstream fin ("Ficheros\\plaza.txt");
+					int plaza;
+					fin >> plaza; //lee el fichero 
 
 				}
 
 
-				//BDmirarEstadoPlaza(plaza);
+//BDmirarEstadoPlaza(plaza);
 
 
 	}
@@ -151,12 +163,17 @@ int main (void) {
 
 
 			//leer desde trabajador.txt
+			//consigue: const int matricula, int plaza, int dni
+				ifstream fin ("Ficheros\\trabajador.txt");
+				int dni;
+				int matricula;
+				int plaza;
+				fin >> dni>>matricula>> plaza; //lee el fichero 
 
-			//conseguir: const string matricula, int plaza, int dni
 
-			//meter a un objeto Trabajador ()
+//meter a un objeto Trabajador ()
 
-			//trabajador mitrabajador = new trabajador (345, 4, 4345);
+//trabajador mitrabajador = new trabajador (345, 4, 4345);
 
 			int dni =111;
 			int matricula=3445;
@@ -172,7 +189,7 @@ int main (void) {
 	void sacarTrabajador(){
 
 			
-			//BDdeleteTrabajador(matricula, plaza);
+//BDdeleteTrabajador(matricula, plaza);
 			
 	}
 
@@ -183,12 +200,20 @@ int main (void) {
 			//leer desde cliente.txt
 
 			//conseguir: const string matricula, int plaza, int tiempo
+		
+			ifstream fin ("Ficheros\\Cliente.txt");
+				
+				int matricula;
+				int plaza;
+				int tiempo;
+				fin >> matricula>> plaza >> tiempo; //lee el fichero 
 
-			//meter a un objeto Cliente ()
 
-			//cliente micliente = new cliente (345, 4, 2);
+//meter a un objeto Cliente ()
 
-			//BDinsertEntradaCliente(matricula, plaza);
+//cliente micliente = new cliente (345, 4, 2);
+
+//BDinsertEntradaCliente(matricula, plaza);
 
 	} 
 
@@ -198,7 +223,7 @@ int main (void) {
 
 	void sacarUsuario(){
 
-		//BDdeleteUsuario(matricula, plaza);
+//BDdeleteUsuario(matricula, plaza);
 
 
 	}
@@ -207,9 +232,13 @@ int main (void) {
 	void insertarIngreso(){
 
 
-		//leer horas.txt
+		ifstream fin ("Ficheros\\horas.txt");
+		int horas;
+		fin >> horas; //esto lee las horas
 
-		//calcular ingreso: horas * PRECIO_HORA
+		int importe; 
+
+		importe += horas * PRECIO_HORA; //calcula el ingreso
 
 		//imprimir ingreso
 		imprimirFactura(100);
@@ -220,9 +249,18 @@ int main (void) {
 
 	void imprimirFactura (int importe) {
 
+		char line [256];
 
+		ifstream fe; 
+		fe.open ("Ficheros\\factura.txt");
+		fe.getline (line, 256);
+		while(!fe.eof()){
+				cout <<line<<endl;
+				fe.getline (line, 256);
+		} //abre el fichero e imprime
+		fe.close();
 
-	char const* const fileFac = "Ficheros\\factura.txt";
+	/*	char const* const fileFac = "Ficheros\\factura.txt";
 
 		FILE* file = fopen(fileFac, "r");
 		
@@ -239,12 +277,12 @@ int main (void) {
 		    }
 
 		    fclose(file);
-		  }
+		  }*/
 
 
-			std::cout << "\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" << std::endl;
-			std::cout << "x              "<<importe << " euros" << "              x" << std::endl;
-			std::cout << "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" << std::endl;
+			cout << "\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" << endl;
+			cout << "x              "<<importe << " euros" << "              x" << endl;
+			cout << "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" << endl;
 
 	}
 
