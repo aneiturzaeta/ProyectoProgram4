@@ -17,103 +17,20 @@ using namespace std;
 #define PRECIO_HORA 2
 
 
-//DECLARACION FUNCIONES
-void verPersonas();
+///////////////////////////////////////////DECLARACION FUNCIONES////////////////////////////////////////////////////////
+//void verPersonas();
 int cogerDNI();
-void comprobarDNI(int dni);
+int comprobarDNI(int dni);
 int cogerPlaza();
 void mirarEstadoPlazas(int plaza);
 void insertarTrabajador();
-void sacarTrabajador();
+void sacarTrabajador(int matricula, int plaza);
 void insertarUsuario();
 void sacarUsuario();
 void insertarIngreso();
 void imprimirFactura(int importe);
 
-
-		
-	
-//MAIN PRINCIPAL.
-int main (void) {
-
-	cout << "--------------MENU EN C ++ -----------\n" << endl;
-	
-	sqlite3 *db = NULL;
-	DBConnector dbConnector("Parking.db");
-	int result;
-
-	int opc;
-
-	
-	do {
-
-		cout << "OPCIONES: \n--ADMINISTRADOR/A: \n  1- Ver coches aparcados actualmente \n  2- Ver ingresos totales y poner contador a 0" << endl;
-		cout << "\n--TRABAJADOR/A: \n  3- Insertar trabajador \n  4- Sacar trabajador" << endl;
-		cout << "\n--USUARIO/A: \n  5- Insertar usuario \n  6- Sacar usuario" << endl;
-		cout << "\n-- 7- SALIR" << endl;
-
-//Meter argumentos. El primero que sea administrador y el dos usuario
-
-		//printf("\n\n Seleccion: ");
-		//scanf("%d", &opc);
-		cout <<"Seleccion"<< endl;
-		cin >> opc;
-
-		int Dni = 0;
-		int Plaza=0;
-
-				switch(opc) {
-
-						case 1:	{
-
-							result = dbConnector.BDshowPersonas();
-							if (result != SQLITE_OK) {
-								cout << "Error mostrando el vector de personas" << endl;
-								return result;
-							}
-						} break;
-
-						case 2: {
-
-							result = dbConnector.BDshowIngresos();
-							if (result != SQLITE_OK) {
-								cout << "Error mostrando los ingresos" << endl;
-								return result;
-							}
-						} break;
-
-						case 3:{ 
-							Dni= cogerDNI();
-							Plaza=cogerPlaza();  
-
-								//Comprobaciones
-								comprobarDNI(Dni);
-								 mirarEstadoPlazas(Plaza);									
-
-								//Deberiamos poner una condicion de que si las comprobaciones okay haga si no no
-								insertarTrabajador(); break;
-								}
-
-
-						}	break;
-
-						case 4: sacarTrabajador(); break;
-
-						case 5: mirarEstadoPlazas(); insertarUsuario(); break;
-
-						case 6: sacarUsuario(); insertarIngreso(); imprimirFactura(); break;
-
-						case 7: cout << "\nHa seleccionado salir. Hasta otra!" << endl; break;
-
-						default: cout << "\nLa opcion seleccionada no es correcta" << endl;break;
-			
-				}	
-
-	}	while(opc!=7);
-
-
-	return 0;
-}
+/////////////////////////////////////////////////FUNCIONES/////////////////////////////////////////////////////////////
 
 	
 	//Lee del fichero dni, el dni que ha insertado el trabajador
@@ -141,13 +58,13 @@ int main (void) {
 	
 
 	//Comprueba que el trabajador con este dni esta dado de alta
-	void comprobarDNI(int dni){
+	int comprobarDNI(int dni){
 		
-		int result= dbConnector.BDcomprobarDNI(dni);	
+		/*int result= dbConnector.BDcomprobarDNI(dni);	
 		if(result!=SQLITE_OK){
 			cout << "Error al comprobar el dni" << endl;
 			
-			return result;
+			return result;*/
 
 	}
 
@@ -155,7 +72,7 @@ int main (void) {
 	//Comprueba que la plaza en la que quiere aparcar esta libre
 	void  mirarEstadoPlazas(int plaza){
 
-		int result= dbConnector.BDmirarEstadoPlaza(plaza);	
+		/*int result= dbConnector.BDmirarEstadoPlaza(plaza);	
 		if(result!=SQLITE_OK){
 			cout << "Error al mirar el estado de la plaza" << endl;
 			return result;
@@ -305,3 +222,155 @@ int main (void) {
 
 	}
 
+
+////////////////////////////////////////////////////MAIN //////////////////////////////////////////////////
+
+int main(int argc, char *argv[]) {
+	
+	sqlite3 *db = NULL;
+	//DBConnector dbConnector("Parking.db");
+
+
+	printf("%d argumento(s) recibidos.\n", argc);
+	
+	if (argc != 2) {
+		printf("Se esperaba 1 argumento. 1- ADMIN 2- TRABAJADOR 3- USUARIO\n");
+		return 0;
+	}
+
+	printf("Argumentos recibidos:\n");
+	
+	int result;
+	int opc;
+	
+	if (strcmp(argv[1], "1") == 0) {
+
+		do {
+
+		cout << "--------------MENU EN C ++ ADMINSTRADOR/A----------\n" << endl;
+		cout << "  1- Ver coches aparcados actualmente \n  2- Ver ingresos totales y poner contador a 0 \n  3- SALIR"  << endl;
+
+		
+		cout <<"Seleccion"<< endl;
+		cin >> opc;
+
+			switch(opc) {
+
+					case 1:	{
+
+						/*result = dbConnector.BDshowPersonas();
+						if (result != SQLITE_OK) {
+							cout << "Error mostrando el vector de personas" << endl;
+							return result;
+						}*/
+					} break;
+
+					case 2: {
+
+						/*result = dbConnector.BDshowIngresos();
+						if (result != SQLITE_OK) {
+							cout << "Error mostrando los ingresos" << endl;
+							return result;
+						}*/
+					} break;
+
+					case 3: cout << "\nHa seleccionado salir. Hasta otra!" << endl; break;
+
+					default: cout << "\nLa opcion seleccionada no es correcta" << endl;break;
+
+				}
+
+
+		
+		} while (opc!=3);
+		
+		return 0;
+	}
+
+	
+	else if (strcmp(argv[1], "2") == 0) {
+	
+	
+		do {
+
+		cout << "--------------MENU EN C ++ TRABAJADOR/A----------\n" << endl;
+		cout << "  1- Insertar trabajador \n  2- Sacar trabajador \n  3- SALIR" << endl;
+
+		cout <<"Seleccion"<< endl;
+		cin >> opc;
+		
+
+		int Dni = 0;
+		int Plaza=0;
+
+				switch(opc) {
+
+						case 1:
+							Dni= cogerDNI();
+							Plaza=cogerPlaza();  
+
+								//Comprobaciones
+								comprobarDNI(Dni);
+								 mirarEstadoPlazas(Plaza);									
+
+								//Deberiamos poner una condicion de que si las comprobaciones okay haga si no no
+								//insertarTrabajador(); 
+								 break;
+								
+						case 2: sacarTrabajador(100,2); break;		
+
+						case 3: cout << "\nHa seleccionado salir. Hasta otra!" << endl; break;
+
+						default: cout << "\nLa opcion seleccionada no es correcta" << endl;break;
+			
+				}	
+
+		
+		} while (opc!=3);
+
+		return 0;
+	}
+
+	else if (strcmp(argv[1], "3") == 0) {
+	
+	
+		do {
+
+		cout << "--------------MENU EN C ++ USUARIO/A----------\n" << endl;
+		cout << "  1- Insertar usuario \n  2- Sacar usuario\n  3- SALIR" << endl;
+		
+		
+		cout <<"Seleccion"<< endl;
+		cin >> opc;
+
+		int Plaza=0;
+
+				switch(opc) {
+		
+						case 1: mirarEstadoPlazas(Plaza); insertarUsuario(); break;
+
+						case 2: sacarUsuario(); insertarIngreso(); imprimirFactura(100); break;
+
+						case 3: 
+						cout << "\nHa seleccionado salir. Hasta otra!" << endl;
+						break;
+
+						default: 
+						cout << "\nLa opcion seleccionada no es correcta" << endl; 
+						break;
+			
+				}	
+		
+		} while (opc!=3);
+
+		return 0;
+	}
+
+	else {
+
+		cout << "\nArgumento no valido. 1- ADMIN 2- TRABAJADOR 3- USUARIO" << endl;
+		return 0;
+	}
+
+	return 0;
+}
