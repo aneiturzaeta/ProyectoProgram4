@@ -15,7 +15,7 @@ void actualizar_plazas( int estado[], int topeplazas)
     for (i=0;i<TOPE_PLAZAS;i++) {
 		
 
-		estado[i]=0; //se leerea desde un archivo si esta libre o no. Ahora, todas están libres. Todas a 0;
+		estado[i]=0; //se leera desde un archivo si esta libre o no. Ahora, todas están libres. Todas a 0;
 	}
 
 printf("\n Estado de plazas actualizado");

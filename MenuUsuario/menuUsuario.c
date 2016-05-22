@@ -120,9 +120,9 @@ void entrarCliente(){
 
 		printf("NUEVO CLIENTE");
 		
-		printf("\nMatricula: ");
-		scanf("%s",usuCliente->matricula); 
- 		fprintf(usuClien, "%s\n", usuCliente->matricula); 
+		printf("\nMatricula, solamente introduzca el numero: ");
+		scanf("%d",usuCliente->matricula); 
+ 		fprintf(usuClien, "%d\n", usuCliente->matricula); 
 
 		int control1 = 0;
 
@@ -168,13 +168,13 @@ void entrarTrabajador(){
 
 		printf("NUEVO TRABAJADOR/A:");
 				
-		printf("\nDni del trabajador: ");
-		scanf("%s",trabajador->dni); 
- 		fprintf(trab, "%s\n", trabajador->dni); 
+		printf("\nDni del trabajador, solamente introduzca el numero: ");
+		scanf("%d",trabajador->dni); 
+ 		fprintf(trab, "%d\n", trabajador->dni); 
 
-		printf("Matricula: ");
-		scanf("%s",trabajador->matricula); 	
- 		fprintf(trab, "%s\n", trabajador->matricula); 
+		printf("Matricula, solamente introduzca el numero: ");
+		scanf("%d",trabajador->matricula); 	
+ 		fprintf(trab, "%d\n", trabajador->matricula); 
 
 		int control = 0;
 
@@ -190,7 +190,7 @@ void entrarTrabajador(){
 				fprintf(trab, "%d\n", plazaP);
 				trabajador->plaza = plazaP;
 
-				printf("\nTrabajador registrado. DNI: %s Matricula: %s Plaza: %d", trabajador->dni, trabajador->matricula, trabajador->plaza);
+				printf("\nTrabajador registrado. DNI: %d Matricula: %d Plaza: %d", trabajador->dni, trabajador->matricula, trabajador->plaza);
 
 				printf("\nPara guardar en BD, accede a la opcion de C++. 3- Insertar trabajador");
 				control = 0;
@@ -213,28 +213,30 @@ void entrarTrabajador(){
 
 void verFactura(){
 
-
-		printf("Para ver factura, accede a la opcion\n");
+	printf("Para ver factura, accede a la opcion de C++. 6- Sacar usuario\n");
 
 }
 
 void sacarTrabajador(){
 
+	/*
 	char dni[12];
 
 	printf("\nDni: ");	
-	scanf("%s",dni);//LEER DNI xxxxxxxxxxxxxxxxxxxxxXXXXXXXXXXXXXXXXXXXXXXXXXXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxX
+	scanf("%s",dni);//LEER DNI xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxX
 	
 	//saca el coche y esa plaza queda libre (C++)
 	
 	printf("\nCoche sacado");
 	printf("\nGracias por la estancia!");
+	*/
+	printf("\nPara sacar el coche, accede a la opcion de C++. 4- Sacar trabajador");
 
 }
 
 
 void sacarCliente(){
-
+/*
 	int tiempo;
 
 	char matricula[12];
@@ -254,5 +256,8 @@ void sacarCliente(){
 	//BASEDEDATOS: borramos fila de cliente --DELETE WHERE (MATRICULA)
 	
 	printf("Gracias por tu estancia");
+*/
+		printf("\nPara sacar el coche, accede a la opcion de C++. 6- Sacar usuario");
+
 
 }

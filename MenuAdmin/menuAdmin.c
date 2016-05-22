@@ -7,7 +7,6 @@
 
 void menuAdministrador(void)
 {
-
 	
 	printf("\n\n____________MENU ADMINISTRADOR______________\n");
 

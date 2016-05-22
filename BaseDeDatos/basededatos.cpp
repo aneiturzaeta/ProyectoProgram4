@@ -258,7 +258,7 @@ public:
 				} else return 0;
 
 				cout << "Esta plaza no esta disponible. Eliga otra por favor." << endl;
-				cin >>plaza;
+				cin >>plazat;
 
 			}
 		} while (result == SQLITE_ROW);
@@ -585,7 +585,7 @@ public:
 
 	DBConnector(string dbFile) {
 		//int result = sqlite3_open(dbFile.c_str(), &db);
-		int result = sqlite3_open("Parking.sqlite", &db);
+		int result = sqlite3_open("Parking.db", &db);
 		if (result != SQLITE_OK) {
 			cout << "Error opening database" << endl;
 		}
@@ -690,5 +690,5 @@ int main() {
 		
 
 		return 0;
-}
 
+}

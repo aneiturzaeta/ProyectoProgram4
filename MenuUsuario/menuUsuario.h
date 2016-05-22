@@ -6,13 +6,13 @@ extern "C"{
 #endif
 
 struct trabajador{
-	char* dni;
-	char*matricula;
+	int dni;
+	int matricula;
 	int plaza;
 }; struct trabajador *trabajador;
 
 struct usuCliente{
-	char* matricula;
+	int matricula;
 	int plaza;
 }; struct usuCliente *usuCliente;
 
