@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "BaseDeDatos/basededatos.h"
 #include "BaseDeDatos/sqlite3.h"
 
 #include "Objetos/persona.h"
@@ -20,9 +21,11 @@ using namespace std;
 ///////////////////////////////////////////DECLARACION FUNCIONES////////////////////////////////////////////////////////
 //void verPersonas();
 int cogerDNI();
-int comprobarDNI(int dni);
 int cogerPlaza();
+int comprobarDNI(int dni);
 void mirarEstadoPlazas(int plaza);
+int mostrarPersonas();
+int showIngresos();
 void insertarTrabajador();
 void sacarTrabajador(int matricula, int plaza);
 void insertarUsuario();
@@ -265,7 +268,7 @@ void imprimirFactura(int importe);
 int main(int argc, char *argv[]) {
 	
 	//sqlite3 *db = NULL;
-	//DBConnector dbConnector("Parking.db");
+	DBConnector dbConnector("Parking.db");
 
 
 	printf("%d argumento(s) recibidos.\n", argc-1);

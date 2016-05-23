@@ -1,10 +1,11 @@
 #include "sqlite3.h"
 #include <iostream>
 #include <stdio.h>
-#include <string.h>
+#include <string>
 #include "../Objetos/persona.h"
 #include "../Objetos/cliente.h"
 #include "../Objetos/trabajador.h"
+#include "basededatos.h"
 using namespace std;
 
 
