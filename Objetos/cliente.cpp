@@ -5,12 +5,20 @@
 #include <iostream>
 using namespace std;
 
-void printTiempo(cliente &c)
+
+cliente::cliente(int matricula, int plaza): Persona(matricula, plaza)
 {
-	for (int i = 0; i < c.getTiempo(); i++)
-	{
-		cout << c.getTiempo(i) << endl;
-	}
+	//En el caso de que tuvieramos otro atributo deberiamos implementarlo
+}
+
+cliente::cliente(const cliente &c): Persona(c)
+{
+
+}
+
+cliente::~cliente()
+{
+	
 }
 
 void printCliente(Persona p)
@@ -19,14 +27,10 @@ void printCliente(Persona p)
 	cout << "Plaza: " << p.getPlaza() << endl;
 }
 
-int cliente::getTiempo()
-{
-	return this->tiempo;
-}
 
-ostream& operatos<<(ostream &out, const cliente &c){
+ostream& operator<<(ostream &out, const cliente &c){
 
-	out<<"CLIENTE || Matricula: " << t.getMatricula() << ", plaza: " << t.getPlaza() << ", Tiempo: " << t.getTiempo()  ;
+	out<<"CLIENTE || Matricula: " << c.getMatricula() << ", plaza: " << c.getPlaza();
 
 	return out;
 }

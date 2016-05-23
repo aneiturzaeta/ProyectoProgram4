@@ -1,12 +1,6 @@
 #ifndef _PERSONA_H
 #define _PERSONA_H
 
-#include <stdio.h>
-#include <string.h>
-#include <iostream>
-using namespace std;
-
-
 
 class Persona
 {
@@ -17,10 +11,14 @@ public:
 
 	Persona(const int matricula, int plaza);
 	
+	//Constructor copia
+	Persona(const Persona &p);
+
 	virtual ~Persona();
 
-	const int getMatricula();
-	int getPlaza();
+	 int getMatricula() const;
+
+	 int getPlaza() const;
 };
 
 #endif

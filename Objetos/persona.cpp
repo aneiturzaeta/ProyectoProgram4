@@ -8,27 +8,27 @@ using namespace std;
 
 Persona::Persona(const int matriculap, int plaza)
 {
-	//cout << "Constructor Persona" << endl; 
-	std::matricula;
-
-	this->matriculap = matricula;
-	//strcpy(this->matricula, matricula);
+	this->matricula = matriculap;
 	this->plaza = plaza;
 }
 
+Persona::Persona(const Persona& p)
+{
+	this->matricula = p.matricula;
+	this->plaza=p.plaza;
+}
 
 Persona::~Persona()
 {
-	cout << "Destructor Persona" << endl;
-	delete [] matricula;
+	//Como tenemos dos int, no nos hace falta implementar
 }
 
-const c Persona::getMatricula()
+int Persona::getMatricula() const
 {
 	return this->matricula;
 }
 
-int Persona::getPlaza()
+int Persona::getPlaza() const
 {
 	return this->plaza;
 }

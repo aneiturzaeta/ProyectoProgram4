@@ -2,10 +2,7 @@
 #define TRABAJADOR_H_
 
 #include "Persona.h"
-#include <stdio.h>
-#include <string.h>
-#include <iostream>
-using namespace std;
+
 
 class trabajador: public Persona
 {
@@ -14,9 +11,14 @@ class trabajador: public Persona
 public:
 	trabajador(const int matricula, int plaza, int dni);
 	
+	//Constructor copia
+	trabajador(const trabajador &t);
+
 	virtual ~trabajador();
 
-	int getDni(int dni);
+	 int getDni() const;
+
+	//printTrabajador(Persona p)
 
 };
 
