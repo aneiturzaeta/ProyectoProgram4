@@ -77,7 +77,25 @@ void imprimirFactura(int importe);
 			cout << "Error al mirar el estado de la plaza" << endl;
 			return result;
 		}
+	}*/
+	
+	int mostrarPersonas(){
+		/*result = dbConnector.BDshowPersonas();
+						if (result != SQLITE_OK) {
+							cout << "Error mostrando el vector de personas" << endl;
+							return result;
+						}*/
+
 	}
+
+	int showIngresos(){
+
+
+		/*result = dbConnector.BDshowIngresos();
+						if (result != SQLITE_OK) {
+							cout << "Error mostrando los ingresos" << endl;
+							return result;
+						}*/
 
 	
 	//Metodo que lee el fichero trabajador.txt y vuelca los datos a la BD
@@ -89,32 +107,43 @@ void imprimirFactura(int importe);
 				int matricula;
 				int plaza;
 //¿Esto como lee? no hay que ponerle \n ni nada? Habría que sobrecargar no?
-		fin >> dni >> matricula >> plaza;  
+	//	fin >> dni >> matricula >> plaza; 
+		//Leer bien linea a linea con getline(); mirar en imprimirfactura 
 	
 	/*
 	//Llama al metodo de basededatos.cpp que inserta el trabajador en la BD
-	
+	//Comprobar dni
+
 	int result= dbConnector.BDinsertTrabajador(dni, matricula, plaza);	
 		if(result!=SQLITE_OK){
 			cout << "Error inserting" << endl;
 
 			return result;
 		}
-	*/
+	
+		//Actualiza el estado de la plaza a ocupado
+			int result= dbConnector.BDactualizarEstado (1);
+			if(result!=SQLITE_OK){
+				std::cout << "Error actualizando estado de la plaza" << std::endl;
+				return result;
+		}
+	
+*/
 	} 
 
 	//Metodo que se llama cuando un trabajador desea sacar su coche
-	void sacarTrabajador(int matricula, int plaza){
+	void sacarTrabajador(int dni, int plaza){
 		/*
+		//Cambiar en la bD porque ahora le pasamos dni por parametro y no la matricula
 		//Borra el trabajador de la BD
-		int result= dbConnector.BDdeleteTrabajador (matricula, plaza);
+		int result= dbConnector.BDdeleteTrabajador (dni, plaza);
 			if(result!=SQLITE_OK){
 				cout << "Error borrando el trabajador" << endl;
 				return result;
 			}	
 
 		//Actualiza el estado de la plaza a libre
-			int result= dbConnector.BDactualizarEstado ();
+			int result= dbConnector.BDactualizarEstado (0);
 			if(result!=SQLITE_OK){
 			std::cout << "Error actualizando estado de la plaza" << std::endl;
 			//printf("Error borrando un cliente!\n");
@@ -134,6 +163,7 @@ void imprimirFactura(int importe);
 			int plaza;
 			int tiempo;
 		fin >> matricula>> plaza >> tiempo; //lee el fichero 
+		//Leer bien linea a linea con getline(); mirar en imprimirfactura
 
 			//Inserta a la bd el cliente 
 			result= dbConnector.BDinsertEntradaCliente(matricula, plaza);	
@@ -143,7 +173,7 @@ void imprimirFactura(int importe);
 			}
 
 			//Actualiza el estado de la plaza a ocupado
-			int result= dbConnector.BDactualizarEstado ();
+			int result= dbConnector.BDactualizarEstado (1);
 			if(result!=SQLITE_OK){
 				std::cout << "Error actualizando estado de la plaza" << std::endl;
 				return result;
@@ -164,7 +194,7 @@ void imprimirFactura(int importe);
 				return result;
 			}
 		//Actualiza el estado de la plaza a libre
-			int result= dbConnector.BDactualizarEstado ();
+			int result= dbConnector.BDactualizarEstado (0);
 			if(result!=SQLITE_OK){
 			std::cout << "Error actualizando estado de la plaza" << std::endl;
 			//printf("Error borrando un cliente!\n");
@@ -183,10 +213,17 @@ void imprimirFactura(int importe);
 
 		int importe; 
 
-		importe += horas * PRECIO_HORA; //calcula el ingreso
+		importe = horas * PRECIO_HORA; //calcula el ingreso
+	//Para meter en la BD el ingreso
+	/*	int result= dbConnector.insertarIngreso(importe);
+		if(result!=SQLITE_OK){
+			std::cout << "Error calculando ingresos por el estacionamiento" << std::endl;
+			//printf("Error borrando un cliente!\n");
+			return result;*/
+		
 
 		//imprimir ingreso
-		imprimirFactura(100);
+		imprimirFactura(importe);
 
 		/*
 		//Para meter en la BD el ingreso
@@ -227,7 +264,7 @@ void imprimirFactura(int importe);
 
 int main(int argc, char *argv[]) {
 	
-	sqlite3 *db = NULL;
+	//sqlite3 *db = NULL;
 	//DBConnector dbConnector("Parking.db");
 
 
@@ -256,27 +293,14 @@ int main(int argc, char *argv[]) {
 
 			switch(opc) {
 
-					case 1:	{
+					case 1:	mosrtarPersonas(); break;
 
-						/*result = dbConnector.BDshowPersonas();
-						if (result != SQLITE_OK) {
-							cout << "Error mostrando el vector de personas" << endl;
-							return result;
-						}*/
-					} break;
-
-					case 2: {
-
-						/*result = dbConnector.BDshowIngresos();
-						if (result != SQLITE_OK) {
-							cout << "Error mostrando los ingresos" << endl;
-							return result;
-						}*/
-					} break;
+					case 2:showIngresos(); break;
 
 					case 3: cout << "\nHa seleccionado salir. Hasta otra!" << endl; break;
 
 					default: cout << "\nLa opcion seleccionada no es correcta" << endl;break;
+
 
 				}
 
@@ -301,28 +325,21 @@ int main(int argc, char *argv[]) {
 		
 
 		int Dni = 0;
+		Dni= cogerDNI();
 		int Plaza=0;
+		Plaza=cogerPlaza();  
+
 
 				switch(opc) {
 
-						case 1:
-							Dni= cogerDNI();
-							Plaza=cogerPlaza();  
-
-								//Comprobaciones
-								comprobarDNI(Dni);
-								 mirarEstadoPlazas(Plaza);									
-
-								//Deberiamos poner una condicion de que si las comprobaciones okay haga si no no
-								//insertarTrabajador(); 
-								 break;
+						case 1: mirarEstadoPlazas(Plaza);	insertarTrabajador();  break;
 								
-						case 2: sacarTrabajador(100,2); break;		
-
+						case 2: sacarTrabajador(Dni,Plaza); break;		
+	
 						case 3: cout << "\nHa seleccionado salir. Hasta otra!" << endl; break;
 
 						default: cout << "\nLa opcion seleccionada no es correcta" << endl;break;
-			
+
 				}	
 
 		
@@ -344,12 +361,18 @@ int main(int argc, char *argv[]) {
 		cin >> opc;
 
 		int Plaza=0;
+		//int importe=0;
+
 
 				switch(opc) {
 		
-						case 1: mirarEstadoPlazas(Plaza); insertarUsuario(); break;
+						case 1: Plaza = cogerPlaza();  
+							mirarEstadoPlazas(Plaza); 
+							insertarUsuario(); 
 
-						case 2: sacarUsuario(); insertarIngreso(); imprimirFactura(100); break;
+							break;
+
+						case 2: sacarUsuario(); insertarIngreso();  break;
 
 						case 3: 
 						cout << "\nHa seleccionado salir. Hasta otra!" << endl;
@@ -358,6 +381,8 @@ int main(int argc, char *argv[]) {
 						default: 
 						cout << "\nLa opcion seleccionada no es correcta" << endl; 
 						break;
+			
+
 			
 				}	
 		
