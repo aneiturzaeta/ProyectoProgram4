@@ -114,15 +114,19 @@ void abrirDibujo(){
 void entrarCliente(){
 
 		FILE * usuClien;
-		usuClien = fopen ("Ficheros\\Cliente.txt", "w");
+		usuClien = fopen ("Ficheros/Cliente.txt", "w");
 
-		usuCliente =(struct usuCliente *) malloc (sizeof(struct usuCliente)); 
+		FILE * plazaF;
+		plazaF = fopen ("Ficheros/plaza.txt", "w");
+
+		usuCliente* miCliente;
+		miCliente =(usuCliente *) malloc (sizeof(usuCliente)); 
 
 		printf("NUEVO CLIENTE");
 		
 		printf("\nMatricula, solamente introduzca el numero: ");
-		scanf("%d",usuCliente->matricula); 
- 		fprintf(usuClien, "%d\n", usuCliente->matricula); 
+		scanf("%d",&miCliente->matricula); 
+ 		fprintf(usuClien, "%d\n", miCliente->matricula); 
 
 		int control1 = 0;
 
@@ -136,9 +140,16 @@ void entrarCliente(){
 			if ((plazaP1>0) && (plazaP1<TOPE_PLAZAS+1)){
 
 				fprintf(usuClien, "%d\n", plazaP1);
-				usuCliente->plaza = plazaP1;
+				miCliente->plaza = plazaP1;
 
-				printf("\nCliente registrado. Matricula: %s Plaza: %d", usuCliente->matricula, usuCliente->plaza);
+				printf("\nCliente registrado. Matricula: %d Plaza: %d", miCliente->matricula, miCliente->plaza);
+
+
+				//guardar en plaza.txt
+				fprintf(plazaF, "%d", plazaP1);
+
+
+				//mensaje de acceder a C++
 				printf("\nPara guardar en BD, accede a la opcion de C++. 5- Insertar usuario");
 
 				control1 = 0;
@@ -154,7 +165,8 @@ void entrarCliente(){
 		} while (control1 !=0);
 
 		fclose (usuClien); 
-		free(usuCliente);
+		fclose(plazaF);
+		free(miCliente);
 
 }
 
@@ -162,19 +174,20 @@ void entrarCliente(){
 void entrarTrabajador(){
 
 		FILE * trab;
-		trab = fopen ("Ficheros\\trabajador.txt", "w"); 
+		trab = fopen ("Ficheros/trabajador.txt", "w"); 
 
-		trabajador =(struct trabajador *) malloc (sizeof(struct trabajador));
+		trabajador* miTrabajador;
+		miTrabajador =(trabajador*) malloc (sizeof(trabajador));
 
 		printf("NUEVO TRABAJADOR/A:");
 				
 		printf("\nDni del trabajador, solamente introduzca el numero: ");
-		scanf("%d",trabajador->dni); 
- 		fprintf(trab, "%d\n", trabajador->dni); 
+		scanf("%d",&miTrabajador->dni); 
+ 		fprintf(trab, "%d\n", miTrabajador->dni); 
 
 		printf("Matricula, solamente introduzca el numero: ");
-		scanf("%d",trabajador->matricula); 	
- 		fprintf(trab, "%d\n", trabajador->matricula); 
+		scanf("%d",&miTrabajador->matricula); 	
+ 		fprintf(trab, "%d\n", miTrabajador->matricula); 
 
 		int control = 0;
 
@@ -188,9 +201,9 @@ void entrarTrabajador(){
 			if ((plazaP>0) && (plazaP<TOPE_PLAZAS+1)){
 
 				fprintf(trab, "%d\n", plazaP);
-				trabajador->plaza = plazaP;
+				miTrabajador->plaza = plazaP;
 
-				printf("\nTrabajador registrado. DNI: %d Matricula: %d Plaza: %d", trabajador->dni, trabajador->matricula, trabajador->plaza);
+				printf("\nTrabajador registrado. DNI: %d Matricula: %d Plaza: %d", miTrabajador->dni, miTrabajador->matricula, miTrabajador->plaza);
 
 				printf("\nPara guardar en BD, accede a la opcion de C++. 3- Insertar trabajador");
 				control = 0;
@@ -206,7 +219,7 @@ void entrarTrabajador(){
 		} while (control !=0);
 
 		fclose (trab); 
-		free(trabajador);
+		free(miTrabajador);
 		
 			
 }

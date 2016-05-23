@@ -5,16 +5,16 @@
 extern "C"{
 #endif
 
-struct trabajador{
+typedef struct{
 	int dni;
 	int matricula;
 	int plaza;
-}; struct trabajador *trabajador;
+} trabajador;
 
-struct usuCliente{
+typedef struct{
 	int matricula;
 	int plaza;
-}; struct usuCliente *usuCliente;
+}usuCliente;
 
 
 void menuUsuario(void);
