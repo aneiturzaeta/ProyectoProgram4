@@ -231,7 +231,7 @@ int main(int argc, char *argv[]) {
 	//DBConnector dbConnector("Parking.db");
 
 
-	printf("%d argumento(s) recibidos.\n", argc);
+	printf("%d argumento(s) recibidos.\n", argc-1);
 	
 	if (argc != 2) {
 		printf("Se esperaba 1 argumento. 1- ADMIN 2- TRABAJADOR 3- USUARIO\n");
