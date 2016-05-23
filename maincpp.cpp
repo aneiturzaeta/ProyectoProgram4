@@ -78,7 +78,7 @@ void imprimirFactura(int importe);
 			return result;
 		}
 	}*/
-	
+	}
 	int mostrarPersonas(){
 		/*result = dbConnector.BDshowPersonas();
 						if (result != SQLITE_OK) {
@@ -97,7 +97,7 @@ void imprimirFactura(int importe);
 							return result;
 						}*/
 
-	
+	}
 	//Metodo que lee el fichero trabajador.txt y vuelca los datos a la BD
 	void insertarTrabajador(){
 
@@ -293,7 +293,7 @@ int main(int argc, char *argv[]) {
 
 			switch(opc) {
 
-					case 1:	mosrtarPersonas(); break;
+					case 1:	mostrarPersonas(); break;
 
 					case 2:showIngresos(); break;
 
