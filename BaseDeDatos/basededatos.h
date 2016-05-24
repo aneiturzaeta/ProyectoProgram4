@@ -2,12 +2,8 @@
 #define _BASEDEDATOS_H_
 
 
-class DBConnector 
-{
-	private:
-		//sqlite3 *db;
+	
 
-	public:
 	DBConnector(string dbFile);
 
 	~DBConnector();	
@@ -32,6 +28,5 @@ class DBConnector
 	
 	int BDinsertarIngreso(int ingreso);
 	
-};
 
 #endif

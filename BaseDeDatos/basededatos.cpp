@@ -2,10 +2,14 @@
 #include <iostream>
 #include <stdio.h>
 #include <string>
+#include <string.h>
 #include "../Objetos/persona.h"
 #include "../Objetos/cliente.h"
 #include "../Objetos/trabajador.h"
+
 #include "basededatos.h"
+
+#include "../MenuUsuario/menuUsuario.h"
 using namespace std;
 
 
@@ -33,20 +37,47 @@ public:
 	
 		
 	int BDshowPersonas(){
+		Persona persona;
+		menuUsuario.usuCliente cliente;
+		
+		vector<persona> personas;			
+		
+		//leer clientes SELECT
+		sqlite3_stmt *stmt;
 
-			//vector<persona> personas;
+		char sql[]= "select * from USUARIO";
 
-			
-			//leer clientes SELECT
+		int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
+		if (result != SQLITE_OK) {
+			cout << "Error preparing statement (SELECT)" << endl;      
+     		cout << sqlite3_errmsg(db) << endl;
+			return result;
+		}
 
-			
-			/*add to vector.
+		cout << "SQL query prepared (SELECT)" << endl;
+
+
+		do {
+			result = sqlite3_step(stmt) ;
+			if (result == SQLITE_ROW) {
 				
-				personas.push_back(cliente(datos)); 
+				cliente.matricula = sqlite3_column_int(stmt, 0);
+				cliente.plaza = sqlite3_column_int(stmt, 1);
+				
+				personas.push_back(cliente); 
+			}
+		} while (result == SQLITE_ROW);
 
+		
+		result = sqlite3_finalize(stmt);
+		if (result != SQLITE_OK) {
+			cout << "Error finalizing statement (SELECT)" << endl;
+      		cout << sqlite3_errmsg(db) << endl;
+			return result;
+		}
 
-			*/
-
+				
+		return SQLITE_OK;
 
 
 			//leer trabajadores SELECT
@@ -254,13 +285,13 @@ public:
 		
 
 //Algo asi??
-		if(BDcomprobarDNI(DNI)==1){
+		//if(BDcomprobarDNI(DNI)==1){
 			result = sqlite3_bind_int(stmt, 1, DNI);
 			if (result != SQLITE_OK) {
 				 cout << "Error binding parameters" << endl;
 	     		 cout <<  sqlite3_errmsg(db) << endl;
 				return result;
-			}
+			//}
 //Hacer la llamada
 		} else //llamamos al metodo en el que el trabajador entra
 
