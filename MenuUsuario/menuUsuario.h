@@ -9,7 +9,7 @@ typedef struct{
 	int dni;
 	int matricula;
 	int plaza;
-} trabajador;
+}trabajadorStruct;
 
 typedef struct{
 	int matricula;

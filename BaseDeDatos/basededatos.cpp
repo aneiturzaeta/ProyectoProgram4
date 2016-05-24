@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string>
 #include <string.h>
+#include <vector>
 #include "../Objetos/persona.h"
 #include "../Objetos/cliente.h"
 #include "../Objetos/trabajador.h"
@@ -10,16 +11,14 @@
 #include "basededatos.h"
 
 #include "../MenuUsuario/menuUsuario.h"
+
 using namespace std;
 
 
-class DBConnector {
-
-private:
 		sqlite3 *db = NULL;
 
 public:
-	DBConnector(string dbFile) {
+	DBConnector::DBConnector() {
 		//int result = sqlite3_open(dbFile.c_str(), &db);
 		int result = sqlite3_open("Parking.db", &db);
 		if (result != SQLITE_OK) {
@@ -27,7 +26,7 @@ public:
 		}
 	}
 
-	~DBConnector() {
+	DBConnector::~DBConnector() {
 		int result = sqlite3_close(db);
 		if (result != SQLITE_OK) {
 			cout << "Error opening database" << endl;
@@ -35,19 +34,66 @@ public:
 		}	
 	}
 	
-		
+	//Metodo que lee los trabajadores y clientes que tienen aparcados sus coches, los mete en un vector persona y los imprime
 	int BDshowPersonas(){
-		Persona persona;
-		menuUsuario.usuCliente cliente;
+//Lectura hecha, falta implementar el vector, no se como se hace		
+		Persona persona(int matricula, int plaza);
+				
+		//Ez dakit nola itten den
+		//vector<persona> personas;	
+
+		//Declaramos el puntero al struct de cliente
+		usuCliente * cliente;
+		//Declaramos el puntero al struct de trabajador
+		trabajadorStruct * trabajador;	
+
 		
-		vector<persona> personas;			
-		
-		//leer clientes SELECT
+		//SELECT para leer los clientes	
 		sqlite3_stmt *stmt;
 
 		char sql[]= "select * from USUARIO";
 
-		int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
+		int result1 = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
+		if (result1 != SQLITE_OK) {
+			cout << "Error preparing statement (SELECT)" << endl;      
+     		cout << sqlite3_errmsg(db) << endl;
+			return result1;
+		}
+
+		cout << "SQL query prepared (SELECT)" << endl;
+
+
+		do {
+			result1 = sqlite3_step(stmt) ;
+			if (result1 == SQLITE_ROW) {
+				
+				//Coge los datos de cada fila
+				cliente -> matricula = sqlite3_column_int(stmt, 0);
+				cliente -> plaza = sqlite3_column_int(stmt, 1);
+
+				//Las mete en el vector
+				//personas.push_back(*cliente); 
+			
+			}
+		} while (result1 == SQLITE_ROW);
+
+		
+		//Finaliza la parte de la BD
+		result1 = sqlite3_finalize(stmt);
+		if (result1 != SQLITE_OK) {
+			cout << "Error finalizing statement (SELECT)" << endl;
+      		cout << sqlite3_errmsg(db) << endl;
+			return result1;
+		}
+
+				
+		return SQLITE_OK;
+
+		//SELECT para leer los trabajadores	
+
+		char sql2[]= "select * from TRABAJADOR";
+
+		int result = sqlite3_prepare_v2(db, sql2, -1, &stmt, NULL) ;
 		if (result != SQLITE_OK) {
 			cout << "Error preparing statement (SELECT)" << endl;      
      		cout << sqlite3_errmsg(db) << endl;
@@ -61,14 +107,18 @@ public:
 			result = sqlite3_step(stmt) ;
 			if (result == SQLITE_ROW) {
 				
-				cliente.matricula = sqlite3_column_int(stmt, 0);
-				cliente.plaza = sqlite3_column_int(stmt, 1);
-				
-				personas.push_back(cliente); 
+				//Coge los datos de cada fila
+				trabajador -> dni = sqlite3_column_int(stmt, 0);
+				trabajador -> matricula = sqlite3_column_int(stmt, 1);
+				trabajador -> plaza = sqlite3_column_int(stmt, 2);
+
+				//Las mete en el vector
+				//personas.push_back(*trabajador); 
+			
 			}
 		} while (result == SQLITE_ROW);
-
 		
+		//Finaliza la parte de la BD
 		result = sqlite3_finalize(stmt);
 		if (result != SQLITE_OK) {
 			cout << "Error finalizing statement (SELECT)" << endl;
@@ -79,28 +129,13 @@ public:
 				
 		return SQLITE_OK;
 
-
-			//leer trabajadores SELECT
+			cout<<"Hay elementos: "<<endl;
+			//cout<<personas.size()<<endl;
 			
-			/*add to vector.
-				
-				personas.push_back(trabajador(datos)); 
-
-			*/
-
-			/*std::cout<<"Hay elementos: "<<std::endl;
-			std::cout<<personas.size()<<std::endl;
-
-
-			for (int i; i<personas.size(); i++){
-
-
-				//std::cout<<personas[i]<<std::endl;
-
-
-			}*/
+			//for (int i; i<personas.size(); i++){
+			//	cout<<personas[i]endl;
+			//}
 	}
-
 
 
 	//Imprime los ingresos que ha habido, y ademas calcula un total hasta el momento
@@ -578,8 +613,3 @@ public:
 
 		return SQLITE_OK;
 	}
-
-
-	
-};
-

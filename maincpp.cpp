@@ -2,13 +2,15 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "BaseDeDatos/basededatos.h"
+
 #include "BaseDeDatos/sqlite3.h"
+#include "BaseDeDatos/basededatos.h"
 
 #include "Objetos/persona.h"
 #include "Objetos/cliente.h"
 #include "Objetos/trabajador.h"
 #include <fstream>
+
 
 
 using namespace std;
@@ -61,7 +63,7 @@ void imprimirFactura(int importe);
 	
 
 	//Comprueba que el trabajador con este dni esta dado de alta
-	int comprobarDNI(int dni){
+	//int comprobarDNI(int dni){
 		
 		/*int result= dbConnector.BDcomprobarDNI(dni);	
 		if(result!=SQLITE_OK){
@@ -69,7 +71,7 @@ void imprimirFactura(int importe);
 			
 			return result;*/
 
-	}
+	//}
 
 	
 	//Comprueba que la plaza en la que quiere aparcar esta libre
@@ -83,46 +85,100 @@ void imprimirFactura(int importe);
 	}*/
 	}
 	int mostrarPersonas(){
-		/*result = dbConnector.BDshowPersonas();
-						if (result != SQLITE_OK) {
-							cout << "Error mostrando el vector de personas" << endl;
-							return result;
-						}*/
-
+		DBConnector dbconector;
+		int result = dbConnector.BDshowPersonas();
+			if (result != SQLITE_OK) {
+				cout << "Error mostrando el vector de personas" << endl;
+				return result;
+			}
 	}
 
-	int showIngresos(){
+	//Metodo que
+		//1. Calcula el importe multiplicando la duracion por la tarifa
+		//2. Hace la llamada al metodo de BD para que inserte la fila con este importe
+		//3. Imprime el importe en la factura
+	void insertarIngreso(){
 
+		ifstream fin ("Ficheros\\horas.txt");
+		int horas;
+		fin >> horas; //esto lee las horas
 
-		/*result = dbConnector.BDshowIngresos();
-						if (result != SQLITE_OK) {
-							cout << "Error mostrando los ingresos" << endl;
-							return result;
-						}*/
+		int importe; 
 
-	}
-	//Metodo que lee el fichero trabajador.txt y vuelca los datos a la BD
-	void insertarTrabajador(){
-
-	//leer desde trabajador.txt
-	ifstream fin ("Ficheros\\trabajador.txt");
-				int dni;
-				int matricula;
-				int plaza;
-//¿Esto como lee? no hay que ponerle \n ni nada? Habría que sobrecargar no?
-	//	fin >> dni >> matricula >> plaza; 
-		//Leer bien linea a linea con getline(); mirar en imprimirfactura 
-	
-	/*
-	//Llama al metodo de basededatos.cpp que inserta el trabajador en la BD
-	//Comprobar dni
-
-	int result= dbConnector.BDinsertTrabajador(dni, matricula, plaza);	
+		importe = horas * PRECIO_HORA; //calcula el ingreso
+		
+		//Para meter en la BD el ingreso
+		int result= dbConnector.insertarIngreso(importe);
+		
 		if(result!=SQLITE_OK){
-			cout << "Error inserting" << endl;
+			std::cout << "Error calculando ingresos por el estacionamiento" << std::endl;
 
 			return result;
+		
+		//imprimir ingreso
+		imprimirFactura(importe);
+
+	}
+
+	//Metodo que recibiendo por parametro el importe, imprime la factura por pantalla
+	void imprimirFactura (int importe) {
+
+		char line [256];
+
+		ifstream fe; 
+		fe.open ("Ficheros\\factura.txt");
+		fe.getline (line, 256);
+		while(!fe.eof()){
+				cout <<line<<endl;
+				fe.getline (line, 256);
+		} //abre el fichero e imprime
+		fe.close();
+			cout << "\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" << endl;
+			cout << "x              "<<importe << " euros" << "              x" << endl;
+			cout << "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" << endl;
+
+	}
+
+
+	//Metodo que llama al metodo de BD que lee la tabla de ingresos y calcula el importe
+	int showIngresos(){
+			result = dbConnector.BDshowIngresos();
+			if (result != SQLITE_OK) {
+				cout << "Error mostrando los ingresos" << endl;
+				return result;
+			}
+
+	}
+
+
+	//Metodo que lee el fichero trabajador.txt y vuelca los datos a la BD
+	void insertarTrabajador(){
+//Terminado pero no se puede comprobae, duda de a ver si lee el fichero bien o no
+	/*
+		char line [256];
+		int dni;
+		int matricula;
+		int plaza;
+	
+		//Lee los atributos del trabajador del fichero "trabajador.txt"
+		ifstream fin;
+		fin.open ("Ficheros\\trabajador.txt");
+		fin.getline(line, 256);
+		while(!fin.eof()){
+			fin.getline(dni, 256);
+			fin.getline(matricula, 256);
+			fin.getline(plaza, 256);
 		}
+		fin.close();
+				
+			
+		//Llama al metodo de basededatos.cpp que inserta el trabajador en la BD
+			//Comprobar dni
+		int result= dbConnector.BDinsertTrabajador(dni, matricula, plaza);	
+			if(result!=SQLITE_OK){
+				cout << "Error inserting" << endl;
+				return result;
+			}
 	
 		//Actualiza el estado de la plaza a ocupado
 			int result= dbConnector.BDactualizarEstado (1);
@@ -131,7 +187,7 @@ void imprimirFactura(int importe);
 				return result;
 		}
 	
-*/
+		*/
 	} 
 
 	//Metodo que se llama cuando un trabajador desea sacar su coche
@@ -208,59 +264,8 @@ void imprimirFactura(int importe);
 
 
 	//Metodo que con la duracion del aparcamiento calcula importe y mete el ingreso en BD
-	void insertarIngreso(){
+	
 
-		ifstream fin ("Ficheros\\horas.txt");
-		int horas;
-		fin >> horas; //esto lee las horas
-
-		int importe; 
-
-		importe = horas * PRECIO_HORA; //calcula el ingreso
-	//Para meter en la BD el ingreso
-	/*	int result= dbConnector.insertarIngreso(importe);
-		if(result!=SQLITE_OK){
-			std::cout << "Error calculando ingresos por el estacionamiento" << std::endl;
-			//printf("Error borrando un cliente!\n");
-			return result;*/
-		
-
-		//imprimir ingreso
-		imprimirFactura(importe);
-
-		/*
-		//Para meter en la BD el ingreso
-		int result= dbConnector.insertarIngreso();
-		if(result!=SQLITE_OK){
-			std::cout << "Error calculando ingresos por el estacionamiento" << std::endl;
-			//printf("Error borrando un cliente!\n");
-			return result;
-		*/
-
-
-
-	}
-
-
-	void imprimirFactura (int importe) {
-
-		char line [256];
-
-		ifstream fe; 
-		fe.open ("Ficheros\\factura.txt");
-		fe.getline (line, 256);
-		while(!fe.eof()){
-				cout <<line<<endl;
-				fe.getline (line, 256);
-		} //abre el fichero e imprime
-		fe.close();
-
-
-			cout << "\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" << endl;
-			cout << "x              "<<importe << " euros" << "              x" << endl;
-			cout << "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" << endl;
-
-	}
 
 
 ////////////////////////////////////////////////////MAIN //////////////////////////////////////////////////

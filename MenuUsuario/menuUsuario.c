@@ -42,7 +42,7 @@ void menuUsuario(void)
 
 void identificarse(void)
 {
-	
+
 	{
 		int ident;
 		
@@ -176,8 +176,8 @@ void entrarTrabajador(){
 		FILE * trab;
 		trab = fopen ("Ficheros/trabajador.txt", "w"); 
 
-		trabajador* miTrabajador;
-		miTrabajador =(trabajador*) malloc (sizeof(trabajador));
+		trabajadorStruct* miTrabajador;
+		miTrabajador =(trabajadorStruct*) malloc (sizeof(trabajadorStruct));
 
 		printf("NUEVO TRABAJADOR/A:");
 				

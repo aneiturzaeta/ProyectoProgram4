@@ -1,10 +1,14 @@
+#include <string>
+using namespace std;
+
 #ifndef _BASEDEDATOS_H_
 #define _BASEDEDATOS_H_
 
 
-	
 
-	DBConnector(string dbFile);
+class DBConnector{
+
+	DBConnector();
 
 	~DBConnector();	
 		
@@ -27,6 +31,6 @@
 	int BDactualizarEstado (int numPlaza, int estadop);
 	
 	int BDinsertarIngreso(int ingreso);
-	
+};
 
 #endif
