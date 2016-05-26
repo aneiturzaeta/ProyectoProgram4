@@ -198,7 +198,7 @@ void imprimirFactura(int importe);
 		fe.open("Ficheros\\Cliente.txt");
 				int matricula;
 				int plaza;
-				int tiempo
+				int tiempo;
 			while(!fe.eof()){
 				fe.getline (line, 256);
 			//cout <<plaza<<endl;
@@ -317,10 +317,10 @@ void imprimirFactura(int importe);
 
 int main(int argc, char *argv[]) {
 	
-	//sqlite3 *db = NULL;
-	DBConnector dbConnector("Parking.db");
-
-
+	string file = "parking.db";
+	
+	DBConnector dbConnector(file);
+	
 	printf("%d argumento(s) recibidos.\n", argc-1);
 	
 	if (argc != 2) {
@@ -328,8 +328,6 @@ int main(int argc, char *argv[]) {
 		return 0;
 	}
 
-	printf("Argumentos recibidos:\n");
-	
 	int result;
 	int opc;
 	

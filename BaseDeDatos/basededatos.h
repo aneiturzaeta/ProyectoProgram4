@@ -1,4 +1,5 @@
 #include <string>
+#include "sqlite3.h"
 using namespace std;
 
 #ifndef _BASEDEDATOS_H_
@@ -8,7 +9,11 @@ using namespace std;
 
 class DBConnector{
 
-	DBConnector();
+
+
+public:
+	
+	DBConnector(string file);
 
 	~DBConnector();	
 		

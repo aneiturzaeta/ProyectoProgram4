@@ -15,18 +15,20 @@
 using namespace std;
 
 
-		sqlite3 *db = NULL;
+	
 
-public:
-	DBConnector::DBConnector() {
-		//int result = sqlite3_open(dbFile.c_str(), &db);
-		int result = sqlite3_open("Parking.db", &db);
+	DBConnector::DBConnector(string dbfile) {
+		sqlite3 *db=NULL;
+
+		int result = sqlite3_open(dbfile.c_str(), &db);
+		//int result = sqlite3_open(dbfile, &db);
 		if (result != SQLITE_OK) {
 			cout << "Error opening database" << endl;
 		}
 	}
 
 	DBConnector::~DBConnector() {
+		sqlite3 *db;
 		int result = sqlite3_close(db);
 		if (result != SQLITE_OK) {
 			cout << "Error opening database" << endl;
@@ -37,6 +39,7 @@ public:
 	//Metodo que lee los trabajadores y clientes que tienen aparcados sus coches, los mete en un vector persona y los imprime
 	int BDshowPersonas(){
 //Lectura hecha, falta implementar el vector, no se como se hace		
+		
 		Persona persona(int matricula, int plaza);
 				
 		//Ez dakit nola itten den
@@ -50,8 +53,10 @@ public:
 		
 		//SELECT para leer los clientes	
 		sqlite3_stmt *stmt;
+		sqlite3 *db;
 
 		char sql[]= "select * from USUARIO";
+
 
 		int result1 = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
 		if (result1 != SQLITE_OK) {
@@ -138,10 +143,63 @@ public:
 	}
 
 
+	int BDactualizarEstado (int numPlaza, int estadop){
+		sqlite3 *db=NULL;
+		sqlite3_stmt *stmt;
+//COMO SE HACE ESTO??? Asi??
+			char sql[] = "update PLAZA SET ESTADO=? WHERE NUMPLAZA= ?";
+
+			int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
+			if (result != SQLITE_OK) {
+				cout << "Error preparing statement (UPDATE)" << endl;
+	      		cout << sqlite3_errmsg(db) << endl;
+
+				return result;
+			}
+
+			cout << "SQL query prepared (UPDATE)" << endl;
+
+		result = sqlite3_bind_int(stmt, 1, estadop);
+		if (result != SQLITE_OK) {
+			cout << "Error binding parameters" << endl;
+      		cout <<  sqlite3_errmsg(db) << endl;
+
+			return result;
+		}
+
+		result = sqlite3_bind_int(stmt, 2, numPlaza);
+		if (result != SQLITE_OK) {
+			cout << "Error binding parameters" << endl;
+      		cout <<  sqlite3_errmsg(db) << endl;
+
+			return result;
+		}
+		
+			result = sqlite3_step(stmt);
+			if (result != SQLITE_DONE) {
+				cout << "Error deleting data (UPDATE)" << endl;
+	      		cout << sqlite3_errmsg(db) << endl;
+				
+				return result;
+			}
+
+			result = sqlite3_finalize(stmt);
+			if (result != SQLITE_OK) {
+				cout << "Error finalizing statement (UPDATE)" << endl;
+	      		cout << sqlite3_errmsg(db) << endl;
+				return result;
+			}
+
+			cout << "Prepared statement finalized (UPDATE)" << endl;
+		
+			return SQLITE_OK;
+	}
+
 	//Imprime los ingresos que ha habido, y ademas calcula un total hasta el momento
 	int BDshowIngresos(){
 
 		sqlite3_stmt *stmt;
+		sqlite3 *db=NULL;
 
 		char sql[]= "select * from INGRESO";
 
@@ -261,6 +319,7 @@ public:
 	int BDmirarEstadoPlaza(int plazat){
 
 		sqlite3_stmt *stmt;
+		sqlite3 *db;
 
 		//No se como se pone esto...	como ponemos que sea el parametro ahi?
 		char sql[]= "select ESTADO from PLAZA WHERE PLAZA= ? ";
@@ -306,6 +365,7 @@ public:
 	int BDinsertTrabajador(int DNI, int MATRICULAT, int PLAZAT) {
 		
 		sqlite3_stmt *stmt;
+		sqlite3 *db=NULL;
 
 		char sql[] = "insert into TRABAJADOR (DNI, MATRICULAT, PLAZAT) values (?, ?, ?)";
 
@@ -379,7 +439,8 @@ public:
 	int BDinsertEntradaCliente( int MATRICULAU, int PLAZAU) {
 		
 		sqlite3_stmt *stmt;
-
+		sqlite3 *db=NULL;
+		
 		char sql[] = "insert into USUARIO (MATRICULAU, PLAZAU) values (?, ?)";
 		int result = sqlite3_prepare_v2(db, sql, strlen(sql) + 1, &stmt, NULL) ;
 		if (result != SQLITE_OK) {
@@ -397,7 +458,7 @@ public:
 
 			return result;
 		}
-		//Comprobamos si la plaza estÃ¡ libre o no 
+		//Comprobamos si la plaza está libre o no 
 		if(BDmirarEstadoPlaza(PLAZAU)==1){
 			result = sqlite3_bind_int(stmt, 2, PLAZAU);
 			if (result != SQLITE_OK) {
@@ -438,6 +499,7 @@ public:
 	int BDdeleteCliente(int matricula, int plaza) {
 
 		sqlite3_stmt *stmt;
+		sqlite3 *db;
 	
 		//Actualizamos el estado de la plaza. Ponemos 1, porque ahora estara libre
 
@@ -484,6 +546,7 @@ public:
 		//COMO SE HACE ESTO?????
 
 		sqlite3_stmt *stmt;
+		sqlite3 *db;
 		//Actualizamos el estado de la plaza. Ponemos 1, porque ahora estara libre
 
 		BDactualizarEstado(plaza, 0);
@@ -522,60 +585,10 @@ public:
 	}
 
 
-	int BDactualizarEstado (int numPlaza, int estadop){
-		sqlite3_stmt *stmt;
-//COMO SE HACE ESTO??? Asi??
-			char sql[] = "update PLAZA SET ESTADO=? WHERE NUMPLAZA= ?";
-
-			int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
-			if (result != SQLITE_OK) {
-				cout << "Error preparing statement (UPDATE)" << endl;
-	      		cout << sqlite3_errmsg(db) << endl;
-
-				return result;
-			}
-
-			cout << "SQL query prepared (UPDATE)" << endl;
-
-		result = sqlite3_bind_int(stmt, 1, estadop);
-		if (result != SQLITE_OK) {
-			cout << "Error binding parameters" << endl;
-      		cout <<  sqlite3_errmsg(db) << endl;
-
-			return result;
-		}
-
-		result = sqlite3_bind_int(stmt, 2, numPlaza);
-		if (result != SQLITE_OK) {
-			cout << "Error binding parameters" << endl;
-      		cout <<  sqlite3_errmsg(db) << endl;
-
-			return result;
-		}
-		
-			result = sqlite3_step(stmt);
-			if (result != SQLITE_DONE) {
-				cout << "Error deleting data (UPDATE)" << endl;
-	      		cout << sqlite3_errmsg(db) << endl;
-				
-				return result;
-			}
-
-			result = sqlite3_finalize(stmt);
-			if (result != SQLITE_OK) {
-				cout << "Error finalizing statement (UPDATE)" << endl;
-	      		cout << sqlite3_errmsg(db) << endl;
-				return result;
-			}
-
-			cout << "Prepared statement finalized (UPDATE)" << endl;
-		
-			return SQLITE_OK;
-	}
-
 	int BDinsertarIngreso(int ingreso){
 
 	sqlite3_stmt *stmt;
+	sqlite3 *db;
 
 		char sql[] = "insert into INGRESO (DINERO) values (?)";
 		int result = sqlite3_prepare_v2(db, sql, strlen(sql) + 1, &stmt, NULL) ;
