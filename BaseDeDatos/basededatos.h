@@ -9,6 +9,8 @@ using namespace std;
 
 class DBConnector{
 
+	sqlite3 *db=NULL;
+	sqlite3_stmt *stmt=NULL;
 
 
 public:

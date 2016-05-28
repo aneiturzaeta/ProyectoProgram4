@@ -30,6 +30,7 @@ int trabajador::getDni() const
 }
 
 
+
 ostream& operator<<(ostream &out, const trabajador &t){
 
 	out<<"TRABAJADOR || Matricula: " << t.getMatricula() << ", plaza: " << t.getPlaza() << ", dni: " << t.getDni() ;

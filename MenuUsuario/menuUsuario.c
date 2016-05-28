@@ -126,7 +126,7 @@ void entrarCliente(){
 		
 		printf("\nMatricula, solamente introduzca el numero: ");
 		scanf("%d",&miCliente->matricula); 
- 		fprintf(usuClien, "%d\n", miCliente->matricula); 
+ 		fprintf(usuClien, "%d,", miCliente->matricula); 
 
 		int control1 = 0;
 
@@ -139,7 +139,7 @@ void entrarCliente(){
 
 			if ((plazaP1>0) && (plazaP1<TOPE_PLAZAS+1)){
 
-				fprintf(usuClien, "%d\n", plazaP1);
+				fprintf(usuClien, "%d,", plazaP1);
 				miCliente->plaza = plazaP1;
 
 				printf("\nCliente registrado. Matricula: %d Plaza: %d", miCliente->matricula, miCliente->plaza);
@@ -183,11 +183,11 @@ void entrarTrabajador(){
 				
 		printf("\nDni del trabajador, solamente introduzca el numero: ");
 		scanf("%d",&miTrabajador->dni); 
- 		fprintf(trab, "%d\n", miTrabajador->dni); 
+ 		fprintf(trab, "%d,", miTrabajador->dni); 
 
 		printf("Matricula, solamente introduzca el numero: ");
 		scanf("%d",&miTrabajador->matricula); 	
- 		fprintf(trab, "%d\n", miTrabajador->matricula); 
+ 		fprintf(trab, "%d,", miTrabajador->matricula); 
 
 		int control = 0;
 
@@ -200,7 +200,7 @@ void entrarTrabajador(){
 
 			if ((plazaP>0) && (plazaP<TOPE_PLAZAS+1)){
 
-				fprintf(trab, "%d\n", plazaP);
+				fprintf(trab, "%d,", plazaP);
 				miTrabajador->plaza = plazaP;
 
 				printf("\nTrabajador registrado. DNI: %d Matricula: %d Plaza: %d", miTrabajador->dni, miTrabajador->matricula, miTrabajador->plaza);

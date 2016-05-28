@@ -76,19 +76,19 @@ void imprimirFactura(int importe);
 		return plaza;
 	}
 	
-
+/*
 	//Comprueba que el trabajador con este dni esta dado de alta
 	int comprobarDNI(int dni){
 		
-		/*int result= dbConnector.BDcomprobarDNI(dni);	
+		int result= dbConnector.BDcomprobarDNI(dni);	
 		if(result!=SQLITE_OK){
 			cout << "Error al comprobar el dni" << endl;
 			
-			return result;*/
+			return result;
 
 	}
 
-	
+*/
 	//Comprueba que la plaza en la que quiere aparcar esta libre
 	void  mirarEstadoPlazas(int plaza){
 
@@ -122,6 +122,7 @@ void imprimirFactura(int importe);
 	void insertarTrabajador(){
 
 	char line [256];
+	
 	//leer desde trabajador.txt
 	ifstream fe;
 	fe.open("Ficheros\\trabajador.txt");
