@@ -96,8 +96,8 @@ void imprimirFactura(int importe);
 		if(result!=SQLITE_OK){
 			cout << "Error al mirar el estado de la plaza" << endl;
 			return result;
-		}
-	}*/
+		}*/
+	}
 	}
 	int mostrarPersonas(){
 		/*result = dbConnector.BDshowPersonas();
@@ -118,6 +118,9 @@ void imprimirFactura(int importe);
 						}*/
 
 	}
+
+
+
 	//Metodo que lee el fichero trabajador.txt y vuelca los datos a la BD
 	void insertarTrabajador(){
 
@@ -135,17 +138,7 @@ void imprimirFactura(int importe);
 				fe>>dni>>matricula>>plaza;	
 		} //abre el fichero e imprime
 		fe.close();
-		//Lee los atributos del trabajador del fichero "trabajador.txt"
-	/*	ifstream fin;
-		fin.open ("Ficheros\\trabajador.txt");
-		fin.getline(line, 256);
-		while(!fin.eof()){
-			fin.getline(dni, 256);
-			fin.getline(matricula, 256);
-			fin.getline(plaza, 256);
-		}
-		fin.close();*/
-//¿Esto como lee? no hay que ponerle \n ni nada? Habría que sobrecargar no? 
+		
 	
 	/*
 	//Llama al metodo de basededatos.cpp que inserta el trabajador en la BD
@@ -153,15 +146,14 @@ void imprimirFactura(int importe);
 
 	int result= dbConnector.BDinsertTrabajador(dni, matricula, plaza);	
 		if(result!=SQLITE_OK){
-			cout << "Error inserting" << endl;
-
+			cout << "Error insertando trabajador" << endl;
 			return result;
 		}
 	
 		//Actualiza el estado de la plaza a ocupado
 			int result= dbConnector.BDactualizarEstado (1);
 			if(result!=SQLITE_OK){
-				std::cout << "Error actualizando estado de la plaza" << std::endl;
+				cout << "Error actualizando estado de la plaza" << endl;
 				return result;
 		}
 	
@@ -182,8 +174,8 @@ void imprimirFactura(int importe);
 		//Actualiza el estado de la plaza a libre
 			int result= dbConnector.BDactualizarEstado (0);
 			if(result!=SQLITE_OK){
-			std::cout << "Error actualizando estado de la plaza" << std::endl;
-			//printf("Error borrando un cliente!\n");
+			cout << "Error actualizando estado de la plaza" << endl;
+			
 			return result;
 		}
 		*/			
@@ -211,14 +203,14 @@ void imprimirFactura(int importe);
 			//Inserta a la bd el cliente 
 			result= dbConnector.BDinsertEntradaCliente(matricula, plaza);	
 			if(result!=SQLITE_OK){
-				cout << "Error inserting" << endl;
+				cout << "Error insertando un cliente" << endl;
 				return result;
 			}
 
 			//Actualiza el estado de la plaza a ocupado
 			int result= dbConnector.BDactualizarEstado (1);
 			if(result!=SQLITE_OK){
-				std::cout << "Error actualizando estado de la plaza" << std::endl;
+				cout << "Error actualizando estado de la plaza" << endl;
 				return result;
 		}
 
@@ -239,9 +231,7 @@ void imprimirFactura(int importe);
 		//Actualiza el estado de la plaza a libre
 			int result= dbConnector.BDactualizarEstado (0);
 			if(result!=SQLITE_OK){
-			std::cout << "Error actualizando estado de la plaza" << std::endl;
-			//printf("Error borrando un cliente!\n");
-			return result;
+			cout << "Error actualizando estado de la plaza" << std::
 		}
 		*/
 	}
@@ -270,27 +260,14 @@ void imprimirFactura(int importe);
 
 		importe = horas * PRECIO_HORA; //calcula el ingreso
 	//Para meter en la BD el ingreso
-	/*	int result= dbConnector.insertarIngreso(importe);
+		/*result= dbConnector.insertarIngreso(importe);
 		if(result!=SQLITE_OK){
-			std::cout << "Error calculando ingresos por el estacionamiento" << std::endl;
-			//printf("Error borrando un cliente!\n");
-			return result;*/
-		
+			cout << "Error calculando ingresos por el estacionamiento" << endl;
+			//return result;
+		}*/
 
 		//imprimir ingreso
 		imprimirFactura(importe);
-
-		/*
-		//Para meter en la BD el ingreso
-		int result= dbConnector.insertarIngreso();
-		if(result!=SQLITE_OK){
-			std::cout << "Error calculando ingresos por el estacionamiento" << std::endl;
-			//printf("Error borrando un cliente!\n");
-			return result;
-		*/
-
-
-
 	}
 
 
@@ -328,10 +305,10 @@ int main(int argc, char *argv[]) {
 		printf("Se esperaba 1 argumento. 1- ADMIN 2- TRABAJADOR 3- USUARIO\n");
 		return 0;
 	}
-
-	int result;
-	int opc;
 	
+	int result=0;
+	int opc;
+
 	if (strcmp(argv[1], "1") == 0) {
 
 		do {

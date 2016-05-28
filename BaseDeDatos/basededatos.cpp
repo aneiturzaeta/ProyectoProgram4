@@ -33,7 +33,7 @@ DBConnector::~DBConnector() {
 int DBConnector::BDshowPersonas(){
 	
 //No se como crear un vector de personas para que luego se puedan meter las instancias de cliente y trabajador
-		//vector <persona> persv;
+		//vector <persona*> p;
 
 		char sql[]= "select * from USUARIO";
 
@@ -49,15 +49,21 @@ int DBConnector::BDshowPersonas(){
 
 
 		do {
+			int cols = sqlite3_column_count(stmt);
 			result1 = sqlite3_step(stmt) ;
 			if (result1 == SQLITE_ROW) {
 				
 				//Coge los datos de las filas de la tabla cliente generando una instancia
 				cliente* cliente= new cliente(sqlite3_column_int(stmt, 0),sqlite3_column_int(stmt, 1));
 				
-				//Las mete en el vector
-				//persv.push_back(*cliente); 
-			
+				//Las mete en el vector 
+				
+               /* for(int col = 0; col < cols; col++)
+                {
+                    p.push_back(*cliente);
+                }
+                */
+
 			}
 		} while (result1 == SQLITE_ROW);
 
@@ -95,7 +101,12 @@ int DBConnector::BDshowPersonas(){
 				trabajador* trabajador= new trabajador(sqlite3_column_int(stmt, 1),sqlite3_column_int(stmt, 2),sqlite3_column_int(stmt, 0));
 			
 				//Las mete en el vector
-				//persv.push_back(*trabajador); 
+				  /*  for(int col = 0; col < cols; col++)
+                {
+                    persv.push_back(*trabajador);
+                }
+                
+*/
 			
 			}
 		} while (result == SQLITE_ROW);
@@ -112,7 +123,7 @@ int DBConnector::BDshowPersonas(){
 		return SQLITE_OK;
 			
 			//for (int i; i<persv.size(); i++){
-			//	cout << persv[i]endl;
+			//	cout << persv[i]<<endl;
 			//}
 	}
 
@@ -224,7 +235,7 @@ int DBConnector::BDshowPersonas(){
 		
 		return SQLITE_OK;
 	}
-//Realmente no le llamamos nunca a este metodo no? porque insert hacemos en c y no le podemos llamar o que??
+
 	//Ver cual es el estado de la plaza
 	int DBConnector::BDmirarEstadoPlaza(int plazat){
 
