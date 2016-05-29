@@ -12,7 +12,11 @@
 
 using namespace std;
 
+
+
 DBConnector::DBConnector(string dbfile) {
+
+
 	int result = sqlite3_open(dbfile.c_str(), &db);
 	
 		if (result != SQLITE_OK) {
@@ -29,11 +33,20 @@ DBConnector::~DBConnector() {
 		}	
 }
 	
+	
+sqlite3* DBConnector::getDb(){
+
+	return this-> db;
+
+}
+
+
 	//Metodo que lee los trabajadores y clientes que tienen aparcados sus coches, los mete en un vector persona y los imprime
 int DBConnector::BDshowPersonas(){
 	
 //No se como crear un vector de personas para que luego se puedan meter las instancias de cliente y trabajador
 		//vector <persona*> p;
+	sqlite3_stmt *stmt;
 
 		char sql[]= "select * from USUARIO";
 
@@ -54,7 +67,13 @@ int DBConnector::BDshowPersonas(){
 			if (result1 == SQLITE_ROW) {
 				
 				//Coge los datos de las filas de la tabla cliente generando una instancia
-				cliente* cliente= new cliente(sqlite3_column_int(stmt, 0),sqlite3_column_int(stmt, 1));
+				
+
+
+				//cliente* micliente= new cliente(sqlite3_column_int(stmt, 0),sqlite3_column_int(stmt, 1));
+				
+
+
 				
 				//Las mete en el vector 
 				
@@ -98,7 +117,7 @@ int DBConnector::BDshowPersonas(){
 			if (result == SQLITE_ROW) {
 				
 				//Coge los datos de las filas de la tabla trabajador generando una instancia
-				trabajador* trabajador= new trabajador(sqlite3_column_int(stmt, 1),sqlite3_column_int(stmt, 2),sqlite3_column_int(stmt, 0));
+				trabajador* mitrabajador= new trabajador(sqlite3_column_int(stmt, 1),sqlite3_column_int(stmt, 2),sqlite3_column_int(stmt, 0));
 			
 				//Las mete en el vector
 				  /*  for(int col = 0; col < cols; col++)
@@ -130,6 +149,8 @@ int DBConnector::BDshowPersonas(){
 
 	int DBConnector::BDactualizarEstado (int numPlaza, int estadop){
 	
+		sqlite3_stmt *stmt;
+
 		char sql[] = "update PLAZA SET ESTADO=? WHERE NUMPLAZA= ?";
 
 		int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
@@ -180,6 +201,8 @@ int DBConnector::BDshowPersonas(){
 
 	//Imprime los ingresos que ha habido, y ademas calcula un total hasta el momento
 	int DBConnector::BDshowIngresos(){
+
+		sqlite3_stmt *stmt;
 
 		char sql[]= "select * from INGRESO";
 
@@ -239,7 +262,11 @@ int DBConnector::BDshowPersonas(){
 	//Ver cual es el estado de la plaza
 	int DBConnector::BDmirarEstadoPlaza(int plazat){
 
-		char sql[]= "select ESTADO from PLAZA WHERE PLAZA= ? ";
+		sqlite3_stmt *stmt;
+
+		int estado;
+
+		char sql[]= "select ESTADO from PLAZA WHERE NUMPLAZA= ? ";
 
 		int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
 		if (result != SQLITE_OK) {
@@ -260,11 +287,14 @@ int DBConnector::BDshowPersonas(){
 			result = sqlite3_step(stmt) ;
 			if (result == SQLITE_ROW) {
 
-				int estado = sqlite3_column_int(stmt, 1);
+				estado = sqlite3_column_int(stmt, 0);
 
-				if(estado= 1){
-					return 1;
-				} else return 0;
+				if(estado== 1){
+					cout<<"Plaza "<<plazat<< " ocupada";
+				} 
+				else if (estado==0){
+					cout<<"Plaza "<<plazat<< " libre";
+				} 
 			}
 		} while (result == SQLITE_ROW);
 
@@ -275,13 +305,17 @@ int DBConnector::BDshowPersonas(){
 			return result;
 		}
 	
-		return SQLITE_OK;
+		//return SQLITE_OK;
+
+		return estado;
 
 	}
 	
 	//Guardamos el estacionemiento de un trabajador
 	int DBConnector::BDinsertTrabajador(int DNI, int MATRICULAT, int PLAZAT) {
 		
+		sqlite3_stmt *stmt;
+
 		char sql[] = "insert into TRABAJADOR (DNI, MATRICULAT, PLAZAT) values (?, ?, ?)";
 
 		int result = sqlite3_prepare_v2(db, sql, strlen(sql) + 1, &stmt, NULL) ;
@@ -344,6 +378,8 @@ int DBConnector::BDshowPersonas(){
 	//Insertamos la entrada al parking de un cliente
 	int DBConnector::BDinsertEntradaCliente( int MATRICULAU, int PLAZAU) {
 				
+		sqlite3_stmt *stmt;
+
 		char sql[] = "insert into USUARIO (MATRICULAU, PLAZAU) values (?, ?)";
 		int result = sqlite3_prepare_v2(db, sql, strlen(sql) + 1, &stmt, NULL) ;
 		if (result != SQLITE_OK) {
@@ -394,6 +430,8 @@ int DBConnector::BDshowPersonas(){
 	//Cuando el usuario saque su coche, borramos su tupla, actualizamos la plaza a libre, y calculamos ingresos
 	int DBConnector::BDdeleteCliente(int matricula, int plaza) {
 
+		sqlite3_stmt *stmt;
+
 		//Actualizamos el estado de la plaza. Ponemos 0, porque ahora estara libre
 		BDactualizarEstado(plaza, 0);
 
@@ -435,6 +473,7 @@ int DBConnector::BDshowPersonas(){
 
 	int DBConnector::BDdeleteTrabajador(int matricula, int plaza) {
 
+		sqlite3_stmt *stmt;
 		//Actualizamos el estado de la plaza. Ponemos 0, porque ahora estara libre
 		BDactualizarEstado(plaza, 0);
 
@@ -476,6 +515,8 @@ int DBConnector::BDshowPersonas(){
 
 
 	int DBConnector::BDinsertarIngreso(int ingreso){
+
+		sqlite3_stmt *stmt;
 
 		char sql[] = "insert into INGRESO (DINERO) values (?)";
 		int result = sqlite3_prepare_v2(db, sql, strlen(sql) + 1, &stmt, NULL) ;

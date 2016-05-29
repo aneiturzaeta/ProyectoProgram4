@@ -1,4 +1,4 @@
-#include "Persona.h"
+#include "persona.h"
 #include <string.h>
 
 #include <stdio.h>
@@ -6,29 +6,29 @@
 #include <iostream>
 using namespace std;
 
-Persona::Persona(const int matriculap, int plaza)
+persona::persona(const int matriculap, int plaza)
 {
 	this->matricula = matriculap;
 	this->plaza = plaza;
 }
 
-Persona::Persona(const Persona& p)
+persona::persona(const Persona& p)
 {
 	this->matricula = p.matricula;
 	this->plaza=p.plaza;
 }
 
-Persona::~Persona()
+persona::~persona()
 {
-	//Como tenemos dos int, no nos hace falta implementar
+	cout << "Destructor de persona" << endl;
 }
 
-int Persona::getMatricula() const
+int persona::getMatricula() const
 {
 	return this->matricula;
 }
 
-int Persona::getPlaza() const
+int persona::getPlaza() const
 {
 	return this->plaza;
 }

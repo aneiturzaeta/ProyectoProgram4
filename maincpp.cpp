@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <string.h>
+#include <string>
 #include <stdlib.h>
 #include "BaseDeDatos/basededatos.h"
 #include "BaseDeDatos/sqlite3.h"
@@ -23,12 +24,12 @@ using namespace std;
 int cogerDNI();
 int cogerPlaza();
 int comprobarDNI(int dni);
-void mirarEstadoPlazas(int plaza);
+int mirarEstadoPlazas(int plaza);
 int mostrarPersonas();
 int showIngresos();
-void insertarTrabajador();
+int insertarTrabajador();
 void sacarTrabajador(int matricula, int plaza);
-void insertarUsuario();
+int insertarUsuario();
 void sacarUsuario();
 void insertarIngreso();
 void imprimirFactura(int importe);
@@ -40,18 +41,19 @@ void imprimirFactura(int importe);
 	//Permite la conexion C y C++
 	int cogerDNI(){
 
-		char line [256];
-		int dni; 
+		ifstream ifs("Ficheros\\dni.txt");
+		string file_hdr; //primera linea
 
-		ifstream fe; 
-		fe.open ("Ficheros\\dni.txt");
-		while(!fe.eof()){
-				fe.getline (line, 256);
-				cout <<dni<<endl;
-				fe>>dni;
-				
-		} //abre el fichero e imprime
-		fe.close();
+		int dni;
+	
+			while (!ifs.eof())
+		{
+			ifs>>dni;
+		
+		}
+
+		ifs.close();
+			
 		return dni;
 	}
 
@@ -60,18 +62,18 @@ void imprimirFactura(int importe);
 	//Permite la conexion C y C++
 	int cogerPlaza(){
 
-		char line [256];
-		int plaza;
+		ifstream ifs("Ficheros\\plaza.txt");
+		string file_hdr; //primera linea
 
-		ifstream fe;
-		fe.open("Ficheros\\plaza.txt");
-		while(!fe.eof()){
-				fe.getline (line, 256);
-				cout <<plaza<<endl;
-				fe>>plaza;
-				
-		} //abre el fichero e imprime
-		fe.close();
+		int plaza;
+	
+			while (!ifs.eof())
+		{
+			ifs>>plaza;
+		
+		}
+
+		ifs.close();
 			
 		return plaza;
 	}
@@ -90,15 +92,19 @@ void imprimirFactura(int importe);
 
 */
 	//Comprueba que la plaza en la que quiere aparcar esta libre
-	void  mirarEstadoPlazas(int plaza){
+	int  mirarEstadoPlazas(int plaza){
 
-		/*int result= dbConnector.BDmirarEstadoPlaza(plaza);	
-		if(result!=SQLITE_OK){
-			cout << "Error al mirar el estado de la plaza" << endl;
+	string file = "BaseDeDatos/parking.sqlite";
+	
+	DBConnector dbConnector(file);
+
+		int result= dbConnector.BDmirarEstadoPlaza(plaza);	
+		//if(result!=SQLITE_OK){
+		//	cout << "Error al mirar el estado de la plaza" << endl;
 			return result;
-		}*/
+		//}
 	}
-	}
+	
 	int mostrarPersonas(){
 		/*result = dbConnector.BDshowPersonas();
 						if (result != SQLITE_OK) {
@@ -122,42 +128,50 @@ void imprimirFactura(int importe);
 
 
 	//Metodo que lee el fichero trabajador.txt y vuelca los datos a la BD
-	void insertarTrabajador(){
+	int insertarTrabajador(){
 
-	char line [256];
 	
 	//leer desde trabajador.txt
-	ifstream fe;
-	fe.open("Ficheros\\trabajador.txt");
-				int dni;
-				int matricula;
-				int plaza;
-		while(!fe.eof()){
-			fe.getline (line, 256);
-			//cout <<plaza<<endl;
-				fe>>dni>>matricula>>plaza;	
-		} //abre el fichero e imprime
-		fe.close();
-		
+	string file = "BaseDeDatos/parking.sqlite";
 	
-	/*
-	//Llama al metodo de basededatos.cpp que inserta el trabajador en la BD
-	//Comprobar dni
+	DBConnector dbConnector(file);
 
+
+	ifstream ifs("Ficheros\\trabajador.txt");
+	string file_hdr; //primera linea
+
+		int dni;
+		int matricula;
+		int plaza;
+
+	while (!ifs.eof())
+	{
+		ifs>>dni;
+		ifs>>matricula;
+		ifs>>plaza;
+
+	}
+
+	ifs.close();
+
+	cout<<"\nTRABAJADORA A INSERTAR EN BD || Dni: "<<dni<<" Matricula: "<<matricula<<" Plaza: "<<plaza<<endl;
+
+	
 	int result= dbConnector.BDinsertTrabajador(dni, matricula, plaza);	
 		if(result!=SQLITE_OK){
 			cout << "Error insertando trabajador" << endl;
 			return result;
 		}
 	
+		int estado = 1;
 		//Actualiza el estado de la plaza a ocupado
-			int result= dbConnector.BDactualizarEstado (1);
-			if(result!=SQLITE_OK){
+			int result2= dbConnector.BDactualizarEstado (plaza, estado);
+			if(result2!=SQLITE_OK){
 				cout << "Error actualizando estado de la plaza" << endl;
-				return result;
+				return result2;
 		}
 	
-*/
+	
 	} 
 
 	//Metodo que se llama cuando un trabajador desea sacar su coche
@@ -183,38 +197,48 @@ void imprimirFactura(int importe);
 
 
 	//Metodo que lee los datos de cliente.txt y los vuelca a la BD
-	void insertarUsuario(){
+	int insertarUsuario(){
 
-		char line [256];
-		//Lee los datos del fichero
-		ifstream fe;
-		fe.open("Ficheros\\Cliente.txt");
-				int matricula;
-				int plaza;
-				int tiempo;
-			while(!fe.eof()){
-				fe.getline (line, 256);
-			//cout <<plaza<<endl;
-				fe>>matricula>>plaza>>tiempo;	
-			} //abre el fichero e imprime
-			fe.close();
-	/*	//Lee los datos del fichero
+	//leer desde trabajador.txt
+	string file = "BaseDeDatos/parking.sqlite";
 	
+	DBConnector dbConnector(file);
+
+
+	ifstream ifs("Ficheros\\Cliente.txt");
+	string file_hdr; //primera linea
+
+		int matricula;
+		int plaza;
+	
+	while (!ifs.eof())
+	{
+		ifs>>matricula;
+		ifs>>plaza;
+	
+	}
+
+	ifs.close();
+
+	cout<<"\nCLIENTE A INSERTAR EN BD || Matricula: "<<matricula<<" Plaza: "<<plaza<<endl;
+
+		
 			//Inserta a la bd el cliente 
-			result= dbConnector.BDinsertEntradaCliente(matricula, plaza);	
+			int result= dbConnector.BDinsertEntradaCliente(matricula, plaza);	
 			if(result!=SQLITE_OK){
 				cout << "Error insertando un cliente" << endl;
 				return result;
 			}
 
+			int estado = 1;
 			//Actualiza el estado de la plaza a ocupado
-			int result= dbConnector.BDactualizarEstado (1);
-			if(result!=SQLITE_OK){
+			int result2= dbConnector.BDactualizarEstado (plaza, estado);
+			if(result2!=SQLITE_OK){
 				cout << "Error actualizando estado de la plaza" << endl;
-				return result;
+				return result2;
 		}
 
-	*/
+	
 	} 
 
 
@@ -295,9 +319,8 @@ void imprimirFactura(int importe);
 
 int main(int argc, char *argv[]) {
 	
-	string file = "parking.db";
-	
-	DBConnector dbConnector(file);
+	//string file = "BaseDeDatos/parking.sqlite";
+	//DBConnector dbConnector(file);
 	
 	printf("%d argumento(s) recibidos.\n", argc-1);
 	
@@ -313,7 +336,7 @@ int main(int argc, char *argv[]) {
 
 		do {
 
-		cout << "--------------MENU EN C ++ ADMINSTRADOR/A----------\n" << endl;
+		cout << "\n--------------MENU EN C ++ ADMINSTRADOR/A----------\n" << endl;
 		cout << "  1- Ver coches aparcados actualmente \n  2- Ver ingresos totales y poner contador a 0 \n  3- SALIR"  << endl;
 
 		
@@ -346,24 +369,32 @@ int main(int argc, char *argv[]) {
 	
 		do {
 
-		cout << "--------------MENU EN C ++ TRABAJADOR/A----------\n" << endl;
+		cout << "\n--------------MENU EN C ++ TRABAJADOR/A----------\n" << endl;
 		cout << "  1- Insertar trabajador \n  2- Sacar trabajador \n  3- SALIR" << endl;
 
 		cout <<"Seleccion"<< endl;
 		cin >> opc;
 		
 
-		int Dni = 0;
-		Dni= cogerDNI();
-		int Plaza=0;
-		Plaza=cogerPlaza();  
+		int dni =cogerDNI();
+		
+		int plaza=cogerPlaza();  
 
+		int estado;
 
 				switch(opc) {
 
-						case 1: mirarEstadoPlazas(Plaza);	insertarTrabajador();  break;
+						case 1: estado= mirarEstadoPlazas(plaza);
+
+								if (estado==1){ 
+									break; 
+								}
+								else if (estado==0){
+								 insertarTrabajador();break;
+
+								}  break;
 								
-						case 2: sacarTrabajador(Dni,Plaza); break;		
+						case 2: sacarTrabajador(dni, plaza); break;		
 	
 						case 3: cout << "\nHa seleccionado salir. Hasta otra!" << endl; break;
 
@@ -382,34 +413,32 @@ int main(int argc, char *argv[]) {
 	
 		do {
 
-		cout << "--------------MENU EN C ++ USUARIO/A----------\n" << endl;
+		cout << "\n--------------MENU EN C ++ USUARIO/A----------\n" << endl;
 		cout << "  1- Insertar usuario \n  2- Sacar usuario\n  3- SALIR" << endl;
-		
 		
 		cout <<"Seleccion"<< endl;
 		cin >> opc;
 
-		int Plaza=0;
-		//int importe=0;
-
+		int plaza= cogerPlaza();
+		int estado;
 
 				switch(opc) {
-		
-						case 1: Plaza = cogerPlaza();  
-							mirarEstadoPlazas(Plaza); 
-							insertarUsuario(); 
 
-							break;
+						case 1: estado= mirarEstadoPlazas(plaza);
+
+								if (estado==1){ 
+									break; 
+								}
+								else if (estado==0){
+								 insertarUsuario();break;
+
+								}  break;
 
 						case 2: sacarUsuario(); insertarIngreso();  break;
 
-						case 3: 
-						cout << "\nHa seleccionado salir. Hasta otra!" << endl;
-						break;
+						case 3: cout << "\nHa seleccionado salir. Hasta otra!" << endl; break;
 
-						default: 
-						cout << "\nLa opcion seleccionada no es correcta" << endl; 
-						break;
+						default: cout << "\nLa opcion seleccionada no es correcta" << endl; 	break;
 			
 
 			

@@ -16,6 +16,11 @@ trabajador::trabajador(const trabajador &t) : Persona(t)
 	this->dni=t.dni;
 }
 
+trabajador::~trabajador()
+{
+	cout << "Destructor de trabajador" << endl;
+}
+
 /*
 void printTrabajador(Persona p)
 {

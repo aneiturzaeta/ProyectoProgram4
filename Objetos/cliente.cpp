@@ -18,7 +18,7 @@ cliente::cliente(const cliente &c): Persona(c)
 
 cliente::~cliente()
 {
-	
+	cout << "Destructor de cliente" << endl;
 }
 
 void printCliente(Persona p)
