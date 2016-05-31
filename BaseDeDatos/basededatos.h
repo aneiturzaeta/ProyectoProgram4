@@ -36,12 +36,16 @@ class DBConnector{
 
 			int BDinsertEntradaCliente( int MATRICULAU, int PLAZAU);
 				
-			int BDdeleteCliente(int matricula, int plaza);
+			int BDdeleteCliente(int matricula);
 
-			int BDdeleteTrabajador(int matricula, int plaza);
+			int BDdeleteTrabajador(int matricula);
 				
 			int BDactualizarEstado (int numPlaza, int estadop);
-			
+
+			int BDComprobarMatricula(int matricula);
+
+			int BDComprobarPlaza(int plaza);
+
 			int BDinsertarIngreso(int ingreso);
 };
 

@@ -28,11 +28,12 @@ int mirarEstadoPlazas(int plaza);
 int mostrarPersonas();
 int showIngresos();
 int insertarTrabajador();
-void sacarTrabajador(int matricula, int plaza);
+void sacarTrabajador(int matricula);
 int insertarUsuario();
-void sacarUsuario();
+void sacarUsuario(int matricula);
 void insertarIngreso();
 void imprimirFactura(int importe);
+int  mirarEstadoMatricula(int matricula);
 
 /////////////////////////////////////////////////FUNCIONES/////////////////////////////////////////////////////////////
 
@@ -45,11 +46,9 @@ void imprimirFactura(int importe);
 		string file_hdr; //primera linea
 
 		int dni;
-	
-			while (!ifs.eof())
-		{
-			ifs>>dni;
 		
+		while (!ifs.eof()){
+			ifs>>dni;
 		}
 
 		ifs.close();
@@ -67,10 +66,8 @@ void imprimirFactura(int importe);
 
 		int plaza;
 	
-			while (!ifs.eof())
-		{
+		while (!ifs.eof()){
 			ifs>>plaza;
-		
 		}
 
 		ifs.close();
@@ -95,14 +92,34 @@ void imprimirFactura(int importe);
 	int  mirarEstadoPlazas(int plaza){
 
 		string file = "BaseDeDatos/parking.sqlite";
+		
 		DBConnector dbConnector(file);
 
-		int result= dbConnector.BDmirarEstadoPlaza(plaza);	
-		//if(result!=SQLITE_OK){
-		//	cout << "Error al mirar el estado de la plaza" << endl;
-			return result;
-		//}
+		int result = dbConnector.BDmirarEstadoPlaza(plaza);	
+			if(result!=SQLITE_OK){
+				cout << "Error al mirar el estado de la plaza" << endl;
+			}
+		return result;
 	}
+
+	int  mirarEstadoMatricula(int matricula){
+
+		string file = "BaseDeDatos/parking.sqlite";
+		
+		DBConnector dbConnector(file);
+		int result = dbConnector.BDComprobarMatricula(matricula);
+		
+		return result;
+	}
+	int mirarPlazas(int plaza){
+		string file = "BaseDeDatos/parking.sqlite";
+		
+		DBConnector dbConnector(file);
+		int result = dbConnector.BDComprobarPlaza(plaza);
+		
+		return result;
+	}
+	
 	
 	int mostrarPersonas(){
 
@@ -110,10 +127,10 @@ void imprimirFactura(int importe);
 		DBConnector dbConnector(file);
 
 		int result = dbConnector.BDshowPersonas();
-						if (result != SQLITE_OK) {
-							cout << "Error mostrando el vector de personas" << endl;
-							return result;
-						}
+			if (result != SQLITE_OK) {
+				cout << "Error mostrando el vector de personas" << endl;
+				return result;
+			}
 
 	}
 
@@ -123,10 +140,10 @@ void imprimirFactura(int importe);
 		DBConnector dbConnector(file);
 
 		int result = dbConnector.BDshowIngresos();
-						if (result != SQLITE_OK) {
-							cout << "Error mostrando los ingresos" << endl;
-							return result;
-						}
+			if (result != SQLITE_OK) {
+				cout << "Error mostrando los ingresos" << endl;
+				return result;
+			}
 
 	}
 
@@ -134,13 +151,10 @@ void imprimirFactura(int importe);
 
 	//Metodo que lee el fichero trabajador.txt y vuelca los datos a la BD
 	int insertarTrabajador(){
-
 	
 	//leer desde trabajador.txt
 		string file = "BaseDeDatos/parking.sqlite";
-		
 		DBConnector dbConnector(file);
-
 
 		ifstream ifs("Ficheros\\trabajador.txt");
 		string file_hdr; //primera linea
@@ -154,54 +168,40 @@ void imprimirFactura(int importe);
 			ifs>>dni;
 			ifs>>matricula;
 			ifs>>plaza;
-
 		}
 
 		ifs.close();
 
 		cout<<"\nTRABAJADORA A INSERTAR EN BD || Dni: "<<dni<<" Matricula: "<<matricula<<" Plaza: "<<plaza<<endl;
 
-		
 		int result= dbConnector.BDinsertTrabajador(dni, matricula, plaza);	
 			if(result!=SQLITE_OK){
 				cout << "Error insertando trabajador" << endl;
 				return result;
 			}
 		
-			int estado = 1;
 			//Actualiza el estado de la plaza a ocupado
-				int result2= dbConnector.BDactualizarEstado (plaza, estado);
-				if(result2!=SQLITE_OK){
-					cout << "Error actualizando estado de la plaza" << endl;
-					return result2;
+		int result2= dbConnector.BDactualizarEstado (plaza, 1);
+			if(result2!=SQLITE_OK){
+				cout << "Error actualizando estado de la plaza" << endl;
+				return result2;
 			}
 		
 	
 	} 
 
 	//Metodo que se llama cuando un trabajador desea sacar su coche
-	void sacarTrabajador(int dni, int plaza){
+	void sacarTrabajador(int matricula){
 
 		string file = "BaseDeDatos/parking.sqlite";
-		
 		DBConnector dbConnector(file);
-		
-		//Cambiar en la bD porque ahora le pasamos dni por parametro y no la matricula
+				
 		//Borra el trabajador de la BD
-		int result= dbConnector.BDdeleteTrabajador (dni, plaza);
+		int result= dbConnector.BDdeleteTrabajador (matricula);
 			if(result!=SQLITE_OK){
 				cout << "Error borrando el trabajador" << endl;
-				//return result;
 			}	
-		/*
-		//Actualiza el estado de la plaza a libre
-			int result= dbConnector.BDactualizarEstado (0);
-			if(result!=SQLITE_OK){
-			cout << "Error actualizando estado de la plaza" << endl;
-			
-			return result;
-		}
-		*/			
+		//Actualiza el estado de la plaza en el metodo de la BD.
 	}
 
 
@@ -232,42 +232,38 @@ void imprimirFactura(int importe);
 		cout<<"\nCLIENTE A INSERTAR EN BD || Matricula: "<<matricula<<" Plaza: "<<plaza<<endl;
 
 			
-				//Inserta a la bd el cliente 
-				int result= dbConnector.BDinsertEntradaCliente(matricula, plaza);	
-				if(result!=SQLITE_OK){
-					cout << "Error insertando un cliente" << endl;
-					return result;
-				}
-
-				int estado = 1;
-				//Actualiza el estado de la plaza a ocupado
-				int result2= dbConnector.BDactualizarEstado (plaza, estado);
-				if(result2!=SQLITE_OK){
-					cout << "Error actualizando estado de la plaza" << endl;
-					return result2;
+		//Inserta a la bd el cliente 
+		int result= dbConnector.BDinsertEntradaCliente(matricula, plaza);	
+			if(result!=SQLITE_OK){
+				cout << "Error insertando un cliente" << endl;
+				return result;
 			}
+
+				//Actualiza el estado de la plaza a ocupado
+		int result2= dbConnector.BDactualizarEstado (plaza, 1);
+			if(result2!=SQLITE_OK){
+				cout << "Error actualizando estado de la plaza" << endl;
+				return result2;
+		}
 
 		
 	} 
 
 
 	//Metodo que borra de la BD la fila del usuario que sale del parking
-	void sacarUsuario(){
-		/*
+	void sacarUsuario(int plazalib){
+
+		string file = "BaseDeDatos/parking.sqlite";
+		DBConnector dbConnector(file);
+		
 		//Borra la fila
-			int result= dbConnector.BDdeleteCliente ();
+			int result= dbConnector.BDdeleteCliente (plazalib);
 			if(result!=SQLITE_OK){
 				cout << "Error borrando el cliente" << endl;
-				
-				return result;
-			}
-		//Actualiza el estado de la plaza a libre
-			int result= dbConnector.BDactualizarEstado (0);
-			if(result!=SQLITE_OK){
-			cout << "Error actualizando estado de la plaza" << std::
-		}
-		*/
+			}		
 	}
+
+
 
 	//Metodo que
 		//1. Calcula el importe multiplicando la duracion por la tarifa
@@ -328,18 +324,31 @@ void imprimirFactura(int importe);
 
 	}
 
+void clear_if_needed(char *str)
+{
+	if (str[strlen(str) - 1] != '\n')
+	{
+		int c;    
+    	while ( (c = getchar()) != EOF && c != '\n');
+    }
+}
+
 
 ////////////////////////////////////////////////////MAIN //////////////////////////////////////////////////
 
 int main(int argc, char *argv[]) {
 	
-	//string file = "BaseDeDatos/parking.sqlite";
-	//DBConnector dbConnector(file);
-	
-	printf("%d argumento(s) recibidos.\n", argc-1);
-	
-	if (argc != 2) {
-		printf("Se esperaba 1 argumento. 1- ADMIN 2- TRABAJADOR 3- USUARIO\n");
+
+	int eleccion;
+
+	if (argc > 2) {
+		
+		cout <<"Se esperaba 1 argumento. 1- ADMIN 2- TRABAJADOR 3- USUARIO" << endl;
+				return 0;
+
+	} else if (argc<2){
+
+		cout <<"Indica un numero al lado del argumento main: 1- ADMIN 2- TRABAJADOR 3- USUARIO" << endl;
 		return 0;
 	}
 	
@@ -395,21 +404,32 @@ int main(int argc, char *argv[]) {
 		int plaza=cogerPlaza();  
 
 		int estado;
+		int matricula;
+		int semaforo;
 
 				switch(opc) {
 
 						case 1: estado= mirarEstadoPlazas(plaza);
 
 								if (estado==1){ 
-									break; 
-								}
-								else if (estado==0){
-								 insertarTrabajador();break;
-
+									cout << "\nLa plaza que has seleccionado esta ocupada. Intentelo con otra plaza." << endl;break; 
+								} else{
+								 		insertarTrabajador();break;
 								}  break;
 								
-						case 2: sacarTrabajador(dni, plaza); break;		
-	
+						case 2: 
+							//Coge la matricula del coche que quiere sacar
+								cout << "Introduzca la matricula del coche que desea sacar:"<<endl;
+								scanf("%d", &matricula);
+
+								semaforo = mirarEstadoMatricula(matricula);
+
+								if (semaforo==0){ 
+									cout << "\nNo hay ningun coche aparcado que coincida con esa matricula. Intentelo con otra matricula." << endl;break; 
+								} else{
+								 	sacarTrabajador(matricula); break;		
+								}  break;
+							
 						case 3: cout << "\nHa seleccionado salir. Hasta otra!" << endl; break;
 
 						default: cout << "\nLa opcion seleccionada no es correcta" << endl;break;
@@ -435,6 +455,8 @@ int main(int argc, char *argv[]) {
 
 		int plaza= cogerPlaza();
 		int estado;
+		int plazalib;
+		int semaforo;
 
 				switch(opc) {
 
@@ -442,13 +464,22 @@ int main(int argc, char *argv[]) {
 
 								if (estado==1){ 
 									break; 
-								}
-								else if (estado==0){
+								}else {
 								 insertarUsuario();break;
-
 								}  break;
 
-						case 2: sacarUsuario(); insertarIngreso();  break;
+						case 2: //Coge la matricula del coche que quiere sacar
+								cout << "Introduzca la plaza que desea liberar:"<<endl;
+								scanf("%d", &plazalib);
+
+								semaforo = mirarPlazas(plazalib);
+								if(semaforo==0){
+									cout << "\nNo hay ningun coche aparcado en esa plaza. Intentelo con otra matricula." << endl;break; 
+
+								}else{
+								 	sacarUsuario(plazalib); insertarIngreso();  break;
+								}
+																
 
 						case 3: cout << "\nHa seleccionado salir. Hasta otra!" << endl; break;
 
