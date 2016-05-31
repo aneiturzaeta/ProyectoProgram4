@@ -3,6 +3,7 @@
 #include "../Objetos/persona.h"
 #include "../Objetos/cliente.h"
 #include "../Objetos/trabajador.h"
+#include <iostream>
 using namespace std;
 
 #ifndef _BASEDEDATOS_H_

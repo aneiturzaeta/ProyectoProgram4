@@ -29,6 +29,11 @@ void printTrabajador(Persona p)
 }
 */
 
+void trabajador::print()
+{
+	cout << *this <<endl;
+}
+
 int trabajador::getDni() const
 {
 	return this->dni;

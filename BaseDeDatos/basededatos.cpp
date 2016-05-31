@@ -9,6 +9,7 @@
 #include "../Objetos/trabajador.h"
 
 #include "basededatos.h"
+#include <iostream>
 
 using namespace std;
 
@@ -44,9 +45,9 @@ sqlite3* DBConnector::getDb(){
 	//Metodo que lee los trabajadores y clientes que tienen aparcados sus coches, los mete en un vector persona y los imprime
 int DBConnector::BDshowPersonas(){
 	
-//No se como crear un vector de personas para que luego se puedan meter las instancias de cliente y trabajador
-		//vector <persona*> p;
-	sqlite3_stmt *stmt;
+	//	vector <persona*> personas;
+	
+		sqlite3_stmt *stmt;
 
 		char sql[]= "select * from USUARIO";
 
@@ -67,19 +68,15 @@ int DBConnector::BDshowPersonas(){
 			if (result1 == SQLITE_ROW) {
 				
 				//Coge los datos de las filas de la tabla cliente generando una instancia
-				
-
 
 				//cliente* micliente= new cliente(sqlite3_column_int(stmt, 0),sqlite3_column_int(stmt, 1));
-				
-
-
+			
 				
 				//Las mete en el vector 
 				
                /* for(int col = 0; col < cols; col++)
                 {
-                    p.push_back(*cliente);
+                    personas.push_back(*micliente);
                 }
                 */
 
@@ -113,6 +110,7 @@ int DBConnector::BDshowPersonas(){
 
 
 		do {
+			int cols = sqlite3_column_count(stmt);
 			result = sqlite3_step(stmt) ;
 			if (result == SQLITE_ROW) {
 				
@@ -122,7 +120,7 @@ int DBConnector::BDshowPersonas(){
 				//Las mete en el vector
 				  /*  for(int col = 0; col < cols; col++)
                 {
-                    persv.push_back(*trabajador);
+                    personas.push_back(*mitrabajador);
                 }
                 
 */
@@ -141,9 +139,10 @@ int DBConnector::BDshowPersonas(){
 				
 		return SQLITE_OK;
 			
-			//for (int i; i<persv.size(); i++){
-			//	cout << persv[i]<<endl;
-			//}
+	/*	for (int i = 0; i < personas.size(); i++)
+   		 {
+     		 personas[i]->print();
+    		}*/
 	}
 
 
@@ -395,7 +394,7 @@ int DBConnector::BDshowPersonas(){
 
 			return result;
 		}
-		//Comprobamos si la plaza est· libre o no 
+		//Comprobamos si la plaza est√° libre o no 
 		//if(BDmirarEstadoPlaza(PLAZAU)==1){
 			result = sqlite3_bind_int(stmt, 2, PLAZAU);
 			if (result != SQLITE_OK) {

@@ -94,9 +94,8 @@ void imprimirFactura(int importe);
 	//Comprueba que la plaza en la que quiere aparcar esta libre
 	int  mirarEstadoPlazas(int plaza){
 
-	string file = "BaseDeDatos/parking.sqlite";
-	
-	DBConnector dbConnector(file);
+		string file = "BaseDeDatos/parking.sqlite";
+		DBConnector dbConnector(file);
 
 		int result= dbConnector.BDmirarEstadoPlaza(plaza);	
 		//if(result!=SQLITE_OK){
@@ -106,22 +105,28 @@ void imprimirFactura(int importe);
 	}
 	
 	int mostrarPersonas(){
-		/*result = dbConnector.BDshowPersonas();
+
+		string file = "BaseDeDatos/parking.sqlite";
+		DBConnector dbConnector(file);
+
+		int result = dbConnector.BDshowPersonas();
 						if (result != SQLITE_OK) {
 							cout << "Error mostrando el vector de personas" << endl;
 							return result;
-						}*/
+						}
 
 	}
 
 	int showIngresos(){
 
+		string file = "BaseDeDatos/parking.sqlite";
+		DBConnector dbConnector(file);
 
-		/*result = dbConnector.BDshowIngresos();
+		int result = dbConnector.BDshowIngresos();
 						if (result != SQLITE_OK) {
 							cout << "Error mostrando los ingresos" << endl;
 							return result;
-						}*/
+						}
 
 	}
 
@@ -132,59 +137,63 @@ void imprimirFactura(int importe);
 
 	
 	//leer desde trabajador.txt
-	string file = "BaseDeDatos/parking.sqlite";
-	
-	DBConnector dbConnector(file);
+		string file = "BaseDeDatos/parking.sqlite";
+		
+		DBConnector dbConnector(file);
 
 
-	ifstream ifs("Ficheros\\trabajador.txt");
-	string file_hdr; //primera linea
+		ifstream ifs("Ficheros\\trabajador.txt");
+		string file_hdr; //primera linea
 
-		int dni;
-		int matricula;
-		int plaza;
+			int dni;
+			int matricula;
+			int plaza;
 
-	while (!ifs.eof())
-	{
-		ifs>>dni;
-		ifs>>matricula;
-		ifs>>plaza;
+		while (!ifs.eof())
+		{
+			ifs>>dni;
+			ifs>>matricula;
+			ifs>>plaza;
 
-	}
-
-	ifs.close();
-
-	cout<<"\nTRABAJADORA A INSERTAR EN BD || Dni: "<<dni<<" Matricula: "<<matricula<<" Plaza: "<<plaza<<endl;
-
-	
-	int result= dbConnector.BDinsertTrabajador(dni, matricula, plaza);	
-		if(result!=SQLITE_OK){
-			cout << "Error insertando trabajador" << endl;
-			return result;
 		}
-	
-		int estado = 1;
-		//Actualiza el estado de la plaza a ocupado
-			int result2= dbConnector.BDactualizarEstado (plaza, estado);
-			if(result2!=SQLITE_OK){
-				cout << "Error actualizando estado de la plaza" << endl;
-				return result2;
-		}
-	
+
+		ifs.close();
+
+		cout<<"\nTRABAJADORA A INSERTAR EN BD || Dni: "<<dni<<" Matricula: "<<matricula<<" Plaza: "<<plaza<<endl;
+
+		
+		int result= dbConnector.BDinsertTrabajador(dni, matricula, plaza);	
+			if(result!=SQLITE_OK){
+				cout << "Error insertando trabajador" << endl;
+				return result;
+			}
+		
+			int estado = 1;
+			//Actualiza el estado de la plaza a ocupado
+				int result2= dbConnector.BDactualizarEstado (plaza, estado);
+				if(result2!=SQLITE_OK){
+					cout << "Error actualizando estado de la plaza" << endl;
+					return result2;
+			}
+		
 	
 	} 
 
 	//Metodo que se llama cuando un trabajador desea sacar su coche
 	void sacarTrabajador(int dni, int plaza){
-		/*
+
+		string file = "BaseDeDatos/parking.sqlite";
+		
+		DBConnector dbConnector(file);
+		
 		//Cambiar en la bD porque ahora le pasamos dni por parametro y no la matricula
 		//Borra el trabajador de la BD
 		int result= dbConnector.BDdeleteTrabajador (dni, plaza);
 			if(result!=SQLITE_OK){
 				cout << "Error borrando el trabajador" << endl;
-				return result;
+				//return result;
 			}	
-
+		/*
 		//Actualiza el estado de la plaza a libre
 			int result= dbConnector.BDactualizarEstado (0);
 			if(result!=SQLITE_OK){
@@ -200,45 +209,45 @@ void imprimirFactura(int importe);
 	int insertarUsuario(){
 
 	//leer desde trabajador.txt
-	string file = "BaseDeDatos/parking.sqlite";
-	
-	DBConnector dbConnector(file);
-
-
-	ifstream ifs("Ficheros\\Cliente.txt");
-	string file_hdr; //primera linea
-
-		int matricula;
-		int plaza;
-	
-	while (!ifs.eof())
-	{
-		ifs>>matricula;
-		ifs>>plaza;
-	
-	}
-
-	ifs.close();
-
-	cout<<"\nCLIENTE A INSERTAR EN BD || Matricula: "<<matricula<<" Plaza: "<<plaza<<endl;
-
+		string file = "BaseDeDatos/parking.sqlite";
 		
-			//Inserta a la bd el cliente 
-			int result= dbConnector.BDinsertEntradaCliente(matricula, plaza);	
-			if(result!=SQLITE_OK){
-				cout << "Error insertando un cliente" << endl;
-				return result;
-			}
+		DBConnector dbConnector(file);
 
-			int estado = 1;
-			//Actualiza el estado de la plaza a ocupado
-			int result2= dbConnector.BDactualizarEstado (plaza, estado);
-			if(result2!=SQLITE_OK){
-				cout << "Error actualizando estado de la plaza" << endl;
-				return result2;
+
+		ifstream ifs("Ficheros\\Cliente.txt");
+		string file_hdr; //primera linea
+
+			int matricula;
+			int plaza;
+		
+		while (!ifs.eof())
+		{
+			ifs>>matricula;
+			ifs>>plaza;
+		
 		}
 
-	
+		ifs.close();
+
+		cout<<"\nCLIENTE A INSERTAR EN BD || Matricula: "<<matricula<<" Plaza: "<<plaza<<endl;
+
+			
+				//Inserta a la bd el cliente 
+				int result= dbConnector.BDinsertEntradaCliente(matricula, plaza);	
+				if(result!=SQLITE_OK){
+					cout << "Error insertando un cliente" << endl;
+					return result;
+				}
+
+				int estado = 1;
+				//Actualiza el estado de la plaza a ocupado
+				int result2= dbConnector.BDactualizarEstado (plaza, estado);
+				if(result2!=SQLITE_OK){
+					cout << "Error actualizando estado de la plaza" << endl;
+					return result2;
+			}
+
+		
 	} 
 
 
@@ -270,25 +279,30 @@ void imprimirFactura(int importe);
 		char line [256];
 		int horas; 
 
-		ifstream fe; 
-		fe.open ("Ficheros\\horas.txt");
-		while(!fe.eof()){
-				fe.getline (line, 256);
-				cout <<line<<endl;
-				fe>>horas;
-				
-		} //abre el fichero e imprime
-		fe.close();
+
+		ifstream ifs("Ficheros\\horas.txt");
+		string file_hdr; //primera linea
+		
+		while (!ifs.eof())
+		{
+			ifs>>horas;
+		
+		}
+		ifs.close();
 
 		int importe; 
 
 		importe = horas * PRECIO_HORA; //calcula el ingreso
-	//Para meter en la BD el ingreso
-		/*result= dbConnector.insertarIngreso(importe);
+
+		//Para meter en la BD el ingreso
+		string file = "BaseDeDatos/parking.sqlite";
+		DBConnector dbConnector(file);
+
+		int result= dbConnector.BDinsertarIngreso(importe);
 		if(result!=SQLITE_OK){
 			cout << "Error calculando ingresos por el estacionamiento" << endl;
 			//return result;
-		}*/
+		}
 
 		//imprimir ingreso
 		imprimirFactura(importe);

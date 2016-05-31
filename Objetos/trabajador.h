@@ -2,7 +2,8 @@
 #define TRABAJADOR_H_
 
 #include "Persona.h"
-
+#include <iostream>
+using namespace std;
 
 class trabajador: public Persona
 {
@@ -15,12 +16,14 @@ public:
 	trabajador(const trabajador &t);
 
 	virtual ~trabajador();
+	virtual void print();
 
 	 int getDni() const;
 
-	//printTrabajador(Persona p)
+	
 
 };
+ostream& operator<<(ostream& out, const trabajador &t);
 
 #endif
 

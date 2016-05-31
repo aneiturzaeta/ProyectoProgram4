@@ -2,6 +2,8 @@
 #define CLIENTE_H_
 
 #include "Persona.h"
+#include <iostream>
+using namespace std;
 
 class cliente: public Persona
 {
@@ -13,8 +15,13 @@ public:
 	
 	virtual ~cliente();
 
+	virtual void print();
+
 };
 
+ostream& operator<<(ostream& out, const cliente &c);
+
 #endif
+
 
 //Sobrecargar

@@ -16,6 +16,8 @@ public:
 
 	virtual ~Persona();
 
+	virtual void print()=0;
+
 	 int getMatricula() const;
 
 	 int getPlaza() const;
