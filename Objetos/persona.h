@@ -1,5 +1,5 @@
-#ifndef _PERSONA_H
-#define _PERSONA_H
+#ifndef _PERSONA_H_
+#define _PERSONA_H_
 
 
 class persona

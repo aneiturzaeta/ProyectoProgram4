@@ -6,6 +6,7 @@
 using namespace std;
 
 
+
 trabajador::trabajador(const int matricula, int plaza, int dni): persona(matricula, plaza){
 
 	this->dni= dni;
@@ -21,13 +22,6 @@ trabajador::~trabajador()
 	cout << "Destructor de trabajador" << endl;
 }
 
-/*
-void printTrabajador(Persona p)
-{
-	cout << "getMatricula: " << p.getMatricula() << endl;
-	cout << "Plaza: " << p.getPlaza() << endl;
-}
-*/
 
 void trabajador::print()
 {

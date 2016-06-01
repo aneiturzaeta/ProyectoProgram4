@@ -1,5 +1,5 @@
-#ifndef TRABAJADOR_H_
-#define TRABAJADOR_H_
+#ifndef _TRABAJADOR_H_
+#define _TRABAJADOR_H_
 
 #include "persona.h"
 #include <iostream>

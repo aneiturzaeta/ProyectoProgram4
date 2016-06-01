@@ -1,7 +1,9 @@
 #include <iostream>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <string>
+#include <fstream>
 #include <stdlib.h>
 #include "BaseDeDatos/basededatos.h"
 #include "BaseDeDatos/sqlite3.h"
@@ -9,7 +11,7 @@
 #include "Objetos/persona.h"
 #include "Objetos/cliente.h"
 #include "Objetos/trabajador.h"
-#include <fstream>
+
 
 
 using namespace std;
@@ -295,9 +297,8 @@ int  mirarEstadoMatricula(int matricula);
 		
 		string file = "BaseDeDatos/parking.sqlite";
 		DBConnector dbConnector(file);
-			do{
-
-		cout <<"¿Quieres poner el contador a 0? -----1.Si-----2.No" << endl;
+			
+		cout <<"Quieres poner el contador a 0? \n   1. Si \n   2. No" << endl;
 		cin >> o;
 
 			switch(o) {
@@ -315,10 +316,8 @@ int  mirarEstadoMatricula(int matricula);
 
 				}
 
-		
-		} while (o!=2);
 		return 0;
-}
+	}
 
 
 
@@ -332,11 +331,13 @@ int  mirarEstadoMatricula(int matricula);
 				fe.getline (line, 256);
 				cout <<line<<endl;
 		} //abre el fichero e imprime
+		
 		fe.close();
 
-
-			cout << "\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" << endl;
-			cout << "x              "<<importe << " euros" << "              x" << endl;
+			cout << "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" << endl;
+			cout << "x            "<<PRECIO_HORA<<" euros por hora         x" << endl;
+			cout << "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" << endl;
+			cout << "x         TOTAL "<<importe << " euros" << "                x" << endl;
 			cout << "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" << endl;
 
 	}
@@ -358,171 +359,190 @@ int main(int argc, char *argv[]) {
 
 	int eleccion;
 
-	if (argc > 2) {
+	char argumento[1];
+
+	if (argc < 3) {
 		
-		cout <<"Se esperaba 1 argumento. 1- ADMIN 2- TRABAJADOR 3- USUARIO" << endl;
-				return 0;
+				if (argc==2){
 
-	} else if (argc<2){
-
-		cout <<"Indica un numero al lado del argumento main: 1- ADMIN 2- TRABAJADOR 3- USUARIO" << endl;
-		return 0;
-	}
-	
-	int result=0;
-	int opc;
-	int o;
-
-	if (strcmp(argv[1], "1") == 0) {
-
-		do {
-
-		cout << "\n--------------MENU EN C ++ ADMINSTRADOR/A----------\n" << endl;
-		cout << "  1- Ver coches aparcados actualmente \n  2- Ver ingresos totales y poner contador a 0 \n  3- SALIR"  << endl;
-
-		
-		cout <<"Seleccion"<< endl;
-		cin >> opc;
-
-			switch(opc) {
-
-					case 1:	mostrarPersonas(); break;
-
-					case 2:showIngresos(); dropTable(); break;
-							
-					case 3: cout << "\nHa seleccionado salir. Hasta otra!" << endl; break;
-
-					default: cout << "\nLa opcion seleccionada no es correcta" << endl;break;
-
+					cout <<"Argumento recibido" << endl;
+					strcpy(argumento,argv[1]);
 
 				}
 
+				else if (argc<2){
 
-		
-		} while (opc!=3);
-		
-		return 0;
-	}
+					cout <<"Indica un numero de argumento  \n  1- ADMIN \n  2- TRABAJADOR \n  3- USUARIO" << endl;
+						
+					cin>>argumento;
 
+					
+				}
 	
-	else if (strcmp(argv[1], "2") == 0) {
-	
-	
-		do {
-
-		cout << "\n--------------MENU EN C ++ TRABAJADOR/A----------\n" << endl;
-		cout << "  1- Insertar trabajador \n  2- Sacar trabajador \n  3- SALIR" << endl;
-
-		cout <<"Seleccion"<< endl;
-		cin >> opc;
 		
 
-		int dni =cogerDNI();
-		
-		int plaza=cogerPlaza();  
+		int result=0;
+		int opc;
+		int o;
 
-		int estado;
-		int matricula;
-		int semaforo;
+		if (strcmp(argumento, "1") == 0) {
+
+			do {
+
+			cout << "\n--------------MENU EN C ++ ADMINSTRADOR/A----------\n" << endl;
+			cout << "  1- Ver coches aparcados actualmente \n  2- Ver ingresos totales y poner contador a 0 \n  3- SALIR"  << endl;
+
+			
+			cout <<"Seleccion"<< endl;
+			cin >> opc;
 
 				switch(opc) {
 
-						case 1: estado= mirarEstadoPlazas(plaza);
+						case 1:	mostrarPersonas(); break;
 
-								if (estado==1){ 
-									cout << "\nLa plaza que has seleccionado esta ocupada. Intentelo con otra plaza." << endl;break; 
-								} else{
-								 		insertarTrabajador();break;
-								}  break;
+						case 2:showIngresos(); dropTable(); break;
 								
-						case 2: 
-							//Coge la matricula del coche que quiere sacar
-								cout << "Introduzca la matricula del coche que desea sacar:"<<endl;
-								//scanf("%d", &matricula);
-								cin >> matricula;
-
-								semaforo = mirarEstadoMatricula(matricula);
-
-								if (semaforo==0){ 
-									cout << "\nNo hay ningun coche aparcado que coincida con esa matricula. Intentelo con otra matricula." << endl;break; 
-								} else{
-								 	sacarTrabajador(matricula); break;		
-								}  break;
-							
 						case 3: cout << "\nHa seleccionado salir. Hasta otra!" << endl; break;
 
 						default: cout << "\nLa opcion seleccionada no es correcta" << endl;break;
 
-				}	
 
-		
-		} while (opc!=3);
+					}
 
-		return 0;
-	}
 
-	else if (strcmp(argv[1], "3") == 0) {
-	
-	
-		do {
-
-		cout << "\n--------------MENU EN C ++ USUARIO/A----------\n" << endl;
-		cout << "  1- Insertar usuario \n  2- Sacar usuario\n  3- SALIR" << endl;
-		
-		cout <<"Seleccion"<< endl;
-		cin >> opc;
-
-		int plaza= cogerPlaza();
-		int estado;
-		int plazalib;
-		int semaforo;
-		int horas;
-
-				switch(opc) {
-
-						case 1: estado= mirarEstadoPlazas(plaza);
-
-								if (estado==1){ 
-									break; 
-								}else {
-								 insertarUsuario();break;
-								}  break;
-
-						case 2: //Coge la matricula del coche que quiere sacar
-								cout << "Introduzca la plaza que desea liberar:"<<endl;
-								//scanf("%d", &plazalib);
-								cin >> plazalib;
-
-								semaforo = mirarPlazas(plazalib);
-								if(semaforo==0){
-									cout << "\nNo hay ningun coche aparcado en esa plaza. Intentelo con otra matricula." << endl;break; 
-
-								}else{
-								 	sacarUsuario(plazalib); 
-
-									cout<< "¿Cuantas horas has estado en el parking?"<< endl;
-									//scanf("%d", &horas);
-									cin >> horas;
-								 	insertarIngreso(horas);  break;
-								}
-																
-
-						case 3: cout << "\nHa seleccionado salir. Hasta otra!" << endl; break;
-
-						default: cout << "\nLa opcion seleccionada no es correcta" << endl; 	break;
-		
 			
-				}	
-		
-		} while (opc!=3);
+			} while (opc!=3);
+			
+			return 0;
+		}
 
-		return 0;
+		
+		else if (strcmp(argumento, "2") == 0) {
+		
+		
+			do {
+
+			cout << "\n--------------MENU EN C ++ TRABAJADOR/A----------\n" << endl;
+			cout << "  1- Insertar trabajador \n  2- Sacar trabajador \n  3- SALIR" << endl;
+
+			cout <<"Seleccion"<< endl;
+			cin >> opc;
+			
+
+			int dni =cogerDNI();
+			
+			int plaza=cogerPlaza();  
+
+			int estado;
+			int matricula;
+			int semaforo;
+
+					switch(opc) {
+
+							case 1: estado= mirarEstadoPlazas(plaza);
+
+									if (estado==1){ 
+										cout << "\nLa plaza que has seleccionado esta ocupada. Intentelo con otra plaza." << endl;break; 
+									} else{
+									 		insertarTrabajador();break;
+									}  break;
+									
+							case 2: 
+								//Coge la matricula del coche que quiere sacar
+									cout << "Introduzca la matricula del coche que desea sacar: ";
+									cin >> matricula;
+
+									semaforo = mirarEstadoMatricula(matricula);
+
+									if (semaforo==0){ 
+										cout << "\nNo hay ningun coche aparcado que coincida con esa matricula. Intentelo con otra matricula." << endl;break; 
+									} else{
+									 	sacarTrabajador(matricula); break;		
+									}  break;
+								
+							case 3: cout << "\nHa seleccionado salir. Hasta otra!" << endl; break;
+
+							default: cout << "\nLa opcion seleccionada no es correcta" << endl;break;
+
+					}	
+
+			
+			} while (opc!=3);
+
+			return 0;
+		}
+
+		else if (strcmp(argumento, "3") == 0) {
+		
+		
+			do {
+
+			cout << "\n--------------MENU EN C ++ USUARIO/A----------\n" << endl;
+			cout << "  1- Insertar usuario \n  2- Sacar usuario\n  3- SALIR" << endl;
+			
+			cout <<"Seleccion"<< endl;
+			cin >> opc;
+
+			int plaza= cogerPlaza();
+			int estado;
+			int plazalib;
+			int semaforo;
+			int horas;
+
+					switch(opc) {
+
+							case 1: estado= mirarEstadoPlazas(plaza);
+
+									if (estado==1){ 
+										break; 
+									}else {
+									 insertarUsuario();break;
+									}  break;
+
+							case 2: //Coge la matricula del coche que quiere sacar
+									cout << "Introduzca la plaza que desea liberar: ";
+									cin >> plazalib;
+
+									semaforo = mirarPlazas(plazalib);
+									if(semaforo==0){
+										cout << "\nNo hay ningun coche aparcado en esa plaza. Intentelo con otra matricula." << endl;break; 
+
+									}else{
+									 	sacarUsuario(plazalib); 
+
+										cout<< "Cuantas horas has estado en el parking? ";
+										cin >> horas;
+									 	insertarIngreso(horas);  break;
+									}
+																	
+
+							case 3: cout << "\nHa seleccionado salir. Hasta otra!" << endl; break;
+
+							default: cout << "\nLa opcion seleccionada no es correcta" << endl; 	break;
+			
+				
+					}	
+			
+			} while (opc!=3);
+
+			return 0;
+		}
+
+		else {
+			
+			cout << "\nArgumento no valido. \n1- ADMIN 2- TRABAJADOR 3- USUARIO " << endl;
+			return 0;
+
+		}
+
+	
 	}
 
 	else {
 
-		cout << "\nArgumento no valido. 1- ADMIN 2- TRABAJADOR 3- USUARIO" << endl;
+		cout << "\nNumero de argumentos insertados no valido. Se requiere un argumento \n1- ADMIN 2- TRABAJADOR 3- USUARIO" << endl;
 		return 0;
+		
 	}
 
 	return 0;

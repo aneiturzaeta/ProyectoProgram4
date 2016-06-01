@@ -1,5 +1,5 @@
-#ifndef CLIENTE_H_
-#define CLIENTE_H_
+#ifndef _CLIENTE_H_
+#define _CLIENTE_H_
 
 #include "persona.h"
 #include <iostream>
@@ -11,8 +11,6 @@ class cliente: public persona
 public:
 	cliente(const int matricula, int plaza);
 
-	cliente(const cliente &c);
-	
 	virtual ~cliente();
 
 	virtual void print();

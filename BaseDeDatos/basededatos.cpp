@@ -48,7 +48,6 @@ int DBConnector::BDshowPersonas(){
 		//creamos el vector
 		vector <persona*> personas;
 	
-
 		sqlite3_stmt *stmt;
 		char sql[]= "select * from USUARIO";
 
@@ -60,9 +59,7 @@ int DBConnector::BDshowPersonas(){
 			return result1;
 		}
 
-		cout << "SQL query prepared (SELECT)" << endl;
-
-
+		
 		do {
 			int cols = sqlite3_column_count(stmt);
 			result1 = sqlite3_step(stmt) ;
@@ -70,17 +67,11 @@ int DBConnector::BDshowPersonas(){
 				
 				//Coge los datos de las filas de la tabla cliente generando una instancia
 
-			//cliente* micliente= new cliente(sqlite3_column_int(stmt, 0),sqlite3_column_int(stmt, 1));
-				//Las mete en el vector 
-				
-               /* for(int col = 0; col < cols; col++)
-                {
-                    personas.push_back(micliente);
-                }*/
+				int plazaU =sqlite3_column_int(stmt, 0);
+				int matriculaU=sqlite3_column_int(stmt, 1);
 
-                //otra opcion    
-               // personas.push_back(new cliente(sqlite3_column_int(stmt, 0),sqlite3_column_int(stmt, 1)));
-			
+				personas.push_back(new cliente(plazaU, matriculaU));
+									
 			}
 		} while (result1 == SQLITE_ROW);
 
@@ -93,9 +84,6 @@ int DBConnector::BDshowPersonas(){
 			return result1;
 		}
 
-				
-		return SQLITE_OK;
-
 		//SELECT para leer los trabajadores	
 
 		char sql2[]= "select * from TRABAJADOR";
@@ -107,23 +95,18 @@ int DBConnector::BDshowPersonas(){
 			return result;
 		}
 
-		cout << "SQL query prepared (SELECT)" << endl;
-
-
+		
 		do {
 			int cols = sqlite3_column_count(stmt);
 			result = sqlite3_step(stmt) ;
 			if (result == SQLITE_ROW) {
 				
-				//Coge los datos de las filas de la tabla trabajador generando una instancia
-				//trabajador* mitrabajador= new trabajador(sqlite3_column_int(stmt, 1),sqlite3_column_int(stmt, 2),sqlite3_column_int(stmt, 0));
-			
-				//Las mete en el vector
-				// for(int col = 0; col < cols; col++)
-                //{
-                //    personas.push_back(mitrabajador);
-               // }
-                
+				int dni =sqlite3_column_int(stmt, 2);
+				int matriculaT=sqlite3_column_int(stmt, 1);
+				int plazaT=sqlite3_column_int(stmt, 0);
+
+				personas.push_back(new trabajador(dni, matriculaT, plazaT));
+      
 			
 			}
 		} while (result == SQLITE_ROW);
@@ -135,14 +118,15 @@ int DBConnector::BDshowPersonas(){
       		cout << sqlite3_errmsg(db) << endl;
 			return result;
 		}
-
-				
-		return SQLITE_OK;
+			
+	
 			
 		for (int i = 0; i < personas.size(); i++)
    		 {
      		 personas[i]->print();
     		}
+
+    	return SQLITE_OK;
 	}
 
 
@@ -230,14 +214,8 @@ int DBConnector::BDshowPersonas(){
 			}
 		} while (result == SQLITE_ROW);
 
-		
 		//Imprimimos por pantalla el total de los ingresos
-		cout << endl;
-		cout << "------------------ ";
-		cout << "TOTAL DE INGRESOS: " << totalIngresos << endl;
-
-		cout << endl;
-   		cout << endl;
+		cout << "\n------------------ TOTAL DE INGRESOS: " << totalIngresos << "\n\n"<<endl;
 	
 
 		result = sqlite3_finalize(stmt);
@@ -455,9 +433,45 @@ int DBConnector::BDshowPersonas(){
 
 	int DBConnector::BDdeleteTrabajador(int matricula) {
 
-	//BORRAMOS AL TRABAJADOR COINCIDENTE CON LA MATRICULA QUE NOS HAN METIDO
-		sqlite3_stmt *stmt;
+	//PROCESO: 1. actualizar plaza 2. borrar trabajador
 
+	sqlite3_stmt *stmt;
+
+	//ACTUALIZAMOS EL ESTADO DE LA PLAZA
+	char sqlt[]= "select PLAZAT from TRABAJADOR WHERE MATRICULAT= ? ";
+
+	int result1 = sqlite3_prepare_v2(db, sqlt, -1, &stmt, NULL) ;
+		if (result1 != SQLITE_OK) {      
+     		cout << sqlite3_errmsg(db) << endl;
+		}
+
+	//Para que coja el primer y unico ? que hay en la select
+	result1 = sqlite3_bind_int(stmt, 1, matricula);
+		if (result1 != SQLITE_OK) {
+      		cout <<  sqlite3_errmsg(db) << endl;
+		}
+
+	do {
+		result1 = sqlite3_step(stmt) ;
+		
+			int plaza = sqlite3_column_int(stmt, 0);
+
+			cout << "La plaza es:" << plaza;	
+
+			//La llamada al metodo que actualiza el estado de la plaza		
+			BDactualizarEstado(plaza, 0);	
+		
+	} while (result1 == SQLITE_ROW);
+
+
+	result1 = sqlite3_finalize(stmt);
+		if (result1 != SQLITE_OK) {
+		    cout << sqlite3_errmsg(db) << endl;
+		}	
+
+
+	//BORRAMOS AL TRABAJADOR COINCIDENTE CON LA MATRICULA QUE NOS HAN METIDO
+		
 		char sql[] = "delete from TRABAJADOR where MATRICULAT= ?";
 
 		int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
@@ -485,39 +499,8 @@ int DBConnector::BDshowPersonas(){
 
 		cout << "\nMuchas gracias por estacionar en nuestro parking. Que tenga un buen viaje! :)" << endl;
 		cout << endl;
+
 	
-
-	//ACTUALIZAMOS EL ESTADO DE LA PLAZA
-		char sqlt[]= "select PLAZAT from TRABAJADOR WHERE MATRICULAT= ? ";
-
-		int result1 = sqlite3_prepare_v2(db, sqlt, -1, &stmt, NULL) ;
-			if (result1 != SQLITE_OK) {      
-	     		cout << sqlite3_errmsg(db) << endl;
-			}
-
-		//Para que coja el primer y unico ? que hay en la select
-		result1 = sqlite3_bind_int(stmt, 1, matricula);
-			if (result1 != SQLITE_OK) {
-	      		cout <<  sqlite3_errmsg(db) << endl;
-			}
-
-		do {
-			result1 = sqlite3_step(stmt) ;
-			
-				int plaza = sqlite3_column_int(stmt, 0);
-//NOSE PORQUE NO ME COGE EL NUMERO DE LA PLAZA, NO LEE EL NUMERO, Y ENTONCES NO SE ACTUALIZA EL ESTADO....
-				cout << "La plaza es:" << plaza;	
-
-				//La llamada al metodo que actualiza el estado de la plaza		
-				BDactualizarEstado(plaza, 0);	
-			
-		} while (result == SQLITE_ROW);
-
-
-		result1 = sqlite3_finalize(stmt);
-			if (result1 != SQLITE_OK) {
-			    cout << sqlite3_errmsg(db) << endl;
-			}	
 		return SQLITE_OK;
 	}
 

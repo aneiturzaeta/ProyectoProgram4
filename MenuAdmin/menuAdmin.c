@@ -42,9 +42,9 @@ void menuAdministrador(void)
 
 								switch(admin) {
 
-											case 1: printf("\n Se hace en C++. Opcion: 2- Ver ingresos totales y poner contador a 0"); break;
+											case 1: printf("\n Se hace en C++. ARGUMENTO = 1"); break;
 
-											case 2: printf("\n Se hace en C++. Opcion: 1- Ver coches aparcados actualemte"); break;
+											case 2: printf("\n Se hace en C++. ARGUMENTO = 1"); break;
 
 											case 3: cambiarContrasena(); break;
 
@@ -80,21 +80,3 @@ void cambiarContrasena(void){ //ADMINISTRADOR
 }
 
 
-/*void verTrabajadores(){
-
-
-	char const* const fileName = "Ficheros\\trabajador.txt";
-
-	FILE* file = fopen(fileName, "r");
-
-	char line[256];
-	
-		while (fgets(line, sizeof(line), file)) {
-
-			printf("\n %s", line);
-		 }
-
-			 fclose(file);*/
-
-
-//}

@@ -4,11 +4,12 @@
 #include <string.h>
 #include "MenuPrincipal/menuPrincipal.h"
 
+using namespace std;
 //MAIN PRINCIPAL.
 int main (void){
 
 
-	std::cout << "--------------MENU EN C------------" << std::endl;
+	cout << "--------------MENU EN C------------" << endl;
 	int salir;
 	salir = menuInicial();
 
