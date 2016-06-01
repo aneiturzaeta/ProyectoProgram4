@@ -12,7 +12,7 @@ persona::persona(const int matriculap, int plaza)
 	this->plaza = plaza;
 }
 
-persona::persona(const Persona& p)
+persona::persona(const persona& p)
 {
 	this->matricula = p.matricula;
 	this->plaza=p.plaza;

@@ -6,15 +6,16 @@
 using namespace std;
 
 
-cliente::cliente(int matricula, int plaza): Persona(matricula, plaza)
+cliente::cliente(const int matricula, int plaza): persona(matricula, plaza)
 {
+
 	//En el caso de que tuvieramos otro atributo deberiamos implementarlo
 }
 
-cliente::cliente(const cliente &c): Persona(c)
+/*cliente::cliente(const cliente &c): persona(c)
 {
 
-}
+}*/
 
 cliente::~cliente()
 {

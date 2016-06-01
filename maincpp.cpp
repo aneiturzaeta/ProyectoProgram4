@@ -147,8 +147,6 @@ int  mirarEstadoMatricula(int matricula);
 
 	}
 
-
-
 	//Metodo que lee el fichero trabajador.txt y vuelca los datos a la BD
 	int insertarTrabajador(){
 	
@@ -270,21 +268,7 @@ int  mirarEstadoMatricula(int matricula);
 		//2. Hace la llamada al metodo de BD para que inserte la fila con este importe
 		//3. Imprime el importe en la factura
 	//Metodo que con la duracion del aparcamiento calcula importe y mete el ingreso en BD
-	void insertarIngreso(){
-
-		char line [256];
-		int horas; 
-
-
-		ifstream ifs("Ficheros\\horas.txt");
-		string file_hdr; //primera linea
-		
-		while (!ifs.eof())
-		{
-			ifs>>horas;
-		
-		}
-		ifs.close();
+	void insertarIngreso(int horas){
 
 		int importe; 
 
@@ -299,10 +283,43 @@ int  mirarEstadoMatricula(int matricula);
 			cout << "Error calculando ingresos por el estacionamiento" << endl;
 			//return result;
 		}
-
 		//imprimir ingreso
 		imprimirFactura(importe);
+
 	}
+
+	int dropTable(){
+
+		int o;
+		int result2;
+		
+		string file = "BaseDeDatos/parking.sqlite";
+		DBConnector dbConnector(file);
+			do{
+
+		cout <<"¿Quieres poner el contador a 0? -----1.Si-----2.No" << endl;
+		cin >> o;
+
+			switch(o) {
+
+					case 1:	
+							result2= dbConnector.BDdropTableIngreso();
+							if(result2!=SQLITE_OK){
+							cout << "Error calculando ingresos por el estacionamiento" << endl;
+							//return result; 
+							} break;
+
+					case 2: cout <<" No se pone el contador a 0" << endl; break;
+
+					default: cout << "\nLa opcion seleccionada no es correcta" << endl;break;
+
+				}
+
+		
+		} while (o!=2);
+		return 0;
+}
+
 
 
 	void imprimirFactura (int importe) {
@@ -354,6 +371,7 @@ int main(int argc, char *argv[]) {
 	
 	int result=0;
 	int opc;
+	int o;
 
 	if (strcmp(argv[1], "1") == 0) {
 
@@ -370,8 +388,8 @@ int main(int argc, char *argv[]) {
 
 					case 1:	mostrarPersonas(); break;
 
-					case 2:showIngresos(); break;
-
+					case 2:showIngresos(); dropTable(); break;
+							
 					case 3: cout << "\nHa seleccionado salir. Hasta otra!" << endl; break;
 
 					default: cout << "\nLa opcion seleccionada no es correcta" << endl;break;
@@ -420,7 +438,8 @@ int main(int argc, char *argv[]) {
 						case 2: 
 							//Coge la matricula del coche que quiere sacar
 								cout << "Introduzca la matricula del coche que desea sacar:"<<endl;
-								scanf("%d", &matricula);
+								//scanf("%d", &matricula);
+								cin >> matricula;
 
 								semaforo = mirarEstadoMatricula(matricula);
 
@@ -457,6 +476,7 @@ int main(int argc, char *argv[]) {
 		int estado;
 		int plazalib;
 		int semaforo;
+		int horas;
 
 				switch(opc) {
 
@@ -470,22 +490,27 @@ int main(int argc, char *argv[]) {
 
 						case 2: //Coge la matricula del coche que quiere sacar
 								cout << "Introduzca la plaza que desea liberar:"<<endl;
-								scanf("%d", &plazalib);
+								//scanf("%d", &plazalib);
+								cin >> plazalib;
 
 								semaforo = mirarPlazas(plazalib);
 								if(semaforo==0){
 									cout << "\nNo hay ningun coche aparcado en esa plaza. Intentelo con otra matricula." << endl;break; 
 
 								}else{
-								 	sacarUsuario(plazalib); insertarIngreso();  break;
+								 	sacarUsuario(plazalib); 
+
+									cout<< "¿Cuantas horas has estado en el parking?"<< endl;
+									//scanf("%d", &horas);
+									cin >> horas;
+								 	insertarIngreso(horas);  break;
 								}
 																
 
 						case 3: cout << "\nHa seleccionado salir. Hasta otra!" << endl; break;
 
 						default: cout << "\nLa opcion seleccionada no es correcta" << endl; 	break;
-			
-
+		
 			
 				}	
 		

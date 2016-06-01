@@ -45,10 +45,11 @@ sqlite3* DBConnector::getDb(){
 	//Metodo que lee los trabajadores y clientes que tienen aparcados sus coches, los mete en un vector persona y los imprime
 int DBConnector::BDshowPersonas(){
 	
-	//	vector <persona*> personas;
+		//creamos el vector
+		vector <persona*> personas;
 	
-		sqlite3_stmt *stmt;
 
+		sqlite3_stmt *stmt;
 		char sql[]= "select * from USUARIO";
 
 
@@ -69,17 +70,17 @@ int DBConnector::BDshowPersonas(){
 				
 				//Coge los datos de las filas de la tabla cliente generando una instancia
 
-				//cliente* micliente= new cliente(sqlite3_column_int(stmt, 0),sqlite3_column_int(stmt, 1));
-			
-				
+			//cliente* micliente= new cliente(sqlite3_column_int(stmt, 0),sqlite3_column_int(stmt, 1));
 				//Las mete en el vector 
 				
                /* for(int col = 0; col < cols; col++)
                 {
-                    personas.push_back(*micliente);
-                }
-                */
+                    personas.push_back(micliente);
+                }*/
 
+                //otra opcion    
+               // personas.push_back(new cliente(sqlite3_column_int(stmt, 0),sqlite3_column_int(stmt, 1)));
+			
 			}
 		} while (result1 == SQLITE_ROW);
 
@@ -115,15 +116,14 @@ int DBConnector::BDshowPersonas(){
 			if (result == SQLITE_ROW) {
 				
 				//Coge los datos de las filas de la tabla trabajador generando una instancia
-				trabajador* mitrabajador= new trabajador(sqlite3_column_int(stmt, 1),sqlite3_column_int(stmt, 2),sqlite3_column_int(stmt, 0));
+				//trabajador* mitrabajador= new trabajador(sqlite3_column_int(stmt, 1),sqlite3_column_int(stmt, 2),sqlite3_column_int(stmt, 0));
 			
 				//Las mete en el vector
-				  /*  for(int col = 0; col < cols; col++)
-                {
-                    personas.push_back(*mitrabajador);
-                }
+				// for(int col = 0; col < cols; col++)
+                //{
+                //    personas.push_back(mitrabajador);
+               // }
                 
-*/
 			
 			}
 		} while (result == SQLITE_ROW);
@@ -139,10 +139,10 @@ int DBConnector::BDshowPersonas(){
 				
 		return SQLITE_OK;
 			
-	/*	for (int i = 0; i < personas.size(); i++)
+		for (int i = 0; i < personas.size(); i++)
    		 {
      		 personas[i]->print();
-    		}*/
+    		}
 	}
 
 
@@ -209,7 +209,7 @@ int DBConnector::BDshowPersonas(){
 			return result;
 		}
 
-		cout << "SQL query prepared (SELECT)" << endl;
+		//cout << "SQL query prepared (SELECT)" << endl;
 
 		int dinero;
 		int totalIngresos=0; //Atributo que permite calcular e imprimir el total
@@ -221,23 +221,20 @@ int DBConnector::BDshowPersonas(){
 
 		do {
 			result = sqlite3_step(stmt) ;
-			if (result == SQLITE_ROW) {
-				
+			if (result == SQLITE_ROW) {	
 				dinero = sqlite3_column_int(stmt, 0);
-				
 				//Calculamos el total de los ingresos que ha generado hasta ese momento
 				totalIngresos+= dinero;
-
 				//Vamos imprimiendo los ingresos que ha habido
-				cout << "Ingresos: " << dinero << endl;
+				cout << "Ingreso de : " << dinero << " euros."<<endl;
 			}
 		} while (result == SQLITE_ROW);
 
 		
 		//Imprimimos por pantalla el total de los ingresos
 		cout << endl;
-		cout << "------------------------------------- ";
-		cout << "Total ingresos: " << totalIngresos << endl;
+		cout << "------------------ ";
+		cout << "TOTAL DE INGRESOS: " << totalIngresos << endl;
 
 		cout << endl;
    		cout << endl;
@@ -250,7 +247,7 @@ int DBConnector::BDshowPersonas(){
 			return result;
 		}
 
-		cout << "Prepared statement finalized (SELECT)" << endl;
+	//	cout << "Prepared statement finalized (SELECT)" << endl;
 		
 		return SQLITE_OK;
 	}
@@ -520,15 +517,9 @@ int DBConnector::BDshowPersonas(){
 		result1 = sqlite3_finalize(stmt);
 			if (result1 != SQLITE_OK) {
 			    cout << sqlite3_errmsg(db) << endl;
-			}
-
-					
-
+			}	
 		return SQLITE_OK;
-
 	}
-
-
 
 	
 	//Insertamos la entrada al parking de un cliente
@@ -664,3 +655,48 @@ int DBConnector::BDshowPersonas(){
 
 		return SQLITE_OK;
 	}
+
+
+	int DBConnector::BDdropTableIngreso() {
+
+		    sqlite3_stmt *stmt;						 
+
+		    char sql[] = "delete from INGRESO";
+
+		    int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
+		    if (result != SQLITE_OK) {
+		      cout << "Error preparing statement (DELETE)" << endl;
+		      cout << sqlite3_errmsg(db) << endl;
+		      return result;
+		    }
+
+		   // cout << "SQL query prepared (DELETE)" << endl;
+
+		    result = sqlite3_step(stmt);
+		    if (result != SQLITE_DONE) {
+		      cout << "Error deleting data (DELETE)" << endl;
+		      cout << sqlite3_errmsg(db) << endl;
+		      return result;
+		    }
+
+		    result = sqlite3_finalize(stmt);
+		    if (result != SQLITE_OK) {
+		      cout << "Error finalizing statement (DELETE)" << endl;
+		      cout << sqlite3_errmsg(db) << endl;
+		      return result;
+		    }
+
+		  //  cout << "Prepared statement finalized (DELETE)" << endl;
+		    cout << "El contador de INGRESOS esta a 0" << endl;
+
+		    return SQLITE_OK;
+
+
+	 }
+
+
+		
+
+		
+
+		

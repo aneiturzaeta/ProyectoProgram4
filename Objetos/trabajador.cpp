@@ -6,12 +6,12 @@
 using namespace std;
 
 
-trabajador::trabajador(const int matricula, int plaza, int dni): Persona(matricula, plaza){
+trabajador::trabajador(const int matricula, int plaza, int dni): persona(matricula, plaza){
 
 	this->dni= dni;
 }
 
-trabajador::trabajador(const trabajador &t) : Persona(t)
+trabajador::trabajador(const trabajador &t) : persona(t)
 {
 	this->dni=t.dni;
 }

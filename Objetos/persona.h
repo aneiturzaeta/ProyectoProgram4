@@ -2,19 +2,19 @@
 #define _PERSONA_H
 
 
-class Persona
+class persona
 {
 	int matricula;
 	int plaza;
 
 public:
 
-	Persona(const int matricula, int plaza);
+	persona(const int matricula, int plaza);
 	
 	//Constructor copia
-	Persona(const Persona &p);
+	persona(const persona &p);
 
-	virtual ~Persona();
+	virtual ~persona();
 
 	virtual void print()=0;
 

@@ -1,11 +1,11 @@
 #ifndef TRABAJADOR_H_
 #define TRABAJADOR_H_
 
-#include "Persona.h"
+#include "persona.h"
 #include <iostream>
 using namespace std;
 
-class trabajador: public Persona
+class trabajador: public persona
 {
 	int dni;
 

@@ -47,6 +47,8 @@ class DBConnector{
 			int BDComprobarPlaza(int plaza);
 
 			int BDinsertarIngreso(int ingreso);
+
+			int BDdropTableIngreso();
 };
 
 #endif

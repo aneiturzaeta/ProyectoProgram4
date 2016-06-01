@@ -1,11 +1,11 @@
 #ifndef CLIENTE_H_
 #define CLIENTE_H_
 
-#include "Persona.h"
+#include "persona.h"
 #include <iostream>
 using namespace std;
 
-class cliente: public Persona
+class cliente: public persona
 {
 	
 public:
