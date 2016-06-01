@@ -100,11 +100,11 @@ int DBConnector::BDshowPersonas(){
 			result = sqlite3_step(stmt) ;
 			if (result == SQLITE_ROW) {
 				
-				int dni =sqlite3_column_int(stmt, 2);
+				int dni =sqlite3_column_int(stmt, 0);
 				int matriculaT=sqlite3_column_int(stmt, 1);
-				int plazaT=sqlite3_column_int(stmt, 0);
+				int plazaT=sqlite3_column_int(stmt, 2);
 
-				personas.push_back(new trabajador(dni, matriculaT, plazaT));
+				personas.push_back(new trabajador(matriculaT, plazaT, dni));
       
 			
 			}
