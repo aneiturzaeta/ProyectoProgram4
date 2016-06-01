@@ -377,6 +377,54 @@ int DBConnector::BDshowPersonas(){
 
 	
 
+ 	//Metodo que comprueba si el dni metido esta registrado o no
+ 	int DBConnector::BDcomprobarDNI(int DNIp){
+ 
+ 		sqlite3_stmt *stmt;
+ 
+ 		char sql[]= "select DNI from REGISTRO_TRABAJADOR WHERE DNI = ?";
+ 
+ 		int semaforo;
+
+		int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
+			if (result != SQLITE_OK) {  
+	     		cout << sqlite3_errmsg(db) << endl;
+			}
+
+		//Para que coja el primer y unico ? que hay en la select
+		result = sqlite3_bind_int(stmt, 1, DNIp);
+			if (result != SQLITE_OK) {
+	      		cout <<  sqlite3_errmsg(db) << endl;
+			}
+
+		do {
+			result = sqlite3_step(stmt);
+			
+			if (result == SQLITE_ROW) {
+
+				int DNIp = sqlite3_column_int(stmt, 0);
+				
+
+				//Comprobacion de si existe alguna plaza existente
+				if(DNIp>0){
+
+					semaforo=1;
+				} else{
+					semaforo=0;
+				}
+			}
+
+		} while (result == SQLITE_ROW);
+		
+
+		result = sqlite3_finalize(stmt);
+			if (result != SQLITE_OK) {
+	      		cout << sqlite3_errmsg(db) << endl;
+			}
+					
+		return semaforo;
+	}
+
 
 	//Guardamos el estacionemiento de un trabajador
 	int DBConnector::BDinsertTrabajador(int DNI, int MATRICULAT, int PLAZAT) {

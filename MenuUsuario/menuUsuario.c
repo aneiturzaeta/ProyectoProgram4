@@ -179,6 +179,9 @@ void entrarTrabajador(){
 		FILE * plazaF;
 		plazaF = fopen ("Ficheros/plaza.txt", "w");
 
+		FILE * dniTrabj;
+		dniTrabj = fopen ("Ficheros/dni.txt", "w");
+
 		trabajadorStruct* miTrabajador;
 		miTrabajador =(trabajadorStruct*) malloc (sizeof(trabajadorStruct));
 
@@ -187,6 +190,8 @@ void entrarTrabajador(){
 		printf("\nDni del trabajador, solamente introduzca el numero: ");
 		scanf("%d",&miTrabajador->dni); 
  		fprintf(trab, "%d\n", miTrabajador->dni); 
+
+ 		fprintf(dniTrabj, "%d\n", miTrabajador->dni); 
 
 		printf("Matricula, solamente introduzca el numero: ");
 		scanf("%d",&miTrabajador->matricula); 	

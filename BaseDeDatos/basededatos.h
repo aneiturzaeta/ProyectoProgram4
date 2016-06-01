@@ -46,6 +46,8 @@ class DBConnector{
 
 			int BDComprobarPlaza(int plaza);
 
+			int BDcomprobarDNI(int DNIp);
+
 			int BDinsertarIngreso(int ingreso);
 
 			int BDdropTableIngreso();

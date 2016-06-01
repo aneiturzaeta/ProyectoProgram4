@@ -77,19 +77,20 @@ int  mirarEstadoMatricula(int matricula);
 		return plaza;
 	}
 	
-/*
+
 	//Comprueba que el trabajador con este dni esta dado de alta
 	int comprobarDNI(int dni){
 		
-		int result= dbConnector.BDcomprobarDNI(dni);	
-		if(result!=SQLITE_OK){
-			cout << "Error al comprobar el dni" << endl;
-			
-			return result;
+		string file = "BaseDeDatos/parking.sqlite";
+		
+		DBConnector dbConnector(file);
 
+		int result= dbConnector.BDcomprobarDNI(dni);
+
+		return result;
 	}
 
-*/
+
 	//Comprueba que la plaza en la que quiere aparcar esta libre
 	int  mirarEstadoPlazas(int plaza){
 
@@ -434,18 +435,30 @@ int main(int argc, char *argv[]) {
 			int plaza=cogerPlaza();  
 
 			int estado;
+			int dniExist;
 			int matricula;
 			int semaforo;
 
 					switch(opc) {
 
-							case 1: estado= mirarEstadoPlazas(plaza);
+							case 1: 
+							dniExist= comprobarDNI(dni);
+							
+									if(dniExist==0){
+										cout << "\nNo hay ningun trabajador registrado con ese DNI. Puede entrar como usuario si lo desea." << endl;
+										cout << "Para ello, entre en el menu de C e inserte sus datos. Muchas gracias!" << endl;
+										break; 
 
-									if (estado==1){ 
-										cout << "\nLa plaza que has seleccionado esta ocupada. Intentelo con otra plaza." << endl;break; 
 									} else{
-									 		insertarTrabajador();break;
-									}  break;
+
+											estado= mirarEstadoPlazas(plaza);
+
+											if (estado==1){ 
+												cout << "\nLa plaza que has seleccionado esta ocupada. Intentelo con otra plaza." << endl;break; 
+											} else{
+											 		insertarTrabajador();break;
+											}  
+									}break;
 									
 							case 2: 
 								//Coge la matricula del coche que quiere sacar
