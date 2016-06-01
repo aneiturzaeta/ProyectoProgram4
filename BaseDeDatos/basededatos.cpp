@@ -61,7 +61,6 @@ int DBConnector::BDshowPersonas(){
 
 		
 		do {
-			int cols = sqlite3_column_count(stmt);
 			result1 = sqlite3_step(stmt) ;
 			if (result1 == SQLITE_ROW) {
 				
@@ -97,7 +96,7 @@ int DBConnector::BDshowPersonas(){
 
 		
 		do {
-			int cols = sqlite3_column_count(stmt);
+			
 			result = sqlite3_step(stmt) ;
 			if (result == SQLITE_ROW) {
 				
@@ -121,7 +120,7 @@ int DBConnector::BDshowPersonas(){
 			
 	
 			
-		for (int i = 0; i < personas.size(); i++)
+		for (unsigned int i = 0; i < personas.size(); i++)
    		 {
      		 personas[i]->print();
     		}
@@ -421,7 +420,7 @@ int DBConnector::BDshowPersonas(){
 			if (result != SQLITE_OK) {
 	      		cout << sqlite3_errmsg(db) << endl;
 			}
-					
+
 		return semaforo;
 	}
 

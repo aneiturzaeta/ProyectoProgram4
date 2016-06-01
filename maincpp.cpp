@@ -135,6 +135,7 @@ int  mirarEstadoMatricula(int matricula);
 				return result;
 			}
 
+		return result;
 	}
 
 	int showIngresos(){
@@ -147,6 +148,7 @@ int  mirarEstadoMatricula(int matricula);
 				cout << "Error mostrando los ingresos" << endl;
 				return result;
 			}
+		return result;
 
 	}
 
@@ -187,7 +189,7 @@ int  mirarEstadoMatricula(int matricula);
 				cout << "Error actualizando estado de la plaza" << endl;
 				return result2;
 			}
-		
+		return result;
 	
 	} 
 
@@ -246,7 +248,7 @@ int  mirarEstadoMatricula(int matricula);
 				cout << "Error actualizando estado de la plaza" << endl;
 				return result2;
 		}
-
+		return result;
 		
 	} 
 
@@ -356,9 +358,7 @@ void clear_if_needed(char *str)
 ////////////////////////////////////////////////////MAIN //////////////////////////////////////////////////
 
 int main(int argc, char *argv[]) {
-	
 
-	int eleccion;
 
 	char argumento[1];
 
@@ -379,12 +379,9 @@ int main(int argc, char *argv[]) {
 
 					
 				}
-	
-		
 
-		int result=0;
 		int opc;
-		int o;
+
 
 		if (strcmp(argumento, "1") == 0) {
 
