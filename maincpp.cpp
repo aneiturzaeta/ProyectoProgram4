@@ -99,9 +99,7 @@ int  mirarEstadoMatricula(int matricula);
 		DBConnector dbConnector(file);
 
 		int result = dbConnector.BDmirarEstadoPlaza(plaza);	
-			if(result!=SQLITE_OK){
-				cout << "Error al mirar el estado de la plaza" << endl;
-			}
+			
 		return result;
 	}
 
@@ -340,7 +338,7 @@ int  mirarEstadoMatricula(int matricula);
 			cout << "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" << endl;
 			cout << "x            "<<PRECIO_HORA<<" euros por hora         x" << endl;
 			cout << "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" << endl;
-			cout << "x         TOTAL "<<importe << " euros" << "                x" << endl;
+			cout << "x         TOTAL "<<importe << " euros" << "      x" << endl;
 			cout << "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" << endl;
 
 	}

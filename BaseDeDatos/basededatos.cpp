@@ -498,18 +498,16 @@ int DBConnector::BDshowPersonas(){
       		cout <<  sqlite3_errmsg(db) << endl;
 		}
 
-	do {
 		result1 = sqlite3_step(stmt) ;
 		
 			int plaza = sqlite3_column_int(stmt, 0);
 
-			cout << "La plaza es:" << plaza;	
+			cout << "La plaza es:" << plaza<<endl;	
 
 			//La llamada al metodo que actualiza el estado de la plaza		
 			BDactualizarEstado(plaza, 0);	
 		
-	} while (result1 == SQLITE_ROW);
-
+	
 
 	result1 = sqlite3_finalize(stmt);
 		if (result1 != SQLITE_OK) {
